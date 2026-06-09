@@ -7,7 +7,9 @@
       <module fileurl="file://$PROJECT_DIR$/module1/day2/day2.iml" filepath="$PROJECT_DIR$/module1/day2/day2.iml" />
       <module fileurl="file://$PROJECT_DIR$/module1/day3/day3.iml" filepath="$PROJECT_DIR$/module1/day3/day3.iml" />
       <module fileurl="file://$PROJECT_DIR$/module1/day4/day4.iml" filepath="$PROJECT_DIR$/module1/day4/day4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module1/day4/day5.iml" filepath="$PROJECT_DIR$/module1/day4/day5.iml" />
       <module fileurl="file://$PROJECT_DIR$/module1/week1Assignment/week1Assignment.iml" filepath="$PROJECT_DIR$/module1/week1Assignment/week1Assignment.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module1/day4/assignment1.iml" filepath="$PROJECT_DIR$/module1/day4/assignment1.iml" />
     </modules>
   </component>
 </project>
