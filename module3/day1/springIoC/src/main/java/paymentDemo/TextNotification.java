@@ -1,0 +1,8 @@
+package paymentDemo;
+
+public class TextNotification implements NotificationService{
+    @Override
+    public void sendNotification(String message){
+        System.out.println("Text notification sent: " + message);
+    }
+}
