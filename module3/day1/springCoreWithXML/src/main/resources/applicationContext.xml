@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Payment Beans -->
+    <bean id="Credit" class="demo.service.CreditCard"/>
+    <bean id="Debit" class="demo.service.DebitCard"/>
+
+    <!-- Notification Beans -->
+    <bean id="Email" class="demo.service.EmailNotification"/>
+    <bean id="Whatsapp" class="demo.service.WhatsappNotification"/>
+
+    <!-- Expense Manager Bean -->
+    <bean id="expenseManager" class="demo.service.ExpenseManager">
+        <constructor-arg ref="Debit"/>
+        <constructor-arg ref="Whatsapp"/>
+
+        <property name="paymentService" ref="Debit"/>
+        <property name="notificationService" ref="Whatsapp"/>
+
+    </bean>
+
+</beans>
