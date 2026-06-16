@@ -1,5 +1,8 @@
 package paymentDemo;
 
+import org.springframework.stereotype.Component;
+
+@Component("Debit")
 public class DebitCard implements PaymentService{
 
     @Override

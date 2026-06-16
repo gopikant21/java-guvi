@@ -1,13 +1,23 @@
 package paymentDemo;
 
-public class ExpenseManager {
-    private PaymentService paymentService;
-    private NotificationService notificationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
-    public ExpenseManager(PaymentService paymentService, NotificationService notificationService) {
+@Component
+public class ExpenseManager {
+    @Autowired
+    @Qualifier("Debit")
+    PaymentService paymentService;
+
+    @Autowired
+    @Qualifier("Text")
+    NotificationService notificationService;
+
+    /*public ExpenseManager(PaymentService paymentService, NotificationService notificationService) {
         this.paymentService = paymentService;
         this.notificationService = notificationService;
-    }
+    }*/
 
     public void payElectricityBill(double amount) {
         notificationService.sendNotification("Paying electricity bill of " + amount);
