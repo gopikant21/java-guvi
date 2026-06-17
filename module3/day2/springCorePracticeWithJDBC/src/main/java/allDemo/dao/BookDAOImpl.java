@@ -1,90 +1,115 @@
 package allDemo.dao;
 
 import allDemo.entity.Book;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class BookDAOImpl implements BookDAO {
 
-    private List<Book> books = new ArrayList<>();
+    private final JdbcTemplate jdbcTemplate;
+
+    public BookDAOImpl(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public void addBook(Book book) {
-        books.add(book);
+        String sql = "INSERT INTO books VALUES (?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql,
+                book.getBookId(),
+                book.getTitle(),
+                book.getAuthor(),
+                book.getCategory(),
+                book.getPrice(),
+                book.getQuantity()
+        );
     }
 
     @Override
     public List<Book> getAllBooks() {
-        return books;
+        String sql = "SELECT * FROM books";
+
+        return jdbcTemplate.query(sql, (rs, rowNum) ->
+                new Book(
+                        rs.getInt("book_id"),
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getString("category"),
+                        rs.getDouble("price"),
+                        rs.getInt("quantity")
+                )
+        );
     }
 
     @Override
     public Book getBookById(int id) {
+        String sql = "SELECT * FROM books WHERE book_id = ?";
 
-        for (Book book : books) {
-            if (book.getBookId() == id) {
-                return book;
-            }
-        }
-        return null;
+        return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
+                        new Book(
+                                rs.getInt("book_id"),
+                                rs.getString("title"),
+                                rs.getString("author"),
+                                rs.getString("category"),
+                                rs.getDouble("price"),
+                                rs.getInt("quantity")
+                        ),
+                id
+        );
     }
 
     @Override
     public List<Book> getBooksByAuthor(String author) {
+        String sql = "SELECT * FROM books WHERE LOWER(author) = LOWER(?)";
 
-        List<Book> result = new ArrayList<>();
-
-        for (Book book : books) {
-            if (book.getAuthor().equalsIgnoreCase(author)) {
-                result.add(book);
-            }
-        }
-        return result;
+        return jdbcTemplate.query(sql, (rs, rowNum) ->
+                        new Book(
+                                rs.getInt("book_id"),
+                                rs.getString("title"),
+                                rs.getString("author"),
+                                rs.getString("category"),
+                                rs.getDouble("price"),
+                                rs.getInt("quantity")
+                        ),
+                author
+        );
     }
 
     @Override
     public List<Book> getBooksByCategory(String category) {
+        String sql = "SELECT * FROM books WHERE LOWER(category) = LOWER(?)";
 
-        List<Book> result = new ArrayList<>();
-
-        for (Book book : books) {
-            if (book.getCategory().equalsIgnoreCase(category)) {
-                result.add(book);
-            }
-        }
-        return result;
+        return jdbcTemplate.query(sql, (rs, rowNum) ->
+                        new Book(
+                                rs.getInt("book_id"),
+                                rs.getString("title"),
+                                rs.getString("author"),
+                                rs.getString("category"),
+                                rs.getDouble("price"),
+                                rs.getInt("quantity")
+                        ),
+                category
+        );
     }
 
     @Override
     public boolean updatePrice(int bookId, double newPrice) {
-
-        Book book = getBookById(bookId);
-
-        if (book != null) {
-            book.setPrice(newPrice);
-            return true;
-        }
-        return false;
+        String sql = "UPDATE books SET price = ? WHERE book_id = ?";
+        return jdbcTemplate.update(sql, newPrice, bookId) > 0;
     }
 
     @Override
     public boolean deleteBook(int bookId) {
-
-        Book book = getBookById(bookId);
-
-        if (book != null) {
-            books.remove(book);
-            return true;
-        }
-
-        return false;
+        String sql = "DELETE FROM books WHERE book_id = ?";
+        return jdbcTemplate.update(sql, bookId) > 0;
     }
 
     @Override
     public int getTotalBooks() {
-        return books.size();
+        String sql = "SELECT COUNT(*) FROM books";
+        return jdbcTemplate.queryForObject(sql, Integer.class);
     }
 }
