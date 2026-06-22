@@ -193,7 +193,7 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getDiscountedProducts(double minRating) {
         return productRepository.getAll()
                 .stream()
-                .filter(p -> p.getRating() >= minRating && p.getPrice() > 5000)
+                .filter((Product p) -> p.getRating() >= minRating && p.getPrice() > 5000)
                 .collect(Collectors.toList());
     }
 }
