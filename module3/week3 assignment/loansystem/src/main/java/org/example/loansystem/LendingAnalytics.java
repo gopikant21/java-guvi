@@ -1,3 +1,7 @@
+package org.example.loansystem;
+
+import org.example.loansystem.model.LoanApplication;
+
 import java.util.*;
 import java.util.stream.*;
 
@@ -77,6 +81,22 @@ public class LendingAnalytics {
                                     .thenComparing(LoanApplication::getCustomerName, Comparator.reverseOrder()))
                             .orElse(existing));
         }
+    }
+
+    public void loadExistingApplications(Collection<LoanApplication> existingApplications) {
+        if (existingApplications == null) {
+            return;
+        }
+
+        existingApplications.forEach(app -> {
+            if (app != null && app.getApplicationId() != null && !app.getApplicationId().isBlank()) {
+                applications.put(app.getApplicationId().trim(), app);
+            }
+        });
+    }
+
+    public List<LoanApplication> allApplications() {
+        return new ArrayList<>(applications.values());
     }
 
     /**

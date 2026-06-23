@@ -51,12 +51,17 @@ public class OrderService {
     public List<Order> getCustomerOrders(Long customerId) {
         // Verify customer exists
         customerService.getCustomerById(customerId);
-        return orderRepository.findByCustomerId(customerId);
+        return orderRepository.findAll().stream()
+                .filter(o -> o.getCustomer().getId().equals(customerId))
+                .toList();
     }
 
     public List<Order> getCustomerOrdersSortedByNewest(Long customerId) {
         customerService.getCustomerById(customerId);
-        return orderRepository.findOrdersByCustomerIdOrderByNewest(customerId);
+        return orderRepository.findAll().stream()
+                .filter(o -> o.getCustomer().getId().equals(customerId))
+                .sorted((o1, o2) -> o2.getOrderId().compareTo(o1.getOrderId()))
+                .toList();
     }
 
     // Add item to order
@@ -126,7 +131,7 @@ public class OrderService {
     // Get order items
     public List<OrderItem> getOrderItems(Long orderId) {
         Order order = getOrderById(orderId);
-        return orderItemRepository.findByOrderId(orderId);
+        return order.getOrderItems();
     }
 
     // Calculate order total

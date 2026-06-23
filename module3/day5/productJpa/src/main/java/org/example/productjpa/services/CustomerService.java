@@ -18,7 +18,11 @@ public class CustomerService {
 
     // Create
     public Customer registerCustomer(Customer customer) {
-        if (customerRepository.existsByEmail(customer.getEmail())) {
+        // Check if email already exists
+        boolean emailExists = customerRepository.findAll().stream()
+                .anyMatch(c -> c.getEmail().equalsIgnoreCase(customer.getEmail()));
+
+        if (emailExists) {
             throw new IllegalArgumentException("Customer with this email already exists");
         }
         return customerRepository.save(customer);
@@ -35,12 +39,16 @@ public class CustomerService {
     }
 
     public Customer getCustomerByEmail(String email) {
-        return customerRepository.findByEmail(email)
+        return customerRepository.findAll().stream()
+                .filter(c -> c.getEmail().equalsIgnoreCase(email))
+                .findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found with email: " + email));
     }
 
     public Customer getCustomerByPhone(String phone) {
-        return customerRepository.findByPhone(phone)
+        return customerRepository.findAll().stream()
+                .filter(c -> c.getPhone().equalsIgnoreCase(phone))
+                .findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found with phone: " + phone));
     }
 
@@ -53,8 +61,11 @@ public class CustomerService {
         }
         if (customerDetails.getEmail() != null && !customerDetails.getEmail().isEmpty()) {
             // Check if email is not already taken by another customer
-            if (customerRepository.existsByEmail(customerDetails.getEmail())
-                && !customerDetails.getEmail().equals(customer.getEmail())) {
+            boolean emailTaken = customerRepository.findAll().stream()
+                    .anyMatch(c -> c.getEmail().equalsIgnoreCase(customerDetails.getEmail())
+                            && !c.getId().equals(customer.getId()));
+
+            if (emailTaken) {
                 throw new IllegalArgumentException("Email already in use");
             }
             customer.setEmail(customerDetails.getEmail());

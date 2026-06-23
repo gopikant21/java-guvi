@@ -68,30 +68,42 @@ public class ProductService {
 
     // Search operations
     public List<Product> getProductsByCategory(String category) {
-        return productRepository.findByCategory(category);
+        return productRepository.findAll().stream()
+                .filter(p -> category.equalsIgnoreCase(p.getCategory()))
+                .toList();
     }
 
     public List<Product> getProductsByBrand(String brand) {
-        return productRepository.findByBrand(brand);
+        return productRepository.findAll().stream()
+                .filter(p -> brand.equalsIgnoreCase(p.getBrand()))
+                .toList();
     }
 
     public List<Product> getProductsByPriceRange(Double minPrice, Double maxPrice) {
         if (minPrice < 0 || maxPrice < 0 || minPrice > maxPrice) {
             throw new IllegalArgumentException("Invalid price range");
         }
-        return productRepository.findByPriceBetween(minPrice, maxPrice);
+        return productRepository.findAll().stream()
+                .filter(p -> p.getPrice() >= minPrice && p.getPrice() <= maxPrice)
+                .toList();
     }
 
     public List<Product> searchProductsByName(String name) {
-        return productRepository.findByNameContainingIgnoreCase(name);
+        return productRepository.findAll().stream()
+                .filter(p -> p.getName().toLowerCase().contains(name.toLowerCase()))
+                .toList();
     }
 
     public List<Product> getAvailableProducts() {
-        return productRepository.findAvailableProducts();
+        return productRepository.findAll().stream()
+                .filter(p -> p.getStocks() > 0)
+                .toList();
     }
 
     public List<Product> getAvailableProductsByCategory(String category) {
-        return productRepository.findAvailableProductsByCategory(category);
+        return productRepository.findAll().stream()
+                .filter(p -> category.equalsIgnoreCase(p.getCategory()) && p.getStocks() > 0)
+                .toList();
     }
 
     // Stock management
