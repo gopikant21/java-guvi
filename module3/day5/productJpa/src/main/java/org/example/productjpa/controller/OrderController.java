@@ -1,7 +1,10 @@
 package org.example.productjpa.controller;
 
-import org.example.productjpa.model.Order;
-import org.example.productjpa.model.OrderItem;
+import jakarta.validation.Valid;
+import org.example.productjpa.dto.OrderItemRequestDto;
+import org.example.productjpa.dto.OrderItemResponseDto;
+import org.example.productjpa.dto.OrderResponseDto;
+import org.example.productjpa.dto.OrderTotalResponseDto;
 import org.example.productjpa.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -21,62 +22,61 @@ public class OrderController {
 
     // Create order for customer
     @PostMapping("/customer/{customerId}")
-    public ResponseEntity<Order> createOrder(@PathVariable Long customerId) {
-        Order newOrder = orderService.createOrder(customerId);
+    public ResponseEntity<OrderResponseDto> createOrder(@PathVariable Long customerId) {
+        OrderResponseDto newOrder = orderService.createOrder(customerId);
         return new ResponseEntity<>(newOrder, HttpStatus.CREATED);
     }
 
     // Get all orders
     @GetMapping
-    public ResponseEntity<List<Order>> getAllOrders() {
-        List<Order> orders = orderService.getAllOrders();
+    public ResponseEntity<List<OrderResponseDto>> getAllOrders() {
+        List<OrderResponseDto> orders = orderService.getAllOrders();
         return ResponseEntity.ok(orders);
     }
 
     // Get order by ID
     @GetMapping("/{orderId}")
-    public ResponseEntity<Order> getOrderById(@PathVariable Long orderId) {
-        Order order = orderService.getOrderById(orderId);
+    public ResponseEntity<OrderResponseDto> getOrderById(@PathVariable Long orderId) {
+        OrderResponseDto order = orderService.getOrderById(orderId);
         return ResponseEntity.ok(order);
     }
 
     // Get orders for a customer
     @GetMapping("/customer/{customerId}")
-    public ResponseEntity<List<Order>> getCustomerOrders(@PathVariable Long customerId) {
-        List<Order> orders = orderService.getCustomerOrders(customerId);
+    public ResponseEntity<List<OrderResponseDto>> getCustomerOrders(@PathVariable Long customerId) {
+        List<OrderResponseDto> orders = orderService.getCustomerOrders(customerId);
         return ResponseEntity.ok(orders);
     }
 
     // Get orders for a customer sorted by newest first
     @GetMapping("/customer/{customerId}/newest")
-    public ResponseEntity<List<Order>> getCustomerOrdersSortedByNewest(@PathVariable Long customerId) {
-        List<Order> orders = orderService.getCustomerOrdersSortedByNewest(customerId);
+    public ResponseEntity<List<OrderResponseDto>> getCustomerOrdersSortedByNewest(@PathVariable Long customerId) {
+        List<OrderResponseDto> orders = orderService.getCustomerOrdersSortedByNewest(customerId);
         return ResponseEntity.ok(orders);
     }
 
     // Add item to order
     @PostMapping("/{orderId}/items")
-    public ResponseEntity<OrderItem> addItemToOrder(
+    public ResponseEntity<OrderItemResponseDto> addItemToOrder(
             @PathVariable Long orderId,
-            @RequestParam Long productId,
-            @RequestParam int quantity) {
-        OrderItem orderItem = orderService.addItemToOrder(orderId, productId, quantity);
+            @Valid @RequestBody OrderItemRequestDto orderItemRequestDto) {
+        OrderItemResponseDto orderItem = orderService.addItemToOrder(orderId, orderItemRequestDto);
         return new ResponseEntity<>(orderItem, HttpStatus.CREATED);
     }
 
     // Get items in an order
     @GetMapping("/{orderId}/items")
-    public ResponseEntity<List<OrderItem>> getOrderItems(@PathVariable Long orderId) {
-        List<OrderItem> items = orderService.getOrderItems(orderId);
+    public ResponseEntity<List<OrderItemResponseDto>> getOrderItems(@PathVariable Long orderId) {
+        List<OrderItemResponseDto> items = orderService.getOrderItems(orderId);
         return ResponseEntity.ok(items);
     }
 
     // Update item quantity in order
     @PutMapping("/items/{orderItemId}")
-    public ResponseEntity<OrderItem> updateOrderItemQuantity(
+    public ResponseEntity<OrderItemResponseDto> updateOrderItemQuantity(
             @PathVariable Long orderItemId,
             @RequestParam int quantity) {
-        OrderItem updatedItem = orderService.updateOrderItemQuantity(orderItemId, quantity);
+        OrderItemResponseDto updatedItem = orderService.updateOrderItemQuantity(orderItemId, quantity);
         return ResponseEntity.ok(updatedItem);
     }
 
@@ -89,10 +89,8 @@ public class OrderController {
 
     // Get order total
     @GetMapping("/{orderId}/total")
-    public ResponseEntity<Map<String, Double>> getOrderTotal(@PathVariable Long orderId) {
-        Double total = orderService.calculateOrderTotal(orderId);
-        Map<String, Double> response = new HashMap<>();
-        response.put("total", total);
+    public ResponseEntity<OrderTotalResponseDto> getOrderTotal(@PathVariable Long orderId) {
+        OrderTotalResponseDto response = orderService.getOrderTotal(orderId);
         return ResponseEntity.ok(response);
     }
 

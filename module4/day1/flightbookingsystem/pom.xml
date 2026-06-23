@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.example</groupId>
-    <artifactId>productJpa</artifactId>
+    <artifactId>flightbookingsystem</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>productJpa</name>
-    <description>productJpa</description>
+    <name>flightbookingsystem</name>
+    <description>flightbookingsystem</description>
     <url/>
     <licenses>
         <license/>
@@ -58,11 +58,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>1.5.5.Final</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -111,11 +106,6 @@
                                     <groupId>org.projectlombok</groupId>
                                     <artifactId>lombok</artifactId>
                                 </path>
-                                <path>
-                                    <groupId>org.mapstruct</groupId>
-                                    <artifactId>mapstruct-processor</artifactId>
-                                    <version>1.5.5.Final</version>
-                                </path>
                             </annotationProcessorPaths>
                         </configuration>
                     </execution>
@@ -130,11 +120,6 @@
                                 <path>
                                     <groupId>org.projectlombok</groupId>
                                     <artifactId>lombok</artifactId>
-                                </path>
-                                <path>
-                                    <groupId>org.mapstruct</groupId>
-                                    <artifactId>mapstruct-processor</artifactId>
-                                    <version>1.5.5.Final</version>
                                 </path>
                             </annotationProcessorPaths>
                         </configuration>

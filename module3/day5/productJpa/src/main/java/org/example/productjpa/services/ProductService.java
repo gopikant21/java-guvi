@@ -1,6 +1,9 @@
 package org.example.productjpa.services;
 
+import org.example.productjpa.dto.ProductRequestDto;
+import org.example.productjpa.dto.ProductResponseDto;
 import org.example.productjpa.exceptions.ResourceNotFoundException;
+import org.example.productjpa.mapper.ProductMapper;
 import org.example.productjpa.model.Product;
 import org.example.productjpa.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -16,99 +20,106 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private ProductMapper productMapper;
+
     // Create
-    public Product addProduct(Product product) {
-        if (product.getPrice() <= 0) {
+    public ProductResponseDto addProduct(ProductRequestDto productRequestDto) {
+        if (productRequestDto.getPrice() <= 0) {
             throw new IllegalArgumentException("Product price must be greater than zero");
         }
-        if (product.getStocks() < 0) {
+        if (productRequestDto.getStocks() != null && productRequestDto.getStocks() < 0) {
             throw new IllegalArgumentException("Product stocks cannot be negative");
         }
-        return productRepository.save(product);
+        Product product = productMapper.toEntity(productRequestDto);
+        Product savedProduct = productRepository.save(product);
+        return productMapper.toResponseDto(savedProduct);
     }
 
     // Read
-    public Product getProductById(Long id) {
-        return productRepository.findById(id)
+    public ProductResponseDto getProductById(Long id) {
+        Product product = productRepository.findById(id)
                 .orElseThrow(() -> ResourceNotFoundException.productNotFound(id));
+        return productMapper.toResponseDto(product);
     }
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public List<ProductResponseDto> getAllProducts() {
+        return productMapper.toResponseDtoList(productRepository.findAll());
     }
 
     // Update
-    public Product updateProduct(Long id, Product productDetails) {
-        Product product = getProductById(id);
+    public ProductResponseDto updateProduct(Long id, ProductRequestDto productRequestDto) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> ResourceNotFoundException.productNotFound(id));
 
-        if (productDetails.getName() != null) {
-            product.setName(productDetails.getName());
-        }
-        if (productDetails.getPrice() != null && productDetails.getPrice() > 0) {
-            product.setPrice(productDetails.getPrice());
-        }
-        if (productDetails.getCategory() != null) {
-            product.setCategory(productDetails.getCategory());
-        }
-        if (productDetails.getBrand() != null) {
-            product.setBrand(productDetails.getBrand());
-        }
-        if (productDetails.getStocks() >= 0) {
-            product.setStocks(productDetails.getStocks());
+        if (productRequestDto.getPrice() != null && productRequestDto.getPrice() > 0) {
+            if (productRequestDto.getPrice() <= 0) {
+                throw new IllegalArgumentException("Product price must be greater than zero");
+            }
         }
 
-        return productRepository.save(product);
+        productMapper.updateEntityFromDto(productRequestDto, product);
+        Product updatedProduct = productRepository.save(product);
+        return productMapper.toResponseDto(updatedProduct);
     }
 
     // Delete
     public void deleteProduct(Long id) {
-        Product product = getProductById(id);
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> ResourceNotFoundException.productNotFound(id));
         productRepository.delete(product);
     }
 
     // Search operations
-    public List<Product> getProductsByCategory(String category) {
+    public List<ProductResponseDto> getProductsByCategory(String category) {
         return productRepository.findAll().stream()
                 .filter(p -> category.equalsIgnoreCase(p.getCategory()))
-                .toList();
+                .map(productMapper::toResponseDto)
+                .collect(Collectors.toList());
     }
 
-    public List<Product> getProductsByBrand(String brand) {
+    public List<ProductResponseDto> getProductsByBrand(String brand) {
         return productRepository.findAll().stream()
                 .filter(p -> brand.equalsIgnoreCase(p.getBrand()))
-                .toList();
+                .map(productMapper::toResponseDto)
+                .collect(Collectors.toList());
     }
 
-    public List<Product> getProductsByPriceRange(Double minPrice, Double maxPrice) {
+    public List<ProductResponseDto> getProductsByPriceRange(Double minPrice, Double maxPrice) {
         if (minPrice < 0 || maxPrice < 0 || minPrice > maxPrice) {
             throw new IllegalArgumentException("Invalid price range");
         }
         return productRepository.findAll().stream()
                 .filter(p -> p.getPrice() >= minPrice && p.getPrice() <= maxPrice)
-                .toList();
+                .map(productMapper::toResponseDto)
+                .collect(Collectors.toList());
     }
 
-    public List<Product> searchProductsByName(String name) {
+    public List<ProductResponseDto> searchProductsByName(String name) {
         return productRepository.findAll().stream()
                 .filter(p -> p.getName().toLowerCase().contains(name.toLowerCase()))
-                .toList();
+                .map(productMapper::toResponseDto)
+                .collect(Collectors.toList());
     }
 
-    public List<Product> getAvailableProducts() {
+    public List<ProductResponseDto> getAvailableProducts() {
         return productRepository.findAll().stream()
                 .filter(p -> p.getStocks() > 0)
-                .toList();
+                .map(productMapper::toResponseDto)
+                .collect(Collectors.toList());
     }
 
-    public List<Product> getAvailableProductsByCategory(String category) {
+    public List<ProductResponseDto> getAvailableProductsByCategory(String category) {
         return productRepository.findAll().stream()
                 .filter(p -> category.equalsIgnoreCase(p.getCategory()) && p.getStocks() > 0)
-                .toList();
+                .map(productMapper::toResponseDto)
+                .collect(Collectors.toList());
     }
 
     // Stock management
     public void updateStock(Long productId, int quantity) {
-        Product product = getProductById(productId);
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> ResourceNotFoundException.productNotFound(productId));
         int newStock = product.getStocks() + quantity;
 
         if (newStock < 0) {
@@ -125,6 +136,12 @@ public class ProductService {
 
     public void increaseStock(Long productId, int quantity) {
         updateStock(productId, quantity);
+    }
+
+    // Internal method to get entity (used by OrderService)
+    public Product getProductEntityById(Long id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> ResourceNotFoundException.productNotFound(id));
     }
 }
 

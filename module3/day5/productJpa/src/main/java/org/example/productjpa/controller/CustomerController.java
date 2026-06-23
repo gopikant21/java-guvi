@@ -1,6 +1,8 @@
 package org.example.productjpa.controller;
 
-import org.example.productjpa.model.Customer;
+import jakarta.validation.Valid;
+import org.example.productjpa.dto.CustomerRequestDto;
+import org.example.productjpa.dto.CustomerResponseDto;
 import org.example.productjpa.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,45 +20,45 @@ public class CustomerController {
 
     // Register customer
     @PostMapping("/register")
-    public ResponseEntity<Customer> registerCustomer(@RequestBody Customer customer) {
-        Customer newCustomer = customerService.registerCustomer(customer);
+    public ResponseEntity<CustomerResponseDto> registerCustomer(@Valid @RequestBody CustomerRequestDto customerRequestDto) {
+        CustomerResponseDto newCustomer = customerService.registerCustomer(customerRequestDto);
         return new ResponseEntity<>(newCustomer, HttpStatus.CREATED);
     }
 
     // Get all customers
     @GetMapping
-    public ResponseEntity<List<Customer>> getAllCustomers() {
-        List<Customer> customers = customerService.getAllCustomers();
+    public ResponseEntity<List<CustomerResponseDto>> getAllCustomers() {
+        List<CustomerResponseDto> customers = customerService.getAllCustomers();
         return ResponseEntity.ok(customers);
     }
 
     // Get customer by ID
     @GetMapping("/{id}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
-        Customer customer = customerService.getCustomerById(id);
+    public ResponseEntity<CustomerResponseDto> getCustomerById(@PathVariable Long id) {
+        CustomerResponseDto customer = customerService.getCustomerById(id);
         return ResponseEntity.ok(customer);
     }
 
     // Get customer by email
     @GetMapping("/email/{email}")
-    public ResponseEntity<Customer> getCustomerByEmail(@PathVariable String email) {
-        Customer customer = customerService.getCustomerByEmail(email);
+    public ResponseEntity<CustomerResponseDto> getCustomerByEmail(@PathVariable String email) {
+        CustomerResponseDto customer = customerService.getCustomerByEmail(email);
         return ResponseEntity.ok(customer);
     }
 
     // Get customer by phone
     @GetMapping("/phone/{phone}")
-    public ResponseEntity<Customer> getCustomerByPhone(@PathVariable String phone) {
-        Customer customer = customerService.getCustomerByPhone(phone);
+    public ResponseEntity<CustomerResponseDto> getCustomerByPhone(@PathVariable String phone) {
+        CustomerResponseDto customer = customerService.getCustomerByPhone(phone);
         return ResponseEntity.ok(customer);
     }
 
     // Update customer
     @PutMapping("/{id}")
-    public ResponseEntity<Customer> updateCustomer(
+    public ResponseEntity<CustomerResponseDto> updateCustomer(
             @PathVariable Long id,
-            @RequestBody Customer customerDetails) {
-        Customer updatedCustomer = customerService.updateCustomer(id, customerDetails);
+            @Valid @RequestBody CustomerRequestDto customerRequestDto) {
+        CustomerResponseDto updatedCustomer = customerService.updateCustomer(id, customerRequestDto);
         return ResponseEntity.ok(updatedCustomer);
     }
 
