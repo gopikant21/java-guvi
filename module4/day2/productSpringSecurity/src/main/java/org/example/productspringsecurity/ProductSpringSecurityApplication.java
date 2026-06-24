@@ -1,13 +1,16 @@
-package org.example.securitydemo;
+package org.example.productspringsecurity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,22 +20,22 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @SpringBootApplication
-@EnableMethodSecurity
-public class SecuritydemoApplication {
+@EnableMethodSecurity()
+public class ProductSpringSecurityApplication {
 
     @Autowired
     PasswordEncoder passwordEncoder;
 
     public static void main(String[] args) {
-        SpringApplication.run(SecuritydemoApplication.class, args);
+        SpringApplication.run(ProductSpringSecurityApplication.class, args);
     }
 
     @Bean
     public UserDetailsService userDetailsService() {
-        System.err.println("UserDetailsServic");
-        System.err.println("Encrypted Password: " + passwordEncoder.encode("user1@123"));
-        UserDetails user1 = User.withUsername("user1")
-                .password(passwordEncoder.encode("user1@123"))
+        System.err.println("UserDetailsService");
+        System.err.println("Encrypted Password: " + passwordEncoder.encode("user@123"));
+        UserDetails user = User.withUsername("user")
+                .password(passwordEncoder.encode("user@123"))
                 .roles("USER")
                 .build();
 
@@ -41,12 +44,8 @@ public class SecuritydemoApplication {
                 .roles("ADMIN")
                 .build();
 
-        UserDetails loanOfficer = User.withUsername("loan_officer")
-                .password(passwordEncoder.encode("loan_officer@123"))
-                .roles("LOAN_OFFICER")
-                .build();
 
-        return new InMemoryUserDetailsManager(user1, admin, loanOfficer);
+        return new InMemoryUserDetailsManager(user, admin);
     }
 
     @Bean
@@ -55,11 +54,23 @@ public class SecuritydemoApplication {
     }
 
     @Bean
+    public RoleHierarchy roleHierarchy() {
+        return RoleHierarchyImpl.fromHierarchy("ROLE_ADMIN > ROLE_USER");
+    }
+
+    @Bean
+    public DefaultMethodSecurityExpressionHandler methodSecurityExpressionHandler(RoleHierarchy roleHierarchy) {
+        DefaultMethodSecurityExpressionHandler expressionHandler = new DefaultMethodSecurityExpressionHandler();
+        expressionHandler.setRoleHierarchy(roleHierarchy);
+        return expressionHandler;
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth->auth
-                        .requestMatchers("/api/hello").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/customers/register").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .build();

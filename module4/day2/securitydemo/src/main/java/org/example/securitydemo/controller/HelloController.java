@@ -31,5 +31,4 @@ public class HelloController {
         return "Hi, loan-officer!!, you can process loan application!!";
     }
 
-
 }
