@@ -3,7 +3,7 @@ package org.example.productjpa.controller;
 import jakarta.validation.Valid;
 import org.example.productjpa.dto.CustomerRequestDto;
 import org.example.productjpa.dto.CustomerResponseDto;
-import org.example.productjpa.services.CustomerService;
+import org.example.productjpa.services.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ import java.util.List;
 public class CustomerController {
 
     @Autowired
-    private CustomerService customerService;
+    private ICustomerService customerService;
 
     // Register customer
     @PostMapping("/register")
@@ -68,5 +68,53 @@ public class CustomerController {
         customerService.deleteCustomer(id);
         return ResponseEntity.ok("Customer deleted successfully");
     }
-}
 
+    // Custom Query Endpoints
+
+    // Get customers without orders
+    @GetMapping("/without-orders")
+    public ResponseEntity<List<CustomerResponseDto>> getCustomersWithoutOrders() {
+        List<CustomerResponseDto> customers = customerService.getCustomersWithoutOrders();
+        return ResponseEntity.ok(customers);
+    }
+
+    // Find customers by email domain
+    @GetMapping("/by-domain/{domain}")
+    public ResponseEntity<List<CustomerResponseDto>> findByEmailDomain(@PathVariable String domain) {
+        List<CustomerResponseDto> customers = customerService.findByEmailDomain(domain);
+        return ResponseEntity.ok(customers);
+    }
+
+    // Get top customers by order count
+    @GetMapping("/top-customers")
+    public ResponseEntity<List<CustomerResponseDto>> getTopCustomersByOrderCount() {
+        List<CustomerResponseDto> customers = customerService.getTopCustomersByOrderCount();
+        return ResponseEntity.ok(customers);
+    }
+
+    // Get customers with minimum number of orders
+    @GetMapping("/with-min-orders/{minOrders}")
+    public ResponseEntity<List<CustomerResponseDto>> getCustomersWithMinOrders(@PathVariable long minOrders) {
+        List<CustomerResponseDto> customers = customerService.getCustomersWithMinOrders(minOrders);
+        return ResponseEntity.ok(customers);
+    }
+
+    // UPDATE: Update customer address
+    @PutMapping("/{id}/update-address")
+    public ResponseEntity<String> updateCustomerAddress(
+            @PathVariable Long id,
+            @RequestParam String address) {
+        int updated = customerService.updateCustomerAddress(id, address);
+        return ResponseEntity.ok("Customer address updated. Records affected: " + updated);
+    }
+
+    // UPDATE: Update customer contact information
+    @PutMapping("/{id}/update-contact")
+    public ResponseEntity<String> updateCustomerContactInfo(
+            @PathVariable Long id,
+            @RequestParam(required = false) String phone,
+            @RequestParam(required = false) String address) {
+        int updated = customerService.updateCustomerContactInfo(id, phone, address);
+        return ResponseEntity.ok("Customer contact info updated. Records affected: " + updated);
+    }
+}

@@ -3,7 +3,7 @@ package org.example.productjpa.controller;
 import jakarta.validation.Valid;
 import org.example.productjpa.dto.ProductRequestDto;
 import org.example.productjpa.dto.ProductResponseDto;
-import org.example.productjpa.services.ProductService;
+import org.example.productjpa.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ import java.util.List;
 public class ProductController {
 
     @Autowired
-    private ProductService productService;
+    private IProductService productService;
 
     // Create product
     @PostMapping
@@ -110,5 +110,61 @@ public class ProductController {
         productService.increaseStock(id, quantity);
         return ResponseEntity.ok("Stock increased by " + quantity);
     }
-}
 
+    // Custom Query Endpoints
+
+    // Get low stock products below threshold
+    @GetMapping("/low-stock/{threshold}")
+    public ResponseEntity<List<ProductResponseDto>> getLowStockProducts(@PathVariable int threshold) {
+        List<ProductResponseDto> products = productService.getLowStockProducts(threshold);
+        return ResponseEntity.ok(products);
+    }
+
+    // Get low stock products by category
+    @GetMapping("/low-stock/category/{category}/{threshold}")
+    public ResponseEntity<List<ProductResponseDto>> getLowStockByCategory(
+            @PathVariable String category,
+            @PathVariable int threshold) {
+        List<ProductResponseDto> products = productService.getLowStockByCategory(category, threshold);
+        return ResponseEntity.ok(products);
+    }
+
+    // Get product count by category
+    @GetMapping("/count/category/{category}")
+    public ResponseEntity<Long> getProductCountByCategory(@PathVariable String category) {
+        long count = productService.getProductCountByCategory(category);
+        return ResponseEntity.ok(count);
+    }
+
+    // Get products never ordered
+    @GetMapping("/unordered")
+    public ResponseEntity<List<ProductResponseDto>> getUnorderedProducts() {
+        List<ProductResponseDto> products = productService.getUnorderedProducts();
+        return ResponseEntity.ok(products);
+    }
+
+    // UPDATE: Increase price by percentage for category
+    @PutMapping("/bulk-update/price-by-percentage")
+    public ResponseEntity<String> updatePriceByPercentageForCategory(
+            @RequestParam String category,
+            @RequestParam Double percentage) {
+        int updated = productService.updatePriceByPercentageForCategory(category, percentage);
+        return ResponseEntity.ok("Product prices updated by " + percentage + "% for category: " + category + ". Records affected: " + updated);
+    }
+
+    // UPDATE: Clear stock for category
+    @PutMapping("/bulk-update/clear-stock/{category}")
+    public ResponseEntity<String> clearStockByCategory(@PathVariable String category) {
+        int updated = productService.clearStockByCategory(category);
+        return ResponseEntity.ok("Stock cleared for category: " + category + ". Records affected: " + updated);
+    }
+
+    // UPDATE: Restock product
+    @PutMapping("/{id}/restock")
+    public ResponseEntity<String> restockProduct(
+            @PathVariable Long id,
+            @RequestParam int quantity) {
+        int updated = productService.restockProduct(id, quantity);
+        return ResponseEntity.ok("Product restocked with " + quantity + " units. Records affected: " + updated);
+    }
+}

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class ProductService {
+public class ProductService implements IProductService {
 
     @Autowired
     private ProductRepository productRepository;
@@ -138,11 +138,60 @@ public class ProductService {
         updateStock(productId, quantity);
     }
 
+    // Custom Query Methods
+
+    // Get low stock products below threshold
+    public List<ProductResponseDto> getLowStockProducts(int threshold) {
+        return productRepository.findLowStockProducts(threshold).stream()
+                .map(productMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    // Get low stock products in specific category
+    public List<ProductResponseDto> getLowStockByCategory(String category, int threshold) {
+        return productRepository.findLowStockByCategory(category, threshold).stream()
+                .map(productMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    // Get count of products in category
+    public long getProductCountByCategory(String category) {
+        return productRepository.countByCategory(category);
+    }
+
+    // Get products that have never been ordered
+    public List<ProductResponseDto> getUnorderedProducts() {
+        return productRepository.findUnorderedProducts().stream()
+                .map(productMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    // UPDATE: Increase price by percentage for all products in a category
+    public int updatePriceByPercentageForCategory(String category, Double percentage) {
+        if (percentage < 0) {
+            throw new IllegalArgumentException("Percentage cannot be negative");
+        }
+        return productRepository.updatePriceByPercentageForCategory(category, percentage);
+    }
+
+    // UPDATE: Clear stock for all products in a category
+    public int clearStockByCategory(String category) {
+        return productRepository.clearStockByCategory(category);
+    }
+
+    // UPDATE: Restock a product by quantity
+    public int restockProduct(Long productId, int quantity) {
+        if (quantity < 0) {
+            throw new IllegalArgumentException("Quantity cannot be negative");
+        }
+        // Verify product exists
+        getProductById(productId);
+        return productRepository.restockProduct(productId, quantity);
+    }
+
     // Internal method to get entity (used by OrderService)
     public Product getProductEntityById(Long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> ResourceNotFoundException.productNotFound(id));
     }
 }
-
-

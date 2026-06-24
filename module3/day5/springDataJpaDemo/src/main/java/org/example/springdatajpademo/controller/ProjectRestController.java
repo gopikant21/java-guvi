@@ -1,5 +1,6 @@
 package org.example.springdatajpademo.controller;
 
+import org.example.springdatajpademo.dto.ProjectDTO;
 import org.example.springdatajpademo.model.Employee;
 import org.example.springdatajpademo.model.Project;
 import org.example.springdatajpademo.service.ProjectService;
@@ -64,5 +65,33 @@ public class ProjectRestController {
     @GetMapping("/by-employee/{eid}")
     public ResponseEntity<List<Project>> getProjectsByEmployeeId(@PathVariable Long eid) {
         return new ResponseEntity<>(projectService.getProjectsByEmployeeId(eid), HttpStatus.OK);
+    }
+
+    // New custom query APIs
+    @GetMapping("/search/by-name/{name}")
+    public ResponseEntity<List<Project>> getProjectsByName(@PathVariable String name) {
+        return new ResponseEntity<>(projectService.getProjectsByName(name), HttpStatus.OK);
+    }
+
+    // Update project name using custom query
+    @PutMapping("/{pid}/name")
+    public ResponseEntity<String> updateProjectName(@PathVariable Long pid, @RequestParam String name) {
+        long result = projectService.updateProjectNameById(pid, name);
+        if (result > 0) {
+            return new ResponseEntity<>("Project name updated successfully", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Project not found", HttpStatus.NOT_FOUND);
+    }
+
+    // Get all projects as DTO
+    @GetMapping("/dto/all")
+    public ResponseEntity<List<ProjectDTO>> getAllProjectsAsDTO() {
+        return new ResponseEntity<>(projectService.getAllProjectsAsDTO(), HttpStatus.OK);
+    }
+
+    // Get project by id as DTO
+    @GetMapping("/dto/{pid}")
+    public ResponseEntity<ProjectDTO> getProjectByIdAsDTO(@PathVariable Long pid) {
+        return new ResponseEntity<>(projectService.getProjectByIdAsDTO(pid), HttpStatus.OK);
     }
 }

@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class OrderService {
+public class OrderService implements IOrderService {
 
     @Autowired
     private OrderRepository orderRepository;
@@ -181,7 +181,41 @@ public class OrderService {
 
         orderRepository.delete(order);
     }
+
+    // Custom Query Methods
+
+    // Get total spent by a customer
+    public Double getTotalSpentByCustomer(Long customerId) {
+        // Verify customer exists
+        customerService.getCustomerEntityById(customerId);
+        return orderRepository.getTotalSpentByCustomer(customerId);
+    }
+
+    // Get high-value orders above threshold
+    public List<OrderResponseDto> getHighValueOrders(Double threshold) {
+        return orderRepository.findHighValueOrders(threshold).stream()
+                .map(orderMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    // Count orders for a customer
+    public long countOrdersByCustomer(Long customerId) {
+        // Verify customer exists
+        customerService.getCustomerEntityById(customerId);
+        return orderRepository.countOrdersByCustomer(customerId);
+    }
+
+    // Get average order item value for a customer
+    public Double getAverageOrderItemValueByCustomer(Long customerId) {
+        // Verify customer exists
+        customerService.getCustomerEntityById(customerId);
+        return orderRepository.getAverageOrderItemValueByCustomer(customerId);
+    }
+
+    // Find empty orders (orders with no items)
+    public List<OrderResponseDto> getEmptyOrders() {
+        return orderRepository.findEmptyOrders().stream()
+                .map(orderMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
 }
-
-
-

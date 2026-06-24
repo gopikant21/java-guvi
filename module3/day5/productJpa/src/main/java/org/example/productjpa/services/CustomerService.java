@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class CustomerService {
+public class CustomerService implements ICustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -99,5 +99,57 @@ public class CustomerService {
         return customerRepository.findById(id)
                 .orElseThrow(() -> ResourceNotFoundException.customerNotFound(id));
     }
-}
 
+    // Custom Query Methods
+
+    // Find customers without orders
+    public List<CustomerResponseDto> getCustomersWithoutOrders() {
+        return customerRepository.findCustomersWithoutOrders().stream()
+                .map(customerMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    // Find customers by email domain
+    public List<CustomerResponseDto> findByEmailDomain(String domain) {
+        return customerRepository.findByEmailDomain(domain).stream()
+                .map(customerMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    // Get top customers by order count
+    public List<CustomerResponseDto> getTopCustomersByOrderCount() {
+        return customerRepository.findTopCustomersByOrderCount().stream()
+                .map(customerMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    // Get customers with minimum number of orders
+    public List<CustomerResponseDto> getCustomersWithMinOrders(long minOrders) {
+        if (minOrders < 1) {
+            throw new IllegalArgumentException("Minimum orders must be at least 1");
+        }
+        return customerRepository.findCustomersWithMinOrders(minOrders).stream()
+                .map(customerMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    // UPDATE: Update customer address
+    public int updateCustomerAddress(Long customerId, String newAddress) {
+        if (newAddress == null || newAddress.trim().isEmpty()) {
+            throw new IllegalArgumentException("Address cannot be empty");
+        }
+        // Verify customer exists
+        getCustomerById(customerId);
+        return customerRepository.updateCustomerAddress(customerId, newAddress);
+    }
+
+    // UPDATE: Update customer contact information (phone and address)
+    public int updateCustomerContactInfo(Long customerId, String phone, String address) {
+        if ((phone == null || phone.trim().isEmpty()) && (address == null || address.trim().isEmpty())) {
+            throw new IllegalArgumentException("At least one contact field must be provided");
+        }
+        // Verify customer exists
+        getCustomerById(customerId);
+        return customerRepository.updateCustomerContactInfo(customerId, phone, address);
+    }
+}

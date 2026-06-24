@@ -5,7 +5,7 @@ import org.example.productjpa.dto.OrderItemRequestDto;
 import org.example.productjpa.dto.OrderItemResponseDto;
 import org.example.productjpa.dto.OrderResponseDto;
 import org.example.productjpa.dto.OrderTotalResponseDto;
-import org.example.productjpa.services.OrderService;
+import org.example.productjpa.services.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import java.util.List;
 public class OrderController {
 
     @Autowired
-    private OrderService orderService;
+    private IOrderService orderService;
 
     // Create order for customer
     @PostMapping("/customer/{customerId}")
@@ -100,5 +100,41 @@ public class OrderController {
         orderService.cancelOrder(orderId);
         return ResponseEntity.ok("Order cancelled and stock restored");
     }
-}
 
+    // Custom Query Endpoints
+
+    // Get total spent by customer
+    @GetMapping("/customer/{customerId}/total-spent")
+    public ResponseEntity<Double> getTotalSpentByCustomer(@PathVariable Long customerId) {
+        Double totalSpent = orderService.getTotalSpentByCustomer(customerId);
+        return ResponseEntity.ok(totalSpent);
+    }
+
+    // Get high-value orders above threshold
+    @GetMapping("/high-value/{threshold}")
+    public ResponseEntity<List<OrderResponseDto>> getHighValueOrders(@PathVariable Double threshold) {
+        List<OrderResponseDto> orders = orderService.getHighValueOrders(threshold);
+        return ResponseEntity.ok(orders);
+    }
+
+    // Count orders for customer
+    @GetMapping("/customer/{customerId}/count")
+    public ResponseEntity<Long> countOrdersByCustomer(@PathVariable Long customerId) {
+        long count = orderService.countOrdersByCustomer(customerId);
+        return ResponseEntity.ok(count);
+    }
+
+    // Get average order item value for customer
+    @GetMapping("/customer/{customerId}/avg-item-value")
+    public ResponseEntity<Double> getAverageOrderItemValueByCustomer(@PathVariable Long customerId) {
+        Double avgValue = orderService.getAverageOrderItemValueByCustomer(customerId);
+        return ResponseEntity.ok(avgValue);
+    }
+
+    // Get empty orders (orders with no items)
+    @GetMapping("/empty")
+    public ResponseEntity<List<OrderResponseDto>> getEmptyOrders() {
+        List<OrderResponseDto> orders = orderService.getEmptyOrders();
+        return ResponseEntity.ok(orders);
+    }
+}

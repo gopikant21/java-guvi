@@ -1,5 +1,7 @@
 package org.example.springdatajpademo.service;
 
+import org.example.springdatajpademo.dto.ProjectDTO;
+import org.example.springdatajpademo.dto.ProjectMapper;
 import org.example.springdatajpademo.exception.ResourceNotFoundException;
 import org.example.springdatajpademo.model.Employee;
 import org.example.springdatajpademo.model.Project;
@@ -14,12 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ProjectService {
+public class ProjectService implements IProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private ProjectMapper projectMapper;
 
     public Project addProject(Project project){
         return projectRepository.save(project);
@@ -95,5 +100,26 @@ public class ProjectService {
         Employee employee = employeeRepository.findById(eid)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + eid));
         return employee.getProjects() != null ? employee.getProjects() : new ArrayList<>();
+    }
+
+    @Override
+    public List<Project> getProjectsByName(String name) {
+        return projectRepository.findProjectsByName(name);
+    }
+
+    @Override
+    public long updateProjectNameById(Long pid, String newName) {
+        return projectRepository.updateProjectNameById(pid, newName);
+    }
+
+    @Override
+    public List<ProjectDTO> getAllProjectsAsDTO() {
+        return projectMapper.toDTOList(projectRepository.findAll());
+    }
+
+    @Override
+    public ProjectDTO getProjectByIdAsDTO(Long pid) {
+        Project project = getProjectById(pid);
+        return projectMapper.toDTO(project);
     }
 }
