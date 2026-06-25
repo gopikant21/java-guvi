@@ -23,15 +23,15 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity()
 public class ProductSpringSecurityApplication {
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    /*@Autowired
+    PasswordEncoder passwordEncoder;*/
 
     public static void main(String[] args) {
         SpringApplication.run(ProductSpringSecurityApplication.class, args);
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
+    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
         System.err.println("UserDetailsService");
         System.err.println("Encrypted Password: " + passwordEncoder.encode("user@123"));
         UserDetails user = User.withUsername("user")

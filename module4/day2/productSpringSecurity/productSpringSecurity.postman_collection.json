@@ -1,0 +1,763 @@
+{
+  "info": {
+    "name": "Product Spring Security - RBAC APIs",
+    "_postman_id": "5a4cf2ad-58d0-4753-b786-5847ea60b4a2",
+    "description": "Postman collection for all ecommerce APIs with RBAC (USER/ADMIN)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "adminUsername", "value": "admin" },
+    { "key": "adminPassword", "value": "admin@123" },
+    { "key": "userUsername", "value": "user" },
+    { "key": "userPassword", "value": "user@123" },
+    { "key": "customerId", "value": "1" },
+    { "key": "productId", "value": "1" },
+    { "key": "orderId", "value": "1" },
+    { "key": "orderItemId", "value": "1" },
+    { "key": "email", "value": "alice@example.com" },
+    { "key": "phone", "value": "9876543210" },
+    { "key": "category", "value": "Electronics" },
+    { "key": "brand", "value": "Samsung" },
+    { "key": "threshold", "value": "1000" },
+    { "key": "minOrders", "value": "2" },
+    { "key": "minPrice", "value": "100" },
+    { "key": "maxPrice", "value": "5000" },
+    { "key": "nameQuery", "value": "phone" },
+    { "key": "percentage", "value": "10" },
+    { "key": "quantity", "value": "2" }
+  ],
+  "item": [
+    {
+      "name": "Customer APIs",
+      "item": [
+        {
+          "name": "Register Customer (Public)",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Alice\",\n  \"email\": \"alice@example.com\",\n  \"address\": \"Bangalore\",\n  \"phone\": \"9876543210\"\n}"
+            },
+            "url": "{{baseUrl}}/api/customers/register"
+          }
+        },
+        {
+          "name": "Get All Customers (ADMIN)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{adminUsername}}", "type": "string" },
+                { "key": "password", "value": "{{adminPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/customers"
+          }
+        },
+        {
+          "name": "Get Customer By Id (USER)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{userUsername}}", "type": "string" },
+                { "key": "password", "value": "{{userPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/customers/{{customerId}}"
+          }
+        },
+        {
+          "name": "Get Customer By Email (USER)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{userUsername}}", "type": "string" },
+                { "key": "password", "value": "{{userPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/customers/email/{{email}}"
+          }
+        },
+        {
+          "name": "Get Customer By Phone (USER)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{userUsername}}", "type": "string" },
+                { "key": "password", "value": "{{userPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/customers/phone/{{phone}}"
+          }
+        },
+        {
+          "name": "Update Customer (USER)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{userUsername}}", "type": "string" },
+                { "key": "password", "value": "{{userPassword}}", "type": "string" }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Alice Updated\",\n  \"email\": \"alice.updated@example.com\",\n  \"address\": \"Hyderabad\",\n  \"phone\": \"9000000000\"\n}"
+            },
+            "url": "{{baseUrl}}/api/customers/{{customerId}}"
+          }
+        },
+        {
+          "name": "Delete Customer (ADMIN)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{adminUsername}}", "type": "string" },
+                { "key": "password", "value": "{{adminPassword}}", "type": "string" }
+              ]
+            },
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/customers/{{customerId}}"
+          }
+        },
+        {
+          "name": "Customers Without Orders (ADMIN)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{adminUsername}}", "type": "string" },
+                { "key": "password", "value": "{{adminPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/customers/without-orders"
+          }
+        },
+        {
+          "name": "Find Customers By Domain (ADMIN)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{adminUsername}}", "type": "string" },
+                { "key": "password", "value": "{{adminPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/customers/by-domain/example.com"
+          }
+        },
+        {
+          "name": "Top Customers (ADMIN)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{adminUsername}}", "type": "string" },
+                { "key": "password", "value": "{{adminPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/customers/top-customers"
+          }
+        },
+        {
+          "name": "Customers With Min Orders (ADMIN)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{adminUsername}}", "type": "string" },
+                { "key": "password", "value": "{{adminPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/customers/with-min-orders/{{minOrders}}"
+          }
+        },
+        {
+          "name": "Update Customer Address (USER)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{userUsername}}", "type": "string" },
+                { "key": "password", "value": "{{userPassword}}", "type": "string" }
+              ]
+            },
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/customers/{{customerId}}/update-address?address=New%20Address"
+          }
+        },
+        {
+          "name": "Update Customer Contact (USER)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{userUsername}}", "type": "string" },
+                { "key": "password", "value": "{{userPassword}}", "type": "string" }
+              ]
+            },
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/customers/{{customerId}}/update-contact?phone=9999999999&address=Updated%20Address"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Product APIs",
+      "item": [
+        {
+          "name": "Add Product (ADMIN)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{adminUsername}}", "type": "string" },
+                { "key": "password", "value": "{{adminPassword}}", "type": "string" }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Galaxy S25\",\n  \"price\": 79999,\n  \"category\": \"Electronics\",\n  \"brand\": \"Samsung\",\n  \"stocks\": 50\n}"
+            },
+            "url": "{{baseUrl}}/api/products"
+          }
+        },
+        {
+          "name": "Get All Products (USER)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{userUsername}}", "type": "string" },
+                { "key": "password", "value": "{{userPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/products"
+          }
+        },
+        {
+          "name": "Get Product By Id (USER)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{userUsername}}", "type": "string" },
+                { "key": "password", "value": "{{userPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/products/{{productId}}"
+          }
+        },
+        {
+          "name": "Update Product (ADMIN)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{adminUsername}}", "type": "string" },
+                { "key": "password", "value": "{{adminPassword}}", "type": "string" }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Galaxy S25 Ultra\",\n  \"price\": 89999,\n  \"category\": \"Electronics\",\n  \"brand\": \"Samsung\",\n  \"stocks\": 75\n}"
+            },
+            "url": "{{baseUrl}}/api/products/{{productId}}"
+          }
+        },
+        {
+          "name": "Delete Product (ADMIN)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{adminUsername}}", "type": "string" },
+                { "key": "password", "value": "{{adminPassword}}", "type": "string" }
+              ]
+            },
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/products/{{productId}}"
+          }
+        },
+        {
+          "name": "Products By Category (USER)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{userUsername}}", "type": "string" },
+                { "key": "password", "value": "{{userPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/products/category/{{category}}"
+          }
+        },
+        {
+          "name": "Products By Brand (USER)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{userUsername}}", "type": "string" },
+                { "key": "password", "value": "{{userPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/products/brand/{{brand}}"
+          }
+        },
+        {
+          "name": "Products By Price Range (USER)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{userUsername}}", "type": "string" },
+                { "key": "password", "value": "{{userPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/products/price?minPrice={{minPrice}}&maxPrice={{maxPrice}}"
+          }
+        },
+        {
+          "name": "Search Products By Name (USER)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{userUsername}}", "type": "string" },
+                { "key": "password", "value": "{{userPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/products/search?name={{nameQuery}}"
+          }
+        },
+        {
+          "name": "Available Products (USER)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{userUsername}}", "type": "string" },
+                { "key": "password", "value": "{{userPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/products/available"
+          }
+        },
+        {
+          "name": "Available Products By Category (USER)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{userUsername}}", "type": "string" },
+                { "key": "password", "value": "{{userPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/products/available/category/{{category}}"
+          }
+        },
+        {
+          "name": "Reduce Stock (ADMIN)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{adminUsername}}", "type": "string" },
+                { "key": "password", "value": "{{adminPassword}}", "type": "string" }
+              ]
+            },
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/products/{{productId}}/reduce-stock?quantity={{quantity}}"
+          }
+        },
+        {
+          "name": "Increase Stock (ADMIN)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{adminUsername}}", "type": "string" },
+                { "key": "password", "value": "{{adminPassword}}", "type": "string" }
+              ]
+            },
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/products/{{productId}}/increase-stock?quantity={{quantity}}"
+          }
+        },
+        {
+          "name": "Low Stock Products (ADMIN)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{adminUsername}}", "type": "string" },
+                { "key": "password", "value": "{{adminPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/products/low-stock/{{threshold}}"
+          }
+        },
+        {
+          "name": "Low Stock By Category (ADMIN)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{adminUsername}}", "type": "string" },
+                { "key": "password", "value": "{{adminPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/products/low-stock/category/{{category}}/{{threshold}}"
+          }
+        },
+        {
+          "name": "Product Count By Category (ADMIN)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{adminUsername}}", "type": "string" },
+                { "key": "password", "value": "{{adminPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/products/count/category/{{category}}"
+          }
+        },
+        {
+          "name": "Unordered Products (ADMIN)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{adminUsername}}", "type": "string" },
+                { "key": "password", "value": "{{adminPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/products/unordered"
+          }
+        },
+        {
+          "name": "Bulk Update Price By Percentage (ADMIN)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{adminUsername}}", "type": "string" },
+                { "key": "password", "value": "{{adminPassword}}", "type": "string" }
+              ]
+            },
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/products/bulk-update/price-by-percentage?category={{category}}&percentage={{percentage}}"
+          }
+        },
+        {
+          "name": "Clear Stock By Category (ADMIN)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{adminUsername}}", "type": "string" },
+                { "key": "password", "value": "{{adminPassword}}", "type": "string" }
+              ]
+            },
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/products/bulk-update/clear-stock/{{category}}"
+          }
+        },
+        {
+          "name": "Restock Product (ADMIN)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{adminUsername}}", "type": "string" },
+                { "key": "password", "value": "{{adminPassword}}", "type": "string" }
+              ]
+            },
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/products/{{productId}}/restock?quantity={{quantity}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Order APIs",
+      "item": [
+        {
+          "name": "Create Order (USER)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{userUsername}}", "type": "string" },
+                { "key": "password", "value": "{{userPassword}}", "type": "string" }
+              ]
+            },
+            "method": "POST",
+            "url": "{{baseUrl}}/api/orders/customer/{{customerId}}"
+          }
+        },
+        {
+          "name": "Get All Orders (ADMIN)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{adminUsername}}", "type": "string" },
+                { "key": "password", "value": "{{adminPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/orders"
+          }
+        },
+        {
+          "name": "Get Order By Id (USER)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{userUsername}}", "type": "string" },
+                { "key": "password", "value": "{{userPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/orders/{{orderId}}"
+          }
+        },
+        {
+          "name": "Get Customer Orders (USER)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{userUsername}}", "type": "string" },
+                { "key": "password", "value": "{{userPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/orders/customer/{{customerId}}"
+          }
+        },
+        {
+          "name": "Get Customer Orders Newest (USER)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{userUsername}}", "type": "string" },
+                { "key": "password", "value": "{{userPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/orders/customer/{{customerId}}/newest"
+          }
+        },
+        {
+          "name": "Add Item To Order (USER)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{userUsername}}", "type": "string" },
+                { "key": "password", "value": "{{userPassword}}", "type": "string" }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": {{productId}},\n  \"quantity\": {{quantity}}\n}"
+            },
+            "url": "{{baseUrl}}/api/orders/{{orderId}}/items"
+          }
+        },
+        {
+          "name": "Get Order Items (USER)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{userUsername}}", "type": "string" },
+                { "key": "password", "value": "{{userPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/orders/{{orderId}}/items"
+          }
+        },
+        {
+          "name": "Update Order Item Quantity (USER)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{userUsername}}", "type": "string" },
+                { "key": "password", "value": "{{userPassword}}", "type": "string" }
+              ]
+            },
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/orders/items/{{orderItemId}}?quantity={{quantity}}"
+          }
+        },
+        {
+          "name": "Remove Item From Order (USER)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{userUsername}}", "type": "string" },
+                { "key": "password", "value": "{{userPassword}}", "type": "string" }
+              ]
+            },
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/orders/items/{{orderItemId}}"
+          }
+        },
+        {
+          "name": "Get Order Total (USER)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{userUsername}}", "type": "string" },
+                { "key": "password", "value": "{{userPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/orders/{{orderId}}/total"
+          }
+        },
+        {
+          "name": "Cancel Order (USER)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{userUsername}}", "type": "string" },
+                { "key": "password", "value": "{{userPassword}}", "type": "string" }
+              ]
+            },
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/orders/{{orderId}}"
+          }
+        },
+        {
+          "name": "Total Spent By Customer (ADMIN)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{adminUsername}}", "type": "string" },
+                { "key": "password", "value": "{{adminPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/orders/customer/{{customerId}}/total-spent"
+          }
+        },
+        {
+          "name": "High Value Orders (ADMIN)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{adminUsername}}", "type": "string" },
+                { "key": "password", "value": "{{adminPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/orders/high-value/{{threshold}}"
+          }
+        },
+        {
+          "name": "Count Orders By Customer (ADMIN)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{adminUsername}}", "type": "string" },
+                { "key": "password", "value": "{{adminPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/orders/customer/{{customerId}}/count"
+          }
+        },
+        {
+          "name": "Avg Item Value By Customer (ADMIN)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{adminUsername}}", "type": "string" },
+                { "key": "password", "value": "{{adminPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/orders/customer/{{customerId}}/avg-item-value"
+          }
+        },
+        {
+          "name": "Get Empty Orders (ADMIN)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{adminUsername}}", "type": "string" },
+                { "key": "password", "value": "{{adminPassword}}", "type": "string" }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/orders/empty"
+          }
+        }
+      ]
+    }
+  ]
+}
+
