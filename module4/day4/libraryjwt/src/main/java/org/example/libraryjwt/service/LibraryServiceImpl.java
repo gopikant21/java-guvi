@@ -62,6 +62,12 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
+    public Member getMemberByEmail(String email) {
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new MemberNotFoundException("Member not found with email: " + email));
+    }
+
+    @Override
     public List<Member> getMembersByBranch(String branch) {
         log.info("Fetching members from branch: {}", branch);
         return memberRepository.findByMembershipBranch(branch);

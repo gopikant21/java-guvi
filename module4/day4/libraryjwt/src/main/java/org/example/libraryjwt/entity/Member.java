@@ -1,5 +1,6 @@
 package org.example.libraryjwt.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -53,6 +54,7 @@ public class Member {
      * One-to-Many relationship with IssueRecord
      * Cascade all operations and use lazy loading
      */
+    @JsonIgnore
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Builder.Default
     private List<IssueRecord> issueRecords = new ArrayList<>();
@@ -61,6 +63,7 @@ public class Member {
      * One-to-Many relationship with FineTransaction
      * Though not explicitly modeled, we include this for completeness
      */
+    @JsonIgnore
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @Builder.Default
     private List<FineTransaction> fineTransactions = new ArrayList<>();

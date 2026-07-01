@@ -19,6 +19,7 @@ public interface LibraryService {
     // Member management
     Member addMember(Member member);
     Member getMemberById(Long memberId);
+    Member getMemberByEmail(String email);
     List<Member> getMembersByBranch(String branch);
     MemberSummaryDTO getMemberSummary(Long memberId);
 

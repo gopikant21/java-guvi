@@ -1,5 +1,6 @@
 package org.example.libraryjwt.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -43,7 +44,9 @@ public class Book {
     /**
      * One-to-Many relationship with IssueRecord
      * Cascade all operations and use lazy loading
+     * JsonIgnore to prevent infinite loop during serialization
      */
+    @JsonIgnore
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @Builder.Default
     private List<IssueRecord> issueRecords = new ArrayList<>();
@@ -51,7 +54,9 @@ public class Book {
     /**
      * One-to-Many relationship with FineTransaction
      * Cascade all operations and use lazy loading
+     * JsonIgnore to prevent infinite loop during serialization
      */
+    @JsonIgnore
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @Builder.Default
     private List<FineTransaction> fineTransactions = new ArrayList<>();

@@ -170,12 +170,12 @@ public class LibraryController {
      */
     @GetMapping("/books")
     @PreAuthorize("hasRole('USER') or hasRole('MANAGER') or hasRole('ADMIN')")
-    public ResponseEntity<Page<Book>> getBooks(
+    public ResponseEntity<List<Book>> getBooks(
             @PageableDefault(size = 10, page = 0, sort = "dailyFineRate", direction = Sort.Direction.DESC)
             Pageable pageable) {
         log.info("Fetching books with pagination: {}", pageable);
         Page<Book> books = libraryService.getBooksPaginated(pageable);
-        return ResponseEntity.ok(books);
+        return ResponseEntity.ok(books.getContent());
     }
 
     /**
@@ -348,14 +348,8 @@ public class LibraryController {
     // ==================== Helper Methods ====================
 
     private Long extractMemberIdFromAuth(Authentication authentication) {
-        // This would normally be extracted from the Member lookup
-        // For now, return a default value
-        try {
-            Member member = libraryService.getMemberById(1L); // Replace with actual lookup
-            return member.getMemberId();
-        } catch (Exception e) {
-            return null;
-        }
+        String email = authentication.getName();
+        Member member = libraryService.getMemberByEmail(email);
+        return member.getMemberId();
     }
 }
-
