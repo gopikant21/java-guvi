@@ -35,7 +35,7 @@ public class Transaction {
     @Column(nullable = false)
     private LocalDate transactionDate;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", nullable = false)
     @NotNull(message = "Account cannot be null")
     @JsonIgnoreProperties({"transactions", "customer"})

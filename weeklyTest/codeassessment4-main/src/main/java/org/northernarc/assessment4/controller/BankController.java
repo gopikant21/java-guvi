@@ -5,11 +5,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.northernarc.assessment4.dto.CustomerSummaryDTO;
 import org.northernarc.assessment4.dto.DashboardResponse;
+import org.northernarc.assessment4.exception.DuplicateEmailException;
 import org.northernarc.assessment4.model.Account;
 import org.northernarc.assessment4.model.Customer;
 import org.northernarc.assessment4.model.Transaction;
 import org.northernarc.assessment4.security.JwtUtil;
 import org.northernarc.assessment4.service.BankService;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -96,6 +98,12 @@ public class BankController {
             Customer savedCustomer = bankService.saveCustomer(customer);
             log.info("New customer created with ID: {}", savedCustomer.getCustomerId());
             return new ResponseEntity<>(savedCustomer, HttpStatus.CREATED);
+        } catch (DataIntegrityViolationException e) {
+            log.error("Constraint violation: {}", e.getMessage());
+            if (e.getMessage() != null && e.getMessage().contains("email")) {
+                throw new DuplicateEmailException("Email already exists: " + customer.getEmail());
+            }
+            throw e;
         } catch (Exception e) {
             log.error("Error creating customer: {}", e.getMessage());
             throw e;

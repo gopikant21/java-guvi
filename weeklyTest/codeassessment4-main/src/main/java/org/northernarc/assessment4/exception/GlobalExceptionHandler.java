@@ -49,6 +49,21 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * Handle Duplicate Email Exception
+     */
+    @ExceptionHandler(DuplicateEmailException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseEntity<ErrorResponse> handleDuplicateEmailException(DuplicateEmailException ex) {
+        log.error("Duplicate email: {}", ex.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.CONFLICT.name(),
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    /**
      * Handle Bean Validation Errors
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
