@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DIV vs SPAN Tutorial</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f5f5f5;
+      line-height: 1.6;
+    }
+
+    h1 {
+      color: #333;
+      text-align: center;
+      border-bottom: 3px solid #007bff;
+      padding-bottom: 10px;
+    }
+
+    h2 {
+      color: #007bff;
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #e7f3ff;
+      border-left: 4px solid #007bff;
+    }
+
+    .example-box {
+      background-color: white;
+      border: 2px solid #ddd;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 5px;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      background-color: white;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      border: 2px solid #007bff;
+      padding: 12px;
+      text-align: left;
+    }
+
+    .comparison-table th {
+      background-color: #007bff;
+      color: white;
+      font-weight: bold;
+    }
+
+    .comparison-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .div-demo {
+      background-color: #cce5ff;
+      border: 2px solid #0066cc;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+    }
+
+    .span-demo {
+      background-color: #ffcccc;
+      border: 1px solid #cc0000;
+      padding: 5px;
+      border-radius: 3px;
+    }
+
+    .code-block {
+      background-color: #2d2d2d;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+      margin: 10px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+    }
+
+    code {
+      background-color: #f4f4f4;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      color: #d63384;
+    }
+
+    .highlight-div {
+      background-color: #ffff99;
+      padding: 2px 4px;
+      border: 1px dashed #ff9900;
+    }
+
+    .highlight-span {
+      background-color: #99ff99;
+      padding: 2px 4px;
+      border: 1px dashed #00cc00;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>DIV vs SPAN Tutorial</h1>
+
+  <h2>Quick Comparison</h2>
+  <div class="example-box">
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>DIV</th>
+          <th>SPAN</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Type</td>
+          <td>Block-level element</td>
+          <td>Inline element</td>
+        </tr>
+        <tr>
+          <td>Display</td>
+          <td>Takes up full width available</td>
+          <td>Only takes up necessary width</td>
+        </tr>
+        <tr>
+          <td>Line Breaks</td>
+          <td>Creates line breaks before and after</td>
+          <td>Does not create line breaks</td>
+        </tr>
+        <tr>
+          <td>Use Case</td>
+          <td>Group block-level elements together</td>
+          <td>Style text within a line</td>
+        </tr>
+        <tr>
+          <td>Margin/Padding</td>
+          <td>Respects all margins and padding</td>
+          <td>Respects left/right margin/padding (not top/bottom)</td>
+        </tr>
+        <tr>
+          <td>Width/Height</td>
+          <td>Can set width and height</td>
+          <td>Cannot set width and height</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>1. What is DIV?</h2>
+  <div class="example-box">
+    <p><strong>DIV</strong> stands for "division". It is a <strong>block-level</strong> container element used to group and organize content.</p>
+
+    <h3>Characteristics:</h3>
+    <ul>
+      <li>Block-level element (takes full width)</li>
+      <li>Always starts on a new line</li>
+      <li>Always ends and creates space below it</li>
+      <li>Can contain any HTML elements (block or inline)</li>
+      <li>Useful for layout and structure</li>
+      <li>Can have width, height, margin, and padding</li>
+    </ul>
+
+    <h3>Example of DIV:</h3>
+    <div class="code-block">
+&lt;div&gt;
+  This is a block-level element.
+  It takes up the full width available.
+&lt;/div&gt;
+
+&lt;div&gt;
+  This is another div.
+  Each div starts on a new line.
+&lt;/div&gt;
+    </div>
+
+    <h3>Visual Demo:</h3>
+    <div class="div-demo">
+      This is a DIV element. Notice how it takes up the full width and creates space around it.
+    </div>
+    <div class="div-demo">
+      This is another DIV. It starts on a new line automatically.
+    </div>
+  </div>
+
+  <h2>2. What is SPAN?</h2>
+  <div class="example-box">
+    <p><strong>SPAN</strong> is an <strong>inline</strong> container element used to style or group inline content.</p>
+
+    <h3>Characteristics:</h3>
+    <ul>
+      <li>Inline element (only takes necessary width)</li>
+      <li>Does NOT start on a new line</li>
+      <li>Flows within the text/content</li>
+      <li>Useful for styling specific parts of text</li>
+      <li>Cannot have meaningful width or height</li>
+      <li>Top and bottom margin/padding may not work as expected</li>
+    </ul>
+
+    <h3>Example of SPAN:</h3>
+    <div class="code-block">
+&lt;p&gt;
+  This is a paragraph with a &lt;span&gt;highlighted word&lt;/span&gt; inside it.
+  The span does not create line breaks.
+&lt;/p&gt;
+
+&lt;p&gt;
+  You can have &lt;span&gt;multiple&lt;/span&gt; &lt;span&gt;spans&lt;/span&gt; in one line.
+&lt;/p&gt;
+    </div>
+
+    <h3>Visual Demo:</h3>
+    <p>This is a paragraph with a <span class="span-demo">span element</span> inside it. Notice how the span flows with the text and does not create line breaks.</p>
+    <p>You can have <span class="span-demo">multiple</span> <span class="span-demo">spans</span> on the same line without breaking.</p>
+  </div>
+
+  <h2>3. DIV vs SPAN - Practical Examples</h2>
+  <div class="example-box">
+
+    <h3>Example 1: Using DIV for Layout</h3>
+    <p>DIVs are perfect for creating page sections and layouts:</p>
+    <div class="code-block">
+&lt;div class="header"&gt;
+  &lt;h1&gt;Website Header&lt;/h1&gt;
+&lt;/div&gt;
+
+&lt;div class="content"&gt;
+  &lt;p&gt;Main content goes here&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class="footer"&gt;
+  &lt;p&gt;Footer information&lt;/p&gt;
+&lt;/div&gt;
+    </div>
+
+    <h3>Example 2: Using SPAN for Text Styling</h3>
+    <p>SPANs are perfect for styling specific words or phrases:</p>
+    <div class="code-block">
+&lt;p&gt;
+  The word &lt;span style="color: red;"&gt;important&lt;/span&gt;
+  is styled differently.
+&lt;/p&gt;
+
+&lt;p&gt;
+  Multiple &lt;span class="highlight"&gt;highlighted&lt;/span&gt;
+  words in &lt;span class="highlight"&gt;one sentence&lt;/span&gt;.
+&lt;/p&gt;
+    </div>
+
+  </div>
+
+  <h2>4. Real-World Example</h2>
+  <div class="example-box">
+
+    <h3>DIV and SPAN in Action:</h3>
+    <div class="code-block">
+&lt;div class="article"&gt;
+  &lt;h2&gt;Article Title&lt;/h2&gt;
+  &lt;p&gt;
+    This article discusses the importance of
+    &lt;span style="font-weight: bold; color: #007bff;"&gt;
+      semantic HTML
+    &lt;/span&gt;
+    and how it improves
+    &lt;span style="font-style: italic; color: green;"&gt;
+      website accessibility
+    &lt;/span&gt;.
+  &lt;/p&gt;
+&lt;/div&gt;
+    </div>
+
+    <h3>Result:</h3>
+    <div style="background-color: white; padding: 15px; border: 1px solid #ddd; border-radius: 5px;">
+      <div>
+        <h3>Article Title</h3>
+        <p>
+          This article discusses the importance of
+          <span style="font-weight: bold; color: #007bff;">
+            semantic HTML
+          </span>
+          and how it improves
+          <span style="font-style: italic; color: green;">
+            website accessibility
+          </span>.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <h2>5. Common Use Cases</h2>
+  <div class="example-box">
+
+    <h3>When to Use DIV:</h3>
+    <ul>
+      <li>Creating page sections (header, content, sidebar, footer)</li>
+      <li>Grouping multiple elements together</li>
+      <li>Creating layout columns or rows</li>
+      <li>Wrapping content for styling an entire block</li>
+      <li>Building card components or boxes</li>
+      <li>When you need margin/padding control on all sides</li>
+    </ul>
+
+    <h3>When to Use SPAN:</h3>
+    <ul>
+      <li>Styling individual words or phrases</li>
+      <li>Applying CSS classes to inline content</li>
+      <li>Adding icons or small inline elements</li>
+      <li>Highlighting or emphasizing part of text</li>
+      <li>When text should flow with surrounding content</li>
+      <li>Wrapping content that should NOT break to new line</li>
+    </ul>
+
+  </div>
+
+  <h2>6. Visual Difference - Width Behavior</h2>
+  <div class="example-box">
+
+    <h3>DIV - Takes Full Width (Block)</h3>
+    <div style="background-color: #e7f3ff; border: 2px solid #007bff; padding: 10px; margin: 10px 0;">
+      <div style="background-color: #0066cc; color: white; padding: 10px; width: 50%;">
+        DIV with 50% width - Takes up only 50% of available width
+      </div>
+    </div>
+
+    <h3>SPAN - Takes Only Necessary Width (Inline)</h3>
+    <div style="background-color: #ffe7e7; border: 2px solid #cc0000; padding: 10px; margin: 10px 0;">
+      <span style="background-color: #cc0000; color: white; padding: 10px;">
+        SPAN - Only takes width needed for content
+      </span>
+      The text continues on the same line after the span.
+    </div>
+
+  </div>
+
+  <h2>7. Box Model Differences</h2>
+  <div class="example-box">
+
+    <h3>DIV Respects All Margins and Padding:</h3>
+    <div class="code-block">
+&lt;div style="
+  margin: 20px;
+  padding: 20px;
+  border: 2px solid blue;
+  background-color: lightblue;
+"&gt;
+  All margins and padding are applied correctly
+&lt;/div&gt;
+    </div>
+
+    <h3>SPAN - Top/Bottom Margin/Padding May Not Work:</h3>
+    <div class="code-block">
+&lt;p&gt;
+  This is text with a
+  &lt;span style="
+    margin: 20px;
+    padding: 20px;
+    border: 2px solid red;
+    background-color: lightcoral;
+  "&gt;
+    span element
+  &lt;/span&gt;
+  inside it. The span's vertical margin/padding may not push other content away.
+&lt;/p&gt;
+    </div>
+
+    <h3>Visual Example:</h3>
+    <p>
+      This is text with a
+      <span style="
+        margin: 20px;
+        padding: 20px;
+        border: 2px solid red;
+        background-color: lightcoral;
+      ">
+        span element
+      </span>
+      inside it. Notice the top/bottom spacing doesn't work as expected.
+    </p>
+
+  </div>
+
+  <h2>8. Quick Summary</h2>
+  <div class="example-box">
+
+    <h3>DIV</h3>
+    <ul>
+      <li>✓ Block-level container</li>
+      <li>✓ Full width</li>
+      <li>✓ New lines before and after</li>
+      <li>✓ Can set width/height</li>
+      <li>✓ Use for layout and grouping</li>
+    </ul>
+
+    <h3>SPAN</h3>
+    <ul>
+      <li>✓ Inline container</li>
+      <li>✓ Only necessary width</li>
+      <li>✓ No line breaks</li>
+      <li>✓ Cannot set width/height meaningfully</li>
+      <li>✓ Use for styling inline text</li>
+    </ul>
+
+  </div>
+
+  <h2>9. Practice Example</h2>
+  <div class="example-box">
+
+    <h3>Complete Example Code:</h3>
+    <div class="code-block">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;style&gt;
+    .container { background-color: #f0f0f0; padding: 20px; }
+    .item { background-color: white; padding: 10px; margin: 10px 0; }
+    .important { color: red; font-weight: bold; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;!-- DIV for container --&gt;
+  &lt;div class="container"&gt;
+    &lt;h1&gt;My Website&lt;/h1&gt;
+
+    &lt;!-- DIV for each item --&gt;
+    &lt;div class="item"&gt;
+      &lt;p&gt;
+        This is the
+        &lt;span class="important"&gt;first item&lt;/span&gt;
+        with important text styled using SPAN.
+      &lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;div class="item"&gt;
+      &lt;p&gt;
+        This is the
+        &lt;span class="important"&gt;second item&lt;/span&gt;
+        with inline styling.
+      &lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+    </div>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button onclick="showSortedTable()">Show Sorted Table (Comparator)</button>
+<button onclick="showInitials()">Show Initials (Map)</button>
+<button onclick="showTotalCharacters()">Show Total Characters (Reduce)</button>
+<button onclick="runAll()">Run All</button>
+<div id="eventStatus2"></div>
+<div id="summary"></div>
+<script>
+    var names = ["Sachin Tendulkar", "Saurav Ganguli", "Yuvraj Singh", "Virat Kohli"];
+
+    function compareByLastThenFirst(a, b) {
+        var lastNameCompare = a.lastName.localeCompare(b.lastName);
+        if (lastNameCompare !== 0) {
+            return lastNameCompare;
+        }
+        return a.firstName.localeCompare(b.firstName);
+    }
+
+    function toPeopleList() {
+        return names.map(function (fullName) {
+            var parts = fullName.trim().split(/\s+/);
+            return {
+                firstName: parts[0] || "",
+                lastName: parts.slice(1).join(" ")
+            };
+        });
+    }
+
+    function showSortedTable() {
+        var people = toPeopleList();
+
+        var sortedPeople = people.slice().sort(compareByLastThenFirst);
+
+        var rowsHtml = sortedPeople.reduce(function (html, person, index) {
+            return html + "<tr>" +
+                "<td style='border:1px solid #000;padding:8px;'>" + (index + 1) + "</td>" +
+                "<td style='border:1px solid #000;padding:8px;'>" + person.firstName + "</td>" +
+                "<td style='border:1px solid #000;padding:8px;'>" + person.lastName + "</td>" +
+                "</tr>";
+        }, "");
+
+        document.getElementById("eventStatus2").innerHTML =
+            "<table style='border-collapse: collapse;margin-top:10px;'>" +
+            "<tr>" +
+            "<th style='border:1px solid #000;padding:8px;'>#</th>" +
+            "<th style='border:1px solid #000;padding:8px;'>First Name</th>" +
+            "<th style='border:1px solid #000;padding:8px;'>Last Name</th>" +
+            "</tr>" +
+            rowsHtml +
+            "</table>";
+    }
+
+    function showInitials() {
+        var people = toPeopleList();
+        var sortedPeople = people.slice().sort(compareByLastThenFirst);
+
+        var initials = sortedPeople.map(function (person) {
+            return (person.firstName.charAt(0) + person.lastName.charAt(0)).toUpperCase();
+        });
+
+        document.getElementById("summary").innerHTML =
+            "<p>Initials (map): " + initials.join(", ") + "</p>";
+    }
+
+    function showTotalCharacters() {
+        var people = toPeopleList();
+        var sortedPeople = people.slice().sort(compareByLastThenFirst);
+
+        var totalCharacters = sortedPeople.reduce(function (count, person) {
+            return count + person.firstName.length + person.lastName.length;
+        }, 0);
+
+        document.getElementById("summary").innerHTML =
+            "<p>Total characters (reduce): " + totalCharacters + "</p>";
+    }
+
+    function runAll() {
+        showSortedTable();
+        var people = toPeopleList();
+        var sortedPeople = people.slice().sort(compareByLastThenFirst);
+        var initials = sortedPeople.map(function (person) {
+            return (person.firstName.charAt(0) + person.lastName.charAt(0)).toUpperCase();
+        });
+
+        var totalCharacters = sortedPeople.reduce(function (count, person) {
+            return count + person.firstName.length + person.lastName.length;
+        }, 0);
+
+        document.getElementById("summary").innerHTML =
+            "<p>Total names: " + sortedPeople.length + "</p>" +
+            "<p>Initials (map): " + initials.join(", ") + "</p>" +
+            "<p>Total characters (reduce): " + totalCharacters + "</p>" +
+            "<p>Sort order: by last name, then first name (comparator)</p>";
+    }
+</script>
+</body>
+</html>

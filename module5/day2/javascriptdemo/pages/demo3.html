@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <button onclick="handleClick()">Click Me</button>
+    <div id="eventStatus2"></div>
+    <script>
+        var names = ["Sachin Tendulkar", "Saurav Ganguli", "Yuvraj Singh", "Virat Kohli"];
+
+        function handleClick() {
+            var tableHtml = "<table style='border-collapse: collapse;'>" +
+                "<tr><th>First Name</th><th>Last Name</th></tr>";
+
+            for (var i = 0; i < names.length; i++) {
+                var fullName = names[i].trim().split(" ");
+                var firstName = fullName[0] || "";
+                var lastName = fullName.slice(1).join(" ");
+
+                tableHtml += "<tr><td style='border:1px solid #000;padding:8px;'>" + firstName + "</td><td style='border:1px solid #000;padding:8px;'>" + lastName + "</td></tr>";
+            }
+
+            tableHtml += "</table>";
+            document.getElementById("eventStatus2").innerHTML = tableHtml;
+        }
+    </script>
+</body>
+</html>

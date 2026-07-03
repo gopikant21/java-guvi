@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Product Management</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+
+<body>
+
+<div class="container py-4">
+
+<h2 class="mb-4">Product CRUD</h2>
+
+<div id="apiMessage" class="alert d-none" role="alert"></div>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">Product Name *</label>
+        <input type="text" id="name" class="form-control" placeholder="Enter product name" required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">SKU *</label>
+        <input type="text" id="sku" class="form-control" placeholder="Enter SKU">
+      </div>
+      <div class="col-md-12">
+        <label class="form-label">Description</label>
+        <textarea id="description" class="form-control" placeholder="Product description" rows="2"></textarea>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Category *</label>
+        <input type="text" id="category" class="form-control" placeholder="e.g., Electronics">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Brand *</label>
+        <input type="text" id="brand" class="form-control" placeholder="e.g., Apple">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Price (₹) *</label>
+        <input type="number" id="price" class="form-control" placeholder="0" step="0.01" min="0">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Stock Qty *</label>
+        <input type="number" id="stockQuantity" class="form-control" placeholder="0" min="0">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Discount %</label>
+        <input type="number" id="discountPercentage" class="form-control" placeholder="0" step="0.01" min="0" max="100">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Tax %</label>
+        <input type="number" id="taxPercentage" class="form-control" placeholder="0" step="0.01" min="0">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Rating</label>
+        <input type="number" id="rating" class="form-control" placeholder="0" step="0.1" min="0" max="5">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Review Count</label>
+        <input type="number" id="reviewCount" class="form-control" placeholder="0" min="0">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Active</label>
+        <div class="form-check mt-2">
+          <input class="form-check-input" type="checkbox" id="active" checked>
+          <label class="form-check-label" for="active">Yes</label>
+        </div>
+      </div>
+      <div class="col-12">
+        <button onclick="saveProduct()" id="saveBtn" class="btn btn-primary">Save Product</button>
+        <button onclick="clearForm()" class="btn btn-secondary">Clear</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <div class="row g-2 align-items-end">
+      <div class="col-md-3">
+        <label class="form-label">Search Product Name</label>
+        <input
+                type="text"
+                id="search"
+                class="form-control"
+                placeholder="Search..."
+                onkeyup="applyFilters()">
+      </div>
+
+      <div class="col-md-2">
+        <label class="form-label">Category</label>
+        <select id="categoryFilter" class="form-select" onchange="applyFilters()">
+          <option value="">All Categories</option>
+          <option>Electronics</option>
+          <option>Clothing</option>
+          <option>Books</option>
+          <option>Home</option>
+          <option>Sports</option>
+        </select>
+      </div>
+
+      <div class="col-md-2">
+        <label class="form-label">Brand</label>
+        <select id="brandFilter" class="form-select" onchange="applyFilters()">
+          <option value="">All Brands</option>
+          <option>Apple</option>
+          <option>Samsung</option>
+          <option>Nike</option>
+          <option>Puma</option>
+          <option>Penguin</option>
+          <option>Lenovo</option>
+          <option>Dell</option>
+        </select>
+      </div>
+
+      <div class="col-md-2">
+        <label class="form-label">Rating</label>
+        <select id="ratingFilter" class="form-select" onchange="applyFilters()">
+          <option value="">All Ratings</option>
+          <option value="4">4+ Stars</option>
+          <option value="3">3+ Stars</option>
+          <option value="2">2+ Stars</option>
+        </select>
+      </div>
+
+      <div class="col-md-2">
+        <label class="form-label">In Stock</label>
+        <select id="stockFilter" class="form-select" onchange="applyFilters()">
+          <option value="">All</option>
+          <option value="yes">In Stock</option>
+          <option value="no">Out of Stock</option>
+        </select>
+      </div>
+
+      <div class="col-md-1">
+        <label class="form-label">Sort</label>
+        <select class="form-select" onchange="sortProducts(this.value)">
+          <option value="">Default</option>
+          <option value="price-asc">Price ↑</option>
+          <option value="price-desc">Price ↓</option>
+          <option value="rating-desc">Rating ↓</option>
+          <option value="name">Name</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="table-responsive">
+<table class="table table-bordered table-striped table-hover align-middle text-center">
+
+  <thead class="table-dark">
+
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Category</th>
+    <th>Brand</th>
+    <th>Price</th>
+    <th>Discount %</th>
+    <th>Tax %</th>
+    <th>Final Price</th>
+    <th>Stock</th>
+    <th>Rating</th>
+    <th>Reviews</th>
+    <th>Status</th>
+    <th>Action</th>
+  </tr>
+
+  </thead>
+
+  <tbody id="tableBody"></tbody>
+
+</table>
+</div>
+
+</div>
+
+<script>
+
+  const API_BASE="http://localhost:8080/api/products";
+  let products=[];
+
+  let editId=null;
+
+  init();
+
+
+  async function init(){
+    await fetchProducts();
+  }
+
+
+  function showMessage(message,type){
+    const box=document.getElementById("apiMessage");
+    box.textContent=message;
+    box.className=`alert alert-${type}`;
+  }
+
+
+  function clearMessage(){
+    const box=document.getElementById("apiMessage");
+    box.textContent="";
+    box.className="alert d-none";
+  }
+
+
+  function normalizeProduct(product){
+    // Extract only numeric values from strings that might contain text like "a1"
+    const extractNumber=(val)=>{
+      if(typeof val==="number") return val;
+      const match=String(val).match(/[\d.]+/);
+      return match ? Number(match[0]) : 0;
+    };
+
+    return {
+      id:product.id,
+      name:product.name || "",
+      description:product.description || "",
+      category:product.category || "",
+      brand:product.brand || "",
+      price:extractNumber(product.price),
+      rating:extractNumber(product.rating),
+      reviewCount:extractNumber(product.reviewCount),
+      discountPercentage:extractNumber(product.discountPercentage),
+      taxPercentage:extractNumber(product.taxPercentage),
+      stockQuantity:extractNumber(product.stockQuantity),
+      active:product.active || false,
+      sku:product.sku || ""
+    };
+  }
+
+
+  async function fetchProducts(){
+    try{
+      clearMessage();
+      const response=await fetch(API_BASE);
+
+      if(!response.ok){
+        throw new Error("Unable to fetch products");
+      }
+
+      const data=await response.json();
+      products=data.map(normalizeProduct);
+      display(products);
+    }
+    catch(error){
+      showMessage("Backend not reachable. Start API on http://localhost:8080", "danger");
+      display(products);
+    }
+  }
+
+
+  // DISPLAY
+  function display(list){
+    let rows="";
+    list.forEach(product=>{
+      const afterDiscount=product.price-(product.price*product.discountPercentage/100);
+      const finalPrice=afterDiscount+(afterDiscount*product.taxPercentage/100);
+      const status=product.active ? `<span class="badge bg-success">Active</span>` : `<span class="badge bg-danger">Inactive</span>`;
+
+      rows+=`
+<tr>
+    <td>${product.id}</td>
+    <td><strong>${product.name}</strong></td>
+    <td>${product.category}</td>
+    <td>${product.brand}</td>
+    <td>₹${Number(product.price).toFixed(0)}</td>
+    <td>${Number(product.discountPercentage).toFixed(0)}%</td>
+    <td>${Number(product.taxPercentage).toFixed(0)}%</td>
+    <td><strong>₹${Number(finalPrice).toFixed(0)}</strong></td>
+    <td>${Number(product.stockQuantity).toFixed(0)}</td>
+    <td>${Number(product.rating).toFixed(1)} ⭐</td>
+    <td>${Number(product.reviewCount).toFixed(0)}</td>
+    <td>${status}</td>
+    <td>
+        <button onclick="editProduct(${product.id})" class="btn btn-sm btn-warning me-1">Edit</button>
+        <button onclick="deleteProduct(${product.id})" class="btn btn-sm btn-danger">Delete</button>
+    </td>
+</tr>
+`;
+    });
+
+    document.getElementById("tableBody").innerHTML=rows;
+
+  }
+
+
+  // CREATE & UPDATE
+
+  async function saveProduct(){
+    // Validate required fields
+    const name=document.getElementById("name").value.trim();
+    const category=document.getElementById("category").value.trim();
+    const brand=document.getElementById("brand").value.trim();
+    const price=Number(document.getElementById("price").value);
+    const stockQuantity=Number(document.getElementById("stockQuantity").value);
+    const sku=document.getElementById("sku").value.trim();
+
+    if(!name || !category || !brand || !sku || price<0 || stockQuantity<0){
+      showMessage("Please fill all required fields with valid values", "warning");
+      return;
+    }
+
+    const product={
+      name:name,
+      description:document.getElementById("description").value.trim(),
+      category:category,
+      brand:brand,
+      price:price,
+      rating:Number(document.getElementById("rating").value) || 0,
+      reviewCount:Number(document.getElementById("reviewCount").value) || 0,
+      discountPercentage:Number(document.getElementById("discountPercentage").value) || 0,
+      taxPercentage:Number(document.getElementById("taxPercentage").value) || 0,
+      stockQuantity:stockQuantity,
+      active:document.getElementById("active").checked,
+      sku:sku
+    };
+
+    try{
+      clearMessage();
+      document.getElementById("saveBtn").disabled=true;
+
+      let url=API_BASE;
+      let method="POST";
+
+      if(editId!==null){
+        url=`${API_BASE}/${editId}`;
+        method="PUT";
+      }
+
+      const response=await fetch(url,{
+        method:method,
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify(product)
+      });
+
+      if(!response.ok){
+        const error=await response.text();
+        throw new Error(error || "Save failed");
+      }
+
+      editId=null;
+      clearForm();
+      await fetchProducts();
+      showMessage("Product saved successfully ✓", "success");
+    }
+    catch(error){
+      console.error(error);
+      showMessage(`Save failed: ${error.message}`, "danger");
+    }
+    finally{
+      document.getElementById("saveBtn").disabled=false;
+    }
+  }
+
+
+  function clearForm(){
+    document.querySelectorAll("#name,#description,#category,#brand,#price,#rating,#reviewCount,#discountPercentage,#taxPercentage,#stockQuantity,#sku").forEach(el=>el.value="");
+    document.getElementById("active").checked=true;
+    editId=null;
+  }
+
+
+  // EDIT
+
+  function editProduct(id){
+    const p=products.find(product=>product.id===id);
+
+    if(!p){
+      showMessage("Product not found for editing", "warning");
+      return;
+    }
+
+    document.getElementById("name").value=p.name;
+    document.getElementById("description").value=p.description;
+    document.getElementById("category").value=p.category;
+    document.getElementById("brand").value=p.brand;
+    document.getElementById("price").value=p.price;
+    document.getElementById("rating").value=p.rating;
+    document.getElementById("reviewCount").value=p.reviewCount;
+    document.getElementById("discountPercentage").value=p.discountPercentage;
+    document.getElementById("taxPercentage").value=p.taxPercentage;
+    document.getElementById("stockQuantity").value=p.stockQuantity;
+    document.getElementById("active").checked=p.active;
+    document.getElementById("sku").value=p.sku;
+
+    editId=id;
+
+    // Scroll to form
+    document.querySelector(".card").scrollIntoView({behavior:"smooth"});
+    showMessage(`Editing: ${p.name}`, "info");
+  }
+
+
+  // DELETE
+
+  async function deleteProduct(id){
+    try{
+      clearMessage();
+      const response=await fetch(`${API_BASE}/${id}`,{
+        method:"DELETE"
+      });
+
+      if(!response.ok){
+        throw new Error("Delete failed");
+      }
+
+      await fetchProducts();
+      showMessage("Product deleted successfully", "success");
+    }
+    catch(error){
+      showMessage("Delete failed. Product may not exist in backend.", "danger");
+    }
+  }
+
+
+  // FILTER
+
+  function applyFilters(){
+    let list=[...products];
+
+    const search= document.getElementById("search").value.toLowerCase();
+    const category= document.getElementById("categoryFilter").value;
+    const brand= document.getElementById("brandFilter").value;
+    const rating= document.getElementById("ratingFilter").value;
+    const stock= document.getElementById("stockFilter").value;
+
+    if(search){
+      list=list.filter(p=> p.name.toLowerCase().includes(search));
+    }
+
+    if(category){
+      list=list.filter(p=> p.category===category);
+    }
+
+    if(brand){
+      list=list.filter(p=> p.brand===brand);
+    }
+
+    if(rating){
+      list=list.filter(p=> p.rating>=Number(rating));
+    }
+
+    if(stock==="yes"){
+      list=list.filter(p=> p.stockQuantity>0);
+    }
+    else if(stock==="no"){
+      list=list.filter(p=> p.stockQuantity===0);
+    }
+
+    display(list);
+
+  }
+
+
+  // SORT
+
+  function sortProducts(type){
+    let list=[...products];
+
+    if(type==="price-asc"){
+      list.sort((a,b)=>a.price-b.price);
+    }
+    else if(type==="price-desc"){
+      list.sort((a,b)=>b.price-a.price);
+    }
+    else if(type==="rating-desc"){
+      list.sort((a,b)=>b.rating-a.rating);
+    }
+    else if(type==="name"){
+      list.sort((a,b)=>a.name.localeCompare(b.name));
+    }
+
+    display(list);
+
+  }
+
+</script>
+
+<script src="js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

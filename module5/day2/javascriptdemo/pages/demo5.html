@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 520px;
+            margin: 30px auto;
+            padding: 0 12px;
+        }
+
+        .todo-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        #taskInput {
+            flex: 1;
+            padding: 8px;
+        }
+
+        #todoList {
+            list-style: none;
+            padding: 0;
+        }
+
+        #todoList li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #ddd;
+            padding: 8px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+        }
+
+        .empty-message {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h2>Simple Todo List</h2>
+
+    <div class="todo-row">
+        <label for="taskInput">Task:</label>
+        <input id="taskInput" type="text" placeholder="Enter a task">
+        <button id="addBtn" type="button">Add</button>
+    </div>
+
+    <p id="emptyMessage" class="empty-message">No tasks yet. Add your first task.</p>
+    <ul id="todoList"></ul>
+
+    <script>
+        var taskInput = document.getElementById("taskInput");
+        var addBtn = document.getElementById("addBtn");
+        var todoList = document.getElementById("todoList");
+        var emptyMessage = document.getElementById("emptyMessage");
+
+        function updateEmptyState() {
+            emptyMessage.style.display = todoList.children.length === 0 ? "block" : "none";
+        }
+
+        function addTask() {
+            var text = taskInput.value.trim();
+            if (!text) {
+                return;
+            }
+
+            var li = document.createElement("li");
+
+            var taskText = document.createElement("span");
+            taskText.textContent = text;
+
+            var actions = document.createElement("div");
+            actions.style.display = "flex";
+            actions.style.gap = "6px";
+
+            var doneBtn = document.createElement("button");
+            doneBtn.type = "button";
+            doneBtn.textContent = "Done";
+            doneBtn.onclick = function () {
+                if (taskText.style.textDecoration === "line-through") {
+                    taskText.style.textDecoration = "none";
+                    taskText.style.color = "";
+                } else {
+                    taskText.style.textDecoration = "line-through";
+                    taskText.style.color = "#666";
+                }
+            };
+
+            var updateBtn = document.createElement("button");
+            updateBtn.type = "button";
+            updateBtn.textContent = "Update";
+            updateBtn.onclick = function () {
+                var updatedText = prompt("Update task:", taskText.textContent);
+                if (updatedText === null) {
+                    return;
+                }
+
+                updatedText = updatedText.trim();
+                if (!updatedText) {
+                    alert("Task cannot be empty.");
+                    return;
+                }
+
+                taskText.textContent = updatedText;
+            };
+
+            var deleteBtn = document.createElement("button");
+            deleteBtn.type = "button";
+            deleteBtn.textContent = "Delete";
+            deleteBtn.onclick = function () {
+                li.remove();
+                updateEmptyState();
+            };
+
+            actions.appendChild(doneBtn);
+            actions.appendChild(updateBtn);
+            actions.appendChild(deleteBtn);
+            li.appendChild(taskText);
+            li.appendChild(actions);
+            todoList.appendChild(li);
+
+            taskInput.value = "";
+            taskInput.focus();
+            updateEmptyState();
+        }
+
+        addBtn.onclick = addTask;
+        taskInput.addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                addTask();
+            }
+        });
+
+        updateEmptyState();
+    </script>
+</body>
+</html>

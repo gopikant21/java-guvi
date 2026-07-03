@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product JPA API Client</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="container">
+    <h1>Product JPA API Client</h1>
+    <p>Simple HTML + JS client for customers, products, and orders.</p>
+
+    <section class="card">
+      <h2>Create Customer</h2>
+      <form id="customerForm">
+        <input type="text" id="customerName" placeholder="Name" required>
+        <input type="email" id="customerEmail" placeholder="Email" required>
+        <input type="text" id="customerAddress" placeholder="Address" required>
+        <input type="text" id="customerPhone" placeholder="Phone" required>
+        <button type="submit">Create Customer</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Create Product</h2>
+      <form id="productForm">
+        <input type="text" id="productName" placeholder="Name" required>
+        <input type="number" id="productPrice" placeholder="Price" step="0.01" required>
+        <input type="text" id="productCategory" placeholder="Category" required>
+        <input type="text" id="productBrand" placeholder="Brand" required>
+        <input type="number" id="productStocks" placeholder="Stocks" min="0" required>
+        <button type="submit">Create Product</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Create Order</h2>
+      <form id="createOrderForm">
+        <input type="number" id="orderCustomerId" placeholder="Customer ID" required>
+        <button type="submit">Create Order</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Add Item To Order</h2>
+      <form id="orderItemForm">
+        <input type="number" id="itemOrderId" placeholder="Order ID" required>
+        <input type="number" id="itemProductId" placeholder="Product ID" required>
+        <input type="number" id="itemQuantity" placeholder="Quantity" min="1" required>
+        <button type="submit">Add Item</button>
+      </form>
+    </section>
+
+    <section class="card actions">
+      <h2>Quick Actions</h2>
+      <button id="loadCustomersBtn">Load Customers</button>
+      <button id="loadProductsBtn">Load Products</button>
+      <button id="loadOrdersBtn">Load Orders</button>
+    </section>
+
+    <section class="card">
+      <h2>Response</h2>
+      <pre id="output">Run an action to see API response.</pre>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>
+

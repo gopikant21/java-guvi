@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Basic CSS Tutorial</title>
+  <style>
+    /* Basic CSS Properties Tutorial */
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f5f5f5;
+      line-height: 1.6;
+    }
+
+    h1 {
+      color: #333;
+      text-align: center;
+      border-bottom: 3px solid #007bff;
+      padding-bottom: 10px;
+    }
+
+    h2 {
+      color: #007bff;
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #e7f3ff;
+      border-left: 4px solid #007bff;
+    }
+
+    .example-box {
+      background-color: white;
+      border: 2px solid #ddd;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 5px;
+    }
+
+    .color-demo {
+      color: #fff;
+      background-color: #28a745;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 3px;
+    }
+
+    .font-styles {
+      font-size: 16px;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    .italic-text {
+      font-style: italic;
+      color: #666;
+    }
+
+    .text-align-left {
+      text-align: left;
+      background-color: #fff3cd;
+    }
+
+    .text-align-center {
+      text-align: center;
+      background-color: #d1ecf1;
+    }
+
+    .text-align-right {
+      text-align: right;
+      background-color: #f8d7da;
+    }
+
+    .margin-example {
+      margin: 20px;
+      background-color: #cce5ff;
+    }
+
+    .padding-example {
+      padding: 20px;
+      background-color: #e2e3e5;
+    }
+
+    .border-styles {
+      padding: 10px;
+      margin: 5px 0;
+      border: 2px solid #007bff;
+    }
+
+    .dashed-border {
+      padding: 10px;
+      border: 2px dashed #ff6b6b;
+      margin: 5px 0;
+    }
+
+    .dotted-border {
+      padding: 10px;
+      border: 2px dotted #20c997;
+      margin: 5px 0;
+    }
+
+    .inset-border {
+      padding: 10px;
+      border: 3px inset #0066cc;
+      margin: 5px 0;
+    }
+
+    .outset-border {
+      padding: 10px;
+      border: 3px outset #ff0066;
+      margin: 5px 0;
+    }
+
+    code {
+      background-color: #f4f4f4;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      color: #d63384;
+    }
+
+    .code-block {
+      background-color: #2d2d2d;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+      margin: 10px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+    }
+
+    ul, ol {
+      margin-left: 20px;
+    }
+
+    li {
+      margin: 5px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .highlight {
+      background-color: yellow;
+      font-weight: bold;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>Basic CSS Tutorial</h1>
+
+  <h2>1. Text Properties</h2>
+  <div class="example-box">
+    <p class="font-styles">This is bold and underlined text</p>
+    <p class="italic-text">This is italic text with gray color</p>
+    <p style="font-size: 12px;">This is small text (12px)</p>
+    <p style="font-size: 24px;">This is large text (24px)</p>
+  </div>
+
+  <h2>2. Color Properties</h2>
+  <div class="example-box">
+    <p style="color: red;">This text is red</p>
+    <p style="color: blue;">This text is blue</p>
+    <p style="color: #ff00ff;">This text is magenta (Hex color)</p>
+    <div class="color-demo">This is white text on green background</div>
+  </div>
+
+  <h2>3. Text Alignment</h2>
+  <div class="example-box">
+    <p class="text-align-left">This text is aligned to the left</p>
+    <p class="text-align-center">This text is centered</p>
+    <p class="text-align-right">This text is aligned to the right</p>
+    <p style="text-align: justify;">This text is justified. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+  </div>
+
+  <h2>4. Background Color and Images</h2>
+  <div class="example-box">
+    <p style="background-color: yellow; padding: 10px;">Yellow background</p>
+    <p style="background-color: #90EE90; padding: 10px;">Light green background</p>
+    <p style="background-color: lightblue; padding: 10px;">Light blue background</p>
+  </div>
+
+  <h2>5. Margin and Padding</h2>
+  <div class="example-box">
+    <p>Margin creates space <strong>outside</strong> the element:</p>
+    <div class="margin-example">
+      This box has 20px margin (space outside the blue area)
+    </div>
+
+    <p style="margin-top: 20px;">Padding creates space <strong>inside</strong> the element:</p>
+    <div class="padding-example">
+      This box has 20px padding (space inside the gray area)
+    </div>
+  </div>
+
+  <h2>6. Borders</h2>
+  <div class="example-box">
+    <p class="border-styles">Solid border (2px solid blue)</p>
+    <p class="dashed-border">Dashed border (2px dashed red)</p>
+    <p class="dotted-border">Dotted border (2px dotted green)</p>
+    <p style="border: 3px double purple; padding: 10px;">Double border (3px double purple)</p>
+    <p class="inset-border">Inset border (3px inset - appears pressed in)</p>
+    <p class="outset-border">Outset border (3px outset - appears raised out)</p>
+  </div>
+
+  <h2>7. Border Radius</h2>
+  <div class="example-box">
+    <div style="background-color: #007bff; color: white; padding: 20px; border-radius: 5px; margin: 10px 0;">
+      Slight rounded corners (5px)
+    </div>
+    <div style="background-color: #28a745; color: white; padding: 20px; border-radius: 15px; margin: 10px 0;">
+      More rounded corners (15px)
+    </div>
+    <div style="background-color: #ff6b6b; color: white; padding: 20px; border-radius: 50%; width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; margin: 10px 0;">
+      Circle (50%)
+    </div>
+  </div>
+
+  <h2>8. Box Model</h2>
+  <div class="example-box">
+    <p>The CSS Box Model consists of:</p>
+    <ul>
+      <li><strong>Content:</strong> The actual content</li>
+      <li><strong>Padding:</strong> Space inside the border</li>
+      <li><strong>Border:</strong> Line surrounding the padding</li>
+      <li><strong>Margin:</strong> Space outside the border</li>
+    </ul>
+    <div style="background-color: #fff3cd; border: 3px solid #ff9800; padding: 15px; margin: 10px; text-align: center;">
+      Margin → Border → Padding → Content
+    </div>
+  </div>
+
+  <h2>9. Display Property</h2>
+  <div class="example-box">
+    <p>Display: inline (elements on same line)</p>
+    <span style="background-color: yellow; padding: 5px; display: inline;">Inline 1</span>
+    <span style="background-color: yellow; padding: 5px; display: inline;">Inline 2</span>
+    <span style="background-color: yellow; padding: 5px; display: inline;">Inline 3</span>
+
+    <p style="margin-top: 15px;">Display: block (elements on new lines)</p>
+    <span style="background-color: lightblue; padding: 5px; display: block;">Block 1</span>
+    <span style="background-color: lightblue; padding: 5px; display: block;">Block 2</span>
+    <span style="background-color: lightblue; padding: 5px; display: block;">Block 3</span>
+  </div>
+
+  <h2>10. CSS Classes and Selectors</h2>
+  <div class="example-box">
+    <p>This demonstrates <code>.class-name</code> selector. You can apply the same style to multiple elements.</p>
+    <p>All elements with <code>class="example-box"</code> have the same styling.</p>
+  </div>
+
+  <h2>11. CSS Code Examples</h2>
+  <div class="example-box">
+    <p>Example 1: Text styling</p>
+    <div class="code-block">
+p {
+  color: blue;
+  font-size: 18px;
+  font-weight: bold;
+}
+    </div>
+
+    <p>Example 2: Background and padding</p>
+    <div class="code-block">
+.box {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 5px;
+}
+    </div>
+
+    <p>Example 3: Borders and margins</p>
+    <div class="code-block">
+.card {
+  border: 2px solid #ddd;
+  margin: 10px;
+  padding: 15px;
+}
+    </div>
+  </div>
+
+  <h2>12. Table Styling</h2>
+  <div class="example-box">
+    <table>
+      <thead>
+        <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Example</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>color</td>
+          <td>Text color</td>
+          <td style="color: red;">red</td>
+        </tr>
+        <tr>
+          <td>background-color</td>
+          <td>Background color</td>
+          <td style="background-color: yellow;">yellow</td>
+        </tr>
+        <tr>
+          <td>font-size</td>
+          <td>Text size</td>
+          <td style="font-size: 20px;">20px</td>
+        </tr>
+        <tr>
+          <td>border</td>
+          <td>Element border</td>
+          <td style="border: 2px solid blue;">2px solid blue</td>
+        </tr>
+        <tr>
+          <td>padding</td>
+          <td>Inner spacing</td>
+          <td style="padding: 10px; background-color: #eee;">10px</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>13. Text Decoration</h2>
+  <div class="example-box">
+    <p style="text-decoration: underline;">Underlined text</p>
+    <p style="text-decoration: overline;">Overline text</p>
+    <p style="text-decoration: line-through;">Strikethrough text</p>
+    <p style="text-decoration: none;">No decoration (removed default underline from link)</p>
+  </div>
+
+  <h2>Quick Reference</h2>
+  <div class="example-box">
+    <ul>
+      <li><code>color:</code> Sets text color</li>
+      <li><code>background-color:</code> Sets background color</li>
+      <li><code>font-size:</code> Sets text size</li>
+      <li><code>font-weight:</code> Sets text boldness (bold, normal)</li>
+      <li><code>font-style:</code> Sets text style (italic, normal)</li>
+      <li><code>text-align:</code> Aligns text (left, center, right, justify)</li>
+      <li><code>padding:</code> Inner spacing</li>
+      <li><code>margin:</code> Outer spacing</li>
+      <li><code>border:</code> Element border (solid, dashed, dotted, double, inset, outset)</li>
+      <li><code>border-radius:</code> Rounded corners</li>
+      <li><code>display:</code> Display type (block, inline, inline-block)</li>
+      <li><code>border inset:</code> Creates a pressed/sunken effect</li>
+      <li><code>border outset:</code> Creates a raised/popped-out effect</li>
+    </ul>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,351 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f4f7fb;
+  color: #1f2937;
+  overflow-x: hidden;
+}
+
+.site {
+  width: 92%;
+  max-width: 1100px;
+  margin: 24px auto;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #dbeafe;
+  border: 2px solid #2563eb;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.logo {
+  width: 120px;
+  height: 72px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.brand p {
+  margin: 2px 0 0;
+  color: #1e3a8a;
+}
+
+.brand {
+  min-width: 0;
+}
+
+.navbar {
+  display: flex;
+  border: 2px solid #1d4ed8;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.navbar a {
+  width: 20%;
+  text-align: center;
+  text-decoration: none;
+  color: #ffffff;
+  background: #1d4ed8;
+  padding: 14px 6px;
+  border-right: 1px solid #93c5fd;
+  font-weight: bold;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.navbar a:last-child {
+  border-right: none;
+}
+
+.navbar a.active {
+  background: #0f3aa8;
+}
+
+.row {
+  width: 100%;
+}
+
+.row::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.sidebar,
+.content {
+  min-height: 420px;
+  border: 2px solid #333;
+  border-radius: 8px;
+  box-sizing: border-box;
+  background: #ffffff;
+  padding: 12px;
+}
+
+.sidebar {
+  width: 30%;
+  float: left;
+  background: #fef3c7;
+  border-color: #d97706;
+}
+
+.content {
+  width: 68%;
+  float: left;
+  margin-left: 2%;
+  background: #dcfce7;
+  border-color: #16a34a;
+}
+
+.side-nav {
+  list-style: none;
+  margin: 8px 0;
+  padding: 0;
+}
+
+.side-nav li {
+  background: #fff7ed;
+  border: 1px solid #fdba74;
+  border-radius: 6px;
+  padding: 8px;
+  margin-bottom: 6px;
+}
+
+.hero-img,
+.card img {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #9ca3af;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-img {
+  height: 260px;
+  margin-bottom: 12px;
+}
+
+.card img {
+  height: 160px;
+}
+
+.cards::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.card {
+  width: 32%;
+  float: left;
+  margin-right: 2%;
+  background: #ffffff;
+  border: 1px solid #86efac;
+  border-radius: 8px;
+  padding: 8px;
+  box-sizing: border-box;
+  min-height: 300px;
+}
+
+.card:last-child {
+  margin-right: 0;
+}
+
+.footer {
+  margin-top: 12px;
+  border: 2px solid #dc2626;
+  border-radius: 8px;
+  background: #fee2e2;
+  text-align: center;
+  padding: 14px;
+}
+
+.gallery img {
+  width: 32%;
+  margin-right: 2%;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  border: 1px solid #9ca3af;
+  box-sizing: border-box;
+  height: 200px;
+  object-fit: cover;
+}
+
+.gallery img:nth-child(3n) {
+  margin-right: 0;
+}
+
+.contact-box {
+  background: #ffffff;
+  border: 1px solid #86efac;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+img {
+  max-width: 100%;
+}
+
+@media (max-width: 1100px) {
+  .site {
+    width: 94%;
+  }
+
+  .sidebar {
+    width: 32%;
+  }
+
+  .content {
+    width: 66%;
+    margin-left: 2%;
+  }
+
+  .hero-img {
+    height: 230px;
+  }
+}
+
+@media (max-width: 900px) {
+  .site {
+    width: 95%;
+    margin: 14px auto;
+  }
+
+  .topbar {
+    padding: 10px;
+  }
+
+  .logo {
+    width: 100px;
+    height: 64px;
+  }
+
+  .brand h1 {
+    font-size: 22px;
+  }
+
+  .sidebar,
+  .content {
+    width: 100%;
+    float: none;
+    margin-left: 0;
+    min-height: auto;
+  }
+
+  .navbar {
+    flex-wrap: wrap;
+  }
+
+  .navbar a {
+    width: 50%;
+    border-right: none;
+    border-bottom: 1px solid #93c5fd;
+  }
+
+  .navbar a:last-child {
+    border-bottom: none;
+  }
+
+  .card {
+    width: 48%;
+    min-height: 270px;
+    margin-right: 4%;
+    margin-bottom: 10px;
+  }
+
+  .card:nth-child(2n) {
+    margin-right: 0;
+  }
+
+  .gallery img {
+    width: 48%;
+    margin-right: 4%;
+    height: 180px;
+  }
+
+  .gallery img:nth-child(2n) {
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .logo {
+    width: 100%;
+    height: 110px;
+  }
+
+  .brand h1 {
+    font-size: 20px;
+  }
+
+  .brand p {
+    font-size: 14px;
+  }
+
+  .navbar a {
+    width: 100%;
+    padding: 12px 8px;
+  }
+
+  .hero-img {
+    height: 190px;
+  }
+
+  .card,
+  .gallery img {
+    width: 100%;
+    float: none;
+    margin-right: 0;
+  }
+
+  .card {
+    min-height: auto;
+  }
+
+  .gallery img {
+    height: 180px;
+  }
+
+  .sidebar,
+  .content,
+  .footer {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 380px) {
+  .site {
+    width: 96%;
+  }
+
+  .brand h1 {
+    font-size: 18px;
+  }
+
+  .logo {
+    height: 92px;
+  }
+}
+

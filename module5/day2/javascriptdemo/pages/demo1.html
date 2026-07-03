@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>Event Examples</h2>
+    <button onclick="handleClick()">onclick: Click Me</button>
+    <button ondblclick="handleDoubleClick()">ondblclick: Double Click Me</button>
+
+    <div
+            id="hoverBox"
+            onmouseover="handleMouseOver()"
+            onmouseout="handleMouseOut()"
+            style="margin-top: 10px; padding: 10px; width: 220px; border: 1px solid #333;"
+    >
+        Hover here (onmouseover / onmouseout)
+    </div>
+
+    <div style="margin-top: 10px;">
+        <label for="focusInput">Focus/Blur Input:</label>
+        <input id="focusInput" type="text" placeholder="onfocus / onblur" onfocus="handleFocus()" onblur="handleBlur()">
+    </div>
+
+    <div style="margin-top: 10px;">
+        <label for="textInput">Text Input:</label>
+        <input id="textInput" type="text" placeholder="Text input: onkeyup / onkeypress" onkeyup="handleKeyEvent('text', 'keyup', event)" onkeypress="handleKeyEvent('text', 'keypress', event)">
+    </div>
+
+    <div style="margin-top: 10px;">
+        <label for="passwordInput">Password Input:</label>
+        <input id="passwordInput" type="password" placeholder="Password input: onkeyup / onkeypress" onkeyup="handleKeyEvent('password', 'keyup', event)" onkeypress="handleKeyEvent('password', 'keypress', event)">
+    </div>
+
+    <div style="margin-top: 10px;">
+        <label for="messageArea">Textarea:</label>
+        <textarea id="messageArea" rows="3" cols="35" placeholder="Textarea: onkeyup / onkeypress" onkeyup="handleKeyEvent('textarea', 'keyup', event)" onkeypress="handleKeyEvent('textarea', 'keypress', event)"></textarea>
+    </div>
+
+    <form onsubmit="return handleSubmit(event)" style="margin-top: 10px;">
+        <label for="usernameInput">Username:</label>
+        <input id="usernameInput" type="text" name="username" placeholder="form -> onsubmit">
+        <button type="submit">Submit Form</button>
+    </form>
+
+    <p id="eventStatus" style="margin-top: 10px; font-weight: bold;">Event status appears here.</p>
+
+    <hr>
+    <h2>DOM Operations (Separate)</h2>
+    <button onclick="runDomOperations()">Run DOM Operations</button>
+    <!--
+    ondblclick
+    onmouseover
+    onmouseout
+    onfocus
+    onblur
+    textfields,password,textarea: onkeyup, onkeypress
+    form->onsubmit
+    -->
+    <h1>Hello, World!</h1>
+    <h1>Hello, World! hello world</h1>
+    <h1>Hello, World! hellow world hello world!!!</h1>
+
+    <h1 class="myh1"> hello India</h1>
+    <h2 class = "myh1">hello singapore</h2>
+
+    <div id="mydiv">
+        <h1>hello world div id</h1>
+    </div>
+</body>
+<script>
+    function updateEventStatus(message) {
+        document.getElementById("eventStatus").textContent = message;
+    }
+
+    function handleClick() {
+        updateEventStatus("onclick fired");
+    }
+
+    function handleDoubleClick() {
+        updateEventStatus("ondblclick fired");
+    }
+
+    function handleMouseOver() {
+        document.getElementById("hoverBox").style.backgroundColor = "#d1ecf1";
+        updateEventStatus("onmouseover fired");
+    }
+
+    function handleMouseOut() {
+        document.getElementById("hoverBox").style.backgroundColor = "";
+        updateEventStatus("onmouseout fired");
+    }
+
+    function handleFocus() {
+        updateEventStatus("onfocus fired");
+    }
+
+    function handleBlur() {
+        updateEventStatus("onblur fired");
+    }
+
+    function handleKeyEvent(fieldType, eventType, event) {
+        updateEventStatus(fieldType + " " + eventType + " key: " + event.key);
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        updateEventStatus("onsubmit fired (default prevented)");
+        return false;
+    }
+
+    function runDomOperations() {
+        var headings = document.getElementsByTagName("h1");
+        for(var i=0; i<headings.length; i++) {
+            headings[i].style.color = "red";
+        }
+
+        var classheadings = document.getElementsByClassName("myh1");
+        for(var j=0; j<classheadings.length; j++) {
+            classheadings[j].style.color = "blue";
+        }
+
+        var iddiv = document.getElementById("mydiv");
+        iddiv.style.backgroundColor = "yellow";
+
+        updateEventStatus("DOM operations completed: tag, class and id updates applied");
+    }
+
+
+</script>
+</html>
