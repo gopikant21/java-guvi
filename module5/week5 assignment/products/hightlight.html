@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Navbar Menu Highlight</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">Simple Site</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainMenu">
+                <ul class="navbar-nav ms-auto" id="menuList">
+                    <li class="nav-item"><a class="nav-link active" href="#" data-target="home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-target="products">Products</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-target="about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-target="contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-4">
+        <section id="home" class="content-section card shadow-sm p-4">
+            <h2>Home</h2>
+            <p>Welcome to the home page. Click a menu item to switch content.</p>
+        </section>
+
+        <section id="products" class="content-section card shadow-sm p-4 d-none">
+            <h2>Products</h2>
+            <p>Here you can show your product list, categories, and featured items.</p>
+        </section>
+
+        <section id="about" class="content-section card shadow-sm p-4 d-none">
+            <h2>About</h2>
+            <p>This section can contain company details, mission, or team info.</p>
+        </section>
+
+        <section id="contact" class="content-section card shadow-sm p-4 d-none">
+            <h2>Contact</h2>
+            <p>Add email, phone number, and address details in this section.</p>
+        </section>
+    </main>
+
+    <script>
+        const links = document.querySelectorAll('#menuList .nav-link');
+        const sections = document.querySelectorAll('.content-section');
+
+        links.forEach(link => {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                links.forEach(item => item.classList.remove('active'));
+                this.classList.add('active');
+
+                const targetId = this.getAttribute('data-target');
+                sections.forEach(section => {
+                    section.classList.toggle('d-none', section.id !== targetId);
+                });
+            });
+        });
+    </script>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
