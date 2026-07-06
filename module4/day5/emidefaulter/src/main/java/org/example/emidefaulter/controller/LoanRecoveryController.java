@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.emidefaulter.dto.CityOutstandingDTO;
 import org.example.emidefaulter.dto.CustomerLoanSummaryDTO;
 import org.example.emidefaulter.dto.CustomerPendingEmiDTO;
@@ -50,6 +51,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @Validated
@@ -65,23 +67,34 @@ public class LoanRecoveryController {
     @ApiResponse(responseCode = "200", description = "Login successful, returns JWT token")
     @ApiResponse(responseCode = "401", description = "Invalid credentials")
     public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO request) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.email(), request.password())
-        );
-        Object principal = authentication.getPrincipal();
-        if (!(principal instanceof UserDetails userDetails)) {
-            throw new AuthenticationException("Invalid authentication principal") {
-            };
+        log.info("Login attempt for email: {}", request.email());
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.email(), request.password())
+            );
+            Object principal = authentication.getPrincipal();
+            if (!(principal instanceof UserDetails userDetails)) {
+                log.error("Invalid authentication principal for email: {}", request.email());
+                throw new AuthenticationException("Invalid authentication principal") {
+                };
+            }
+            String token = jwtUtil.generateToken(userDetails);
+            log.info("Login successful for email: {}", request.email());
+            return ResponseEntity.ok(new LoginResponseDTO(token, "Bearer", jwtUtil.getExpirySeconds()));
+        } catch (Exception e) {
+            log.error("Login failed for email: {}", request.email(), e);
+            throw e;
         }
-        String token = jwtUtil.generateToken(userDetails);
-        return ResponseEntity.ok(new LoginResponseDTO(token, "Bearer", jwtUtil.getExpirySeconds()));
     }
 
     @PostMapping("/customers")
     @Operation(summary = "Register Customer", description = "Create a new customer account")
     @ApiResponse(responseCode = "201", description = "Customer registered successfully")
     public ResponseEntity<Customer> registerCustomer(@Valid @RequestBody Customer customer) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(loanRecoveryService.registerCustomer(customer));
+        log.info("Registering new customer with email: {}", customer.getEmail());
+        Customer registeredCustomer = loanRecoveryService.registerCustomer(customer);
+        log.info("Customer registered successfully with ID: {}", registeredCustomer.getCustomerId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(registeredCustomer);
     }
 
     @DeleteMapping("/customers/{customerId}")
@@ -89,8 +102,15 @@ public class LoanRecoveryController {
     @Operation(summary = "Delete Customer", description = "Delete customer by ID (ADMIN only)")
     @ApiResponse(responseCode = "204", description = "Customer deleted successfully")
     public ResponseEntity<Void> deleteCustomer(@PathVariable Long customerId) {
-        loanRecoveryService.deleteCustomer(customerId);
-        return ResponseEntity.noContent().build();
+        log.info("Deleting customer with ID: {}", customerId);
+        try {
+            loanRecoveryService.deleteCustomer(customerId);
+            log.info("Customer deleted successfully with ID: {}", customerId);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            log.error("Error deleting customer with ID: {}", customerId, e);
+            throw e;
+        }
     }
 
     @DeleteMapping("/loans/{loanId}")
@@ -98,8 +118,15 @@ public class LoanRecoveryController {
     @Operation(summary = "Delete Loan", description = "Delete loan by ID (ADMIN only)")
     @ApiResponse(responseCode = "204", description = "Loan deleted successfully")
     public ResponseEntity<Void> deleteLoan(@PathVariable Long loanId) {
-        loanRecoveryService.deleteLoan(loanId);
-        return ResponseEntity.noContent().build();
+        log.info("Deleting loan with ID: {}", loanId);
+        try {
+            loanRecoveryService.deleteLoan(loanId);
+            log.info("Loan deleted successfully with ID: {}", loanId);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            log.error("Error deleting loan with ID: {}", loanId, e);
+            throw e;
+        }
     }
 
     @PatchMapping("/loans/{loanId}/status")
@@ -107,7 +134,15 @@ public class LoanRecoveryController {
     @Operation(summary = "Update Loan Status", description = "Change loan status (RECOVERY_MANAGER only)")
     @ApiResponse(responseCode = "200", description = "Loan status updated")
     public ResponseEntity<Loan> updateLoanStatus(@PathVariable Long loanId, @RequestParam @NotBlank String status) {
-        return ResponseEntity.ok(loanRecoveryService.updateLoanStatus(loanId, status));
+        log.info("Updating loan status for loan ID: {} to status: {}", loanId, status);
+        try {
+            Loan updatedLoan = loanRecoveryService.updateLoanStatus(loanId, status);
+            log.info("Loan status updated successfully for loan ID: {}", loanId);
+            return ResponseEntity.ok(updatedLoan);
+        } catch (Exception e) {
+            log.error("Error updating loan status for loan ID: {}", loanId, e);
+            throw e;
+        }
     }
 
     @PostMapping("/penalties/{paymentId}")
@@ -117,8 +152,15 @@ public class LoanRecoveryController {
     public ResponseEntity<Penalty> generatePenalty(@PathVariable Long paymentId,
                                                    @RequestParam(defaultValue = "500") @Positive Double amount,
                                                    @RequestParam(defaultValue = "Manual penalty") String reason) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(loanRecoveryService.generatePenalty(paymentId, amount, reason));
+        log.info("Generating penalty for payment ID: {} with amount: {} and reason: {}", paymentId, amount, reason);
+        try {
+            Penalty penalty = loanRecoveryService.generatePenalty(paymentId, amount, reason);
+            log.info("Penalty generated successfully with ID: {}", penalty.getPenaltyId());
+            return ResponseEntity.status(HttpStatus.CREATED).body(penalty);
+        } catch (Exception e) {
+            log.error("Error generating penalty for payment ID: {}", paymentId, e);
+            throw e;
+        }
     }
 
     @PutMapping("/loans/increase-interest")
@@ -126,8 +168,15 @@ public class LoanRecoveryController {
     @Operation(summary = "Increase Interest Rate", description = "Increase interest rate for active personal loans (RECOVERY_MANAGER only)")
     @ApiResponse(responseCode = "200", description = "Interest rate updated")
     public ResponseEntity<String> increaseInterestRate(@RequestParam @Positive double percentage) {
-        int updatedRows = loanRecoveryService.increaseInterestRate(percentage);
-        return ResponseEntity.ok("Updated loans: " + updatedRows);
+        log.info("Increasing interest rate by percentage: {}", percentage);
+        try {
+            int updatedRows = loanRecoveryService.increaseInterestRate(percentage);
+            log.info("Interest rate updated successfully for {} loans", updatedRows);
+            return ResponseEntity.ok("Updated loans: " + updatedRows);
+        } catch (Exception e) {
+            log.error("Error increasing interest rate with percentage: {}", percentage, e);
+            throw e;
+        }
     }
 
     @GetMapping("/customers/city/{city}")
@@ -264,7 +313,15 @@ public class LoanRecoveryController {
             @ApiResponse(responseCode = "403", description = "Insufficient permissions")
     })
     public ResponseEntity<DashboardDTO> getDashboard() {
-        return ResponseEntity.ok(loanRecoveryService.getDashboard());
+        log.debug("Fetching dashboard metrics");
+        try {
+            DashboardDTO dashboard = loanRecoveryService.getDashboard();
+            log.info("Dashboard metrics fetched successfully");
+            return ResponseEntity.ok(dashboard);
+        } catch (Exception e) {
+            log.error("Error fetching dashboard metrics", e);
+            throw e;
+        }
     }
 }
 

@@ -1,0 +1,539 @@
+{
+  "info": {
+    "_postman_id": "emi-defaulter-collection",
+    "name": "EMI Defaulter Management API",
+    "description": "Collection for testing EMI Loan tracking, defaulter detection, penalty generation, and recovery analytics APIs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"customer@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/login",
+              "host": ["{{base_url}}"],
+              "path": ["login"]
+            },
+            "description": "Authenticate with email and password to receive JWT token (PUBLIC - No authentication required)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Customer Management",
+      "item": [
+        {
+          "name": "Register Customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerName\": \"John Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"phoneNumber\": \"9876543210\",\n  \"password\": \"SecurePass123!\",\n  \"city\": \"Mumbai\",\n  \"creditScore\": 750,\n  \"role\": \"CUSTOMER\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/customers",
+              "host": ["{{base_url}}"],
+              "path": ["customers"]
+            },
+            "description": "Create a new customer account (PUBLIC - No authentication required)"
+          }
+        },
+        {
+          "name": "Get Customers by City",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/customers/city/Mumbai",
+              "host": ["{{base_url}}"],
+              "path": ["customers", "city", "Mumbai"]
+            },
+            "description": "Fetch all customers in a specific city"
+          }
+        },
+        {
+          "name": "Get Customers by Credit Score",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/customers/credit-score?threshold=650",
+              "host": ["{{base_url}}"],
+              "path": ["customers", "credit-score"],
+              "query": [
+                {
+                  "key": "threshold",
+                  "value": "650"
+                }
+              ]
+            },
+            "description": "Fetch customers with credit score below threshold"
+          }
+        },
+        {
+          "name": "Delete Customer",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/customers/1",
+              "host": ["{{base_url}}"],
+              "path": ["customers", "1"]
+            },
+            "description": "Delete customer by ID (ADMIN only)"
+          }
+        },
+        {
+          "name": "My Loans",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/customers/me/loans",
+              "host": ["{{base_url}}"],
+              "path": ["customers", "me", "loans"]
+            },
+            "description": "Get my own loans (CUSTOMER role)"
+          }
+        },
+        {
+          "name": "My EMI History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/customers/me/emi-history",
+              "host": ["{{base_url}}"],
+              "path": ["customers", "me", "emi-history"]
+            },
+            "description": "Get my EMI payment history (CUSTOMER role)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Loan Management",
+      "item": [
+        {
+          "name": "Get All Loans (Paginated)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/loans?page=0&size=10&sortBy=emiAmount&direction=DESC",
+              "host": ["{{base_url}}"],
+              "path": ["loans"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "emiAmount"
+                },
+                {
+                  "key": "direction",
+                  "value": "DESC"
+                }
+              ]
+            },
+            "description": "Fetch loans with pagination and sorting (default sorted by emiAmount DESC)"
+          }
+        },
+        {
+          "name": "Get Loans by Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/loans/status/ACTIVE",
+              "host": ["{{base_url}}"],
+              "path": ["loans", "status", "ACTIVE"]
+            },
+            "description": "Fetch loans filtered by status (ACTIVE, DEFAULTED, CLOSED)"
+          }
+        },
+        {
+          "name": "Get Loans Above Amount",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/loans/amount-greater-than?amount=50000",
+              "host": ["{{base_url}}"],
+              "path": ["loans", "amount-greater-than"],
+              "query": [
+                {
+                  "key": "amount",
+                  "value": "50000"
+                }
+              ]
+            },
+            "description": "Fetch loans with EMI amount greater than specified value"
+          }
+        },
+        {
+          "name": "Get Compliant Loans",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/loans/without-missed",
+              "host": ["{{base_url}}"],
+              "path": ["loans", "without-missed"]
+            },
+            "description": "Fetch all loans with zero missed EMI payments"
+          }
+        },
+        {
+          "name": "Update Loan Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/loans/1/status?status=DEFAULTED",
+              "host": ["{{base_url}}"],
+              "path": ["loans", "1", "status"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "DEFAULTED"
+                }
+              ]
+            },
+            "description": "Change loan status (RECOVERY_MANAGER only)"
+          }
+        },
+        {
+          "name": "Delete Loan",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/loans/1",
+              "host": ["{{base_url}}"],
+              "path": ["loans", "1"]
+            },
+            "description": "Delete loan by ID (ADMIN only)"
+          }
+        },
+        {
+          "name": "Increase Interest Rate",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/loans/increase-interest?percentage=2.5",
+              "host": ["{{base_url}}"],
+              "path": ["loans", "increase-interest"],
+              "query": [
+                {
+                  "key": "percentage",
+                  "value": "2.5"
+                }
+              ]
+            },
+            "description": "Increase interest rate for active personal loans (RECOVERY_MANAGER only)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "EMI Payments",
+      "item": [
+        {
+          "name": "Get Payments by Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/payments/status/PENDING",
+              "host": ["{{base_url}}"],
+              "path": ["payments", "status", "PENDING"]
+            },
+            "description": "Fetch EMI payments filtered by status (PAID, PENDING, MISSED)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Penalty Management",
+      "item": [
+        {
+          "name": "Generate Penalty",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/penalties/1?amount=500&reason=Late Payment",
+              "host": ["{{base_url}}"],
+              "path": ["penalties", "1"],
+              "query": [
+                {
+                  "key": "amount",
+                  "value": "500"
+                },
+                {
+                  "key": "reason",
+                  "value": "Late Payment"
+                }
+              ]
+            },
+            "description": "Create penalty for missed EMI (RECOVERY_MANAGER only)"
+          }
+        },
+        {
+          "name": "Get Latest Penalty",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/penalties/latest",
+              "host": ["{{base_url}}"],
+              "path": ["penalties", "latest"]
+            },
+            "description": "Retrieve the most recently generated penalty record"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reports & Analytics",
+      "item": [
+        {
+          "name": "Recovery Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/dashboard",
+              "host": ["{{base_url}}"],
+              "path": ["dashboard"]
+            },
+            "description": "Get comprehensive dashboard metrics and analytics"
+          }
+        },
+        {
+          "name": "High Risk Customers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/reports/high-risk-customers?missedThreshold=2",
+              "host": ["{{base_url}}"],
+              "path": ["reports", "high-risk-customers"],
+              "query": [
+                {
+                  "key": "missedThreshold",
+                  "value": "2"
+                }
+              ]
+            },
+            "description": "Identify customers with multiple missed EMI payments"
+          }
+        },
+        {
+          "name": "Outstanding Amount by City",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/reports/outstanding-city-wise",
+              "host": ["{{base_url}}"],
+              "path": ["reports", "outstanding-city-wise"]
+            },
+            "description": "Generate report of total pending EMI grouped by city"
+          }
+        },
+        {
+          "name": "Customers with Multiple Loan Types",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/reports/multiple-loan-types",
+              "host": ["{{base_url}}"],
+              "path": ["reports", "multiple-loan-types"]
+            },
+            "description": "Identify customers having more than one loan type"
+          }
+        },
+        {
+          "name": "Top Defaulters",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/reports/top-defaulters?size=5",
+              "host": ["{{base_url}}"],
+              "path": ["reports", "top-defaulters"],
+              "query": [
+                {
+                  "key": "size",
+                  "value": "5"
+                }
+              ]
+            },
+            "description": "Get top N defaulters by total pending EMI amount"
+          }
+        },
+        {
+          "name": "Customer Loan Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/reports/customer-loan-summary",
+              "host": ["{{base_url}}"],
+              "path": ["reports", "customer-loan-summary"]
+            },
+            "description": "Get consolidated report of customer loans and penalties"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "jwt_token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
+

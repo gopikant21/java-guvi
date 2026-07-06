@@ -2,6 +2,7 @@ package org.example.emidefaulter.serviceimpl;
 
 import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.emidefaulter.dto.CityOutstandingDTO;
 import org.example.emidefaulter.dto.CustomerLoanSummaryDTO;
 import org.example.emidefaulter.dto.CustomerPendingEmiDTO;
@@ -31,6 +32,7 @@ import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class LoanRecoveryServiceImpl implements LoanRecoveryService {
@@ -43,47 +45,96 @@ public class LoanRecoveryServiceImpl implements LoanRecoveryService {
 
     @Override
     public Customer registerCustomer(Customer customer) {
-        customer.setPassword(passwordEncoder.encode(customer.getPassword()));
-        return customerRepository.save(customer);
+        log.debug("Registering new customer with email: {}", customer.getEmail());
+        try {
+            customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+            Customer savedCustomer = customerRepository.save(customer);
+            log.info("Customer registered successfully with ID: {} and email: {}", savedCustomer.getCustomerId(), customer.getEmail());
+            return savedCustomer;
+        } catch (Exception e) {
+            log.error("Error registering customer with email: {}", customer.getEmail(), e);
+            throw e;
+        }
     }
 
     @Override
     public void deleteCustomer(Long customerId) {
-        Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new CustomerNotFoundException("Customer not found with id: " + customerId));
-        customerRepository.delete(customer);
+        log.debug("Attempting to delete customer with ID: {}", customerId);
+        try {
+            Customer customer = customerRepository.findById(customerId)
+                    .orElseThrow(() -> new CustomerNotFoundException("Customer not found with id: " + customerId));
+            customerRepository.delete(customer);
+            log.info("Customer deleted successfully with ID: {}", customerId);
+        } catch (CustomerNotFoundException e) {
+            log.warn("Customer not found with ID: {}", customerId);
+            throw e;
+        } catch (Exception e) {
+            log.error("Error deleting customer with ID: {}", customerId, e);
+            throw e;
+        }
     }
 
     @Override
     public void deleteLoan(Long loanId) {
-        Loan loan = loanRepository.findById(loanId)
-                .orElseThrow(() -> new LoanNotFoundException("Loan not found with id: " + loanId));
-        loanRepository.delete(loan);
+        log.debug("Attempting to delete loan with ID: {}", loanId);
+        try {
+            Loan loan = loanRepository.findById(loanId)
+                    .orElseThrow(() -> new LoanNotFoundException("Loan not found with id: " + loanId));
+            loanRepository.delete(loan);
+            log.info("Loan deleted successfully with ID: {}", loanId);
+        } catch (LoanNotFoundException e) {
+            log.warn("Loan not found with ID: {}", loanId);
+            throw e;
+        } catch (Exception e) {
+            log.error("Error deleting loan with ID: {}", loanId, e);
+            throw e;
+        }
     }
 
     @Override
     @Transactional
     public Loan updateLoanStatus(Long loanId, String loanStatus) {
-        Loan loan = loanRepository.findById(loanId)
-                .orElseThrow(() -> new LoanNotFoundException("Loan not found with id: " + loanId));
-        loan.setLoanStatus(loanStatus);
-        return loan;
+        log.debug("Updating loan status for loan ID: {} to status: {}", loanId, loanStatus);
+        try {
+            Loan loan = loanRepository.findById(loanId)
+                    .orElseThrow(() -> new LoanNotFoundException("Loan not found with id: " + loanId));
+            loan.setLoanStatus(loanStatus);
+            log.info("Loan status updated successfully for ID: {} to status: {}", loanId, loanStatus);
+            return loan;
+        } catch (LoanNotFoundException e) {
+            log.warn("Loan not found with ID: {}", loanId);
+            throw e;
+        } catch (Exception e) {
+            log.error("Error updating loan status for ID: {}", loanId, e);
+            throw e;
+        }
     }
 
     @Override
     @Transactional
     public Penalty generatePenalty(Long paymentId, Double penaltyAmount, String reason) {
-        EmiPayment payment = emiPaymentRepository.findById(paymentId)
-                .orElseThrow(() -> new EmiPaymentNotFoundException("EMI payment not found with id: " + paymentId));
+        log.debug("Generating penalty for payment ID: {} with amount: {} and reason: {}", paymentId, penaltyAmount, reason);
+        try {
+            EmiPayment payment = emiPaymentRepository.findById(paymentId)
+                    .orElseThrow(() -> new EmiPaymentNotFoundException("EMI payment not found with id: " + paymentId));
 
-        Penalty penalty = Penalty.builder()
-                .payment(payment)
-                .penaltyAmount(penaltyAmount)
-                .penaltyReason(reason)
-                .generatedDate(LocalDate.now())
-                .build();
+            Penalty penalty = Penalty.builder()
+                    .payment(payment)
+                    .penaltyAmount(penaltyAmount)
+                    .penaltyReason(reason)
+                    .generatedDate(LocalDate.now())
+                    .build();
 
-        return penaltyRepository.save(penalty);
+            Penalty savedPenalty = penaltyRepository.save(penalty);
+            log.info("Penalty generated successfully with ID: {} for payment ID: {}", savedPenalty.getPenaltyId(), paymentId);
+            return savedPenalty;
+        } catch (EmiPaymentNotFoundException e) {
+            log.warn("EMI payment not found with ID: {}", paymentId);
+            throw e;
+        } catch (Exception e) {
+            log.error("Error generating penalty for payment ID: {}", paymentId, e);
+            throw e;
+        }
     }
 
     @Override
@@ -147,14 +198,63 @@ public class LoanRecoveryServiceImpl implements LoanRecoveryService {
     @Override
     @Transactional
     public int increaseInterestRate(double percentage) {
-        if (percentage <= 0) {
-            throw new ValidationException("Percentage must be greater than zero");
+        log.debug("Increasing interest rate by percentage: {}", percentage);
+        try {
+            if (percentage <= 0) {
+                log.error("Invalid percentage value: {}. Percentage must be greater than zero", percentage);
+                throw new ValidationException("Percentage must be greater than zero");
+            }
+            int updatedRows = loanRepository.increaseInterestRate(percentage);
+            log.info("Interest rate increased successfully for {} loans by percentage: {}", updatedRows, percentage);
+            return updatedRows;
+        } catch (Exception e) {
+            log.error("Error increasing interest rate by percentage: {}", percentage, e);
+            throw e;
         }
-        return loanRepository.increaseInterestRate(percentage);
+    }
+
+    @Override
+    public List<CustomerLoanSummaryDTO> getCustomerLoanSummary() {
+        log.debug("Fetching customer loan summary");
+        try {
+            List<CustomerLoanSummaryDTO> summary = customerRepository.getCustomerLoanSummary();
+            log.info("Customer loan summary fetched successfully with {} records", summary.size());
+            return summary;
+        } catch (Exception e) {
+            log.error("Error fetching customer loan summary", e);
+            throw e;
+        }
+    }
+
+    @Override
+    public List<Loan> getLoansForLoggedInCustomer(String email) {
+        log.debug("Fetching loans for logged-in customer with email: {}", email);
+        try {
+            List<Loan> loans = loanRepository.findLoansByCustomerEmail(email);
+            log.info("Loans fetched successfully for customer with email: {}, total loans: {}", email, loans.size());
+            return loans;
+        } catch (Exception e) {
+            log.error("Error fetching loans for customer with email: {}", email, e);
+            throw e;
+        }
+    }
+
+    @Override
+    public List<EmiPayment> getEmiHistoryForLoggedInCustomer(String email) {
+        log.debug("Fetching EMI history for logged-in customer with email: {}", email);
+        try {
+            List<EmiPayment> emiHistory = emiPaymentRepository.findEmiHistoryByCustomerEmail(email);
+            log.info("EMI history fetched successfully for customer with email: {}, total payments: {}", email, emiHistory.size());
+            return emiHistory;
+        } catch (Exception e) {
+            log.error("Error fetching EMI history for customer with email: {}", email, e);
+            throw e;
+        }
     }
 
     @Override
     public Page<Loan> getLoans(Pageable pageable) {
+        log.debug("Fetching loans with pagination - page: {}, size: {}", pageable.getPageNumber(), pageable.getPageSize());
         Pageable sortedPageable = pageable.getSort().isUnsorted()
                 ? PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.DESC, "emiAmount"))
                 : pageable;
@@ -162,92 +262,98 @@ public class LoanRecoveryServiceImpl implements LoanRecoveryService {
     }
 
     @Override
-    public List<CustomerLoanSummaryDTO> getCustomerLoanSummary() {
-        return customerRepository.getCustomerLoanSummary();
-    }
-
-    @Override
-    public List<Loan> getLoansForLoggedInCustomer(String email) {
-        return loanRepository.findLoansByCustomerEmail(email);
-    }
-
-    @Override
-    public List<EmiPayment> getEmiHistoryForLoggedInCustomer(String email) {
-        return emiPaymentRepository.findEmiHistoryByCustomerEmail(email);
-    }
-
-    @Override
     public DashboardDTO getDashboard() {
-        long totalCustomers = customerRepository.count();
-        long activeLoans = loanRepository.countByLoanStatus("ACTIVE");
-        long defaultedLoans = loanRepository.countByLoanStatus("DEFAULTED");
+        log.debug("Generating dashboard metrics");
+        try {
+            long totalCustomers = customerRepository.count();
+            long activeLoans = loanRepository.countByLoanStatus("ACTIVE");
+            long defaultedLoans = loanRepository.countByLoanStatus("DEFAULTED");
 
-        double totalOutstandingAmount = getOutstandingAmountCityWise().stream()
-                .mapToDouble(CityOutstandingDTO::totalOutstandingEmi)
-                .sum();
+            double totalOutstandingAmount = getOutstandingAmountCityWise().stream()
+                    .mapToDouble(CityOutstandingDTO::totalOutstandingEmi)
+                    .sum();
 
-        double totalPenaltyCollected = nullSafeDouble(penaltyRepository.sumTotalPenaltyCollected());
+            double totalPenaltyCollected = nullSafeDouble(penaltyRepository.sumTotalPenaltyCollected());
 
-        List<CustomerPendingEmiDTO> defaulters = getTopDefaulters(1);
-        String highestDefaulter = defaulters.isEmpty() ? "N/A" : defaulters.get(0).customerName();
-        double highestOutstandingAmount = defaulters.isEmpty() ? 0.0 : defaulters.get(0).totalPendingEmi();
+            List<CustomerPendingEmiDTO> defaulters = getTopDefaulters(1);
+            String highestDefaulter = defaulters.isEmpty() ? "N/A" : defaulters.get(0).customerName();
+            double highestOutstandingAmount = defaulters.isEmpty() ? 0.0 : defaulters.get(0).totalPendingEmi();
 
-        String cityWithHighestDefaults = loanRepository.findCityWithHighestDefaults(PageRequest.of(0, 1))
-                .stream()
-                .findFirst()
-                .orElse("N/A");
+            String cityWithHighestDefaults = loanRepository.findCityWithHighestDefaults(PageRequest.of(0, 1))
+                    .stream()
+                    .findFirst()
+                    .orElse("N/A");
 
-        int averageCreditScore = (int) Math.round(nullSafeDouble(customerRepository.findAverageCreditScore()));
+            int averageCreditScore = (int) Math.round(nullSafeDouble(customerRepository.findAverageCreditScore()));
 
-        double totalPaid = nullSafeDouble(emiPaymentRepository.sumTotalAmountPaid());
-        double totalDue = nullSafeDouble(emiPaymentRepository.sumTotalDueAmount());
-        double recoveryRate = totalDue == 0 ? 0.0 : (totalPaid / totalDue) * 100.0;
+            double totalPaid = nullSafeDouble(emiPaymentRepository.sumTotalAmountPaid());
+            double totalDue = nullSafeDouble(emiPaymentRepository.sumTotalDueAmount());
+            double recoveryRate = totalDue == 0 ? 0.0 : (totalPaid / totalDue) * 100.0;
 
-        return new DashboardDTO(
-                totalCustomers,
-                activeLoans,
-                defaultedLoans,
-                round(totalOutstandingAmount),
-                round(totalPenaltyCollected),
-                highestDefaulter,
-                round(highestOutstandingAmount),
-                cityWithHighestDefaults,
-                averageCreditScore,
-                round(recoveryRate)
-        );
+            DashboardDTO dashboard = new DashboardDTO(
+                    totalCustomers,
+                    activeLoans,
+                    defaultedLoans,
+                    round(totalOutstandingAmount),
+                    round(totalPenaltyCollected),
+                    highestDefaulter,
+                    round(highestOutstandingAmount),
+                    cityWithHighestDefaults,
+                    averageCreditScore,
+                    round(recoveryRate)
+            );
+
+            log.info("Dashboard metrics generated - Total Customers: {}, Active Loans: {}, Recovery Rate: {}%",
+                    totalCustomers, activeLoans, round(recoveryRate));
+            return dashboard;
+        } catch (Exception e) {
+            log.error("Error generating dashboard metrics", e);
+            throw e;
+        }
     }
 
     @Override
     @Transactional
     public void runMissedEmiScheduler() {
-        List<EmiPayment> overduePayments = emiPaymentRepository.findOverduePendingPayments(LocalDate.now());
+        log.info("Starting missed EMI scheduler");
+        try {
+            List<EmiPayment> overduePayments = emiPaymentRepository.findOverduePendingPayments(LocalDate.now());
+            log.debug("Found {} overdue EMI payments", overduePayments.size());
 
-        for (EmiPayment payment : overduePayments) {
-            payment.setPaymentStatus("MISSED");
+            for (EmiPayment payment : overduePayments) {
+                payment.setPaymentStatus("MISSED");
 
-            boolean alreadyPenalized = penaltyRepository.findFirstByPaymentPaymentId(payment.getPaymentId()).isPresent();
-            if (!alreadyPenalized) {
-                double penaltyAmount = Math.max(payment.getLoan().getEmiAmount() * 0.02, 100.0);
-                Penalty penalty = Penalty.builder()
-                        .payment(payment)
-                        .penaltyAmount(round(penaltyAmount))
-                        .penaltyReason("Auto-generated for missed EMI payment")
-                        .generatedDate(LocalDate.now())
-                        .build();
-                penaltyRepository.save(penalty);
+                boolean alreadyPenalized = penaltyRepository.findFirstByPaymentPaymentId(payment.getPaymentId()).isPresent();
+                if (!alreadyPenalized) {
+                    double penaltyAmount = Math.max(payment.getLoan().getEmiAmount() * 0.02, 100.0);
+                    Penalty penalty = Penalty.builder()
+                            .payment(payment)
+                            .penaltyAmount(round(penaltyAmount))
+                            .penaltyReason("Auto-generated for missed EMI payment")
+                            .generatedDate(LocalDate.now())
+                            .build();
+                    penaltyRepository.save(penalty);
+                    log.debug("Auto-generated penalty for payment ID: {}", payment.getPaymentId());
+                }
+
+                Loan loan = payment.getLoan();
+                List<EmiPayment> payments = loan.getEmiPayments().stream()
+                        .sorted(Comparator.comparing(EmiPayment::getDueDate).reversed())
+                        .toList();
+
+                if (payments.size() >= 3
+                        && "MISSED".equals(payments.get(0).getPaymentStatus())
+                        && "MISSED".equals(payments.get(1).getPaymentStatus())
+                        && "MISSED".equals(payments.get(2).getPaymentStatus())) {
+                    loan.setLoanStatus("DEFAULTED");
+                    log.warn("Loan ID: {} marked as DEFAULTED due to 3 consecutive missed EMI payments", loan.getLoanId());
+                }
             }
 
-            Loan loan = payment.getLoan();
-            List<EmiPayment> payments = loan.getEmiPayments().stream()
-                    .sorted(Comparator.comparing(EmiPayment::getDueDate).reversed())
-                    .toList();
-
-            if (payments.size() >= 3
-                    && "MISSED".equals(payments.get(0).getPaymentStatus())
-                    && "MISSED".equals(payments.get(1).getPaymentStatus())
-                    && "MISSED".equals(payments.get(2).getPaymentStatus())) {
-                loan.setLoanStatus("DEFAULTED");
-            }
+            log.info("Missed EMI scheduler completed successfully");
+        } catch (Exception e) {
+            log.error("Error in missed EMI scheduler", e);
+            throw e;
         }
     }
 

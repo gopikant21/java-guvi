@@ -1,0 +1,423 @@
+2026-07-06 00:00:00.260 [INFO ] [scheduling-1] o.e.e.s.EmiDefaulterScheduler - Starting scheduled task: Processing overdue EMI payments
+2026-07-06 00:00:00.292 [INFO ] [scheduling-1] o.e.e.s.LoanRecoveryServiceImpl - Starting missed EMI scheduler
+2026-07-06 00:00:00.310 [DEBUG] [scheduling-1] org.hibernate.SQL - 
+    /* select
+        e 
+    from
+        EmiPayment e 
+    where
+        e.dueDate < :today 
+        and e.paymentDate is null 
+        and e.paymentStatus = 'PENDING' */ select
+            ep1_0.payment_id,
+            ep1_0.amount_paid,
+            ep1_0.due_date,
+            ep1_0.loan_id,
+            ep1_0.payment_date,
+            ep1_0.payment_status 
+        from
+            emi_payments ep1_0 
+        where
+            ep1_0.due_date<? 
+            and ep1_0.payment_date is null 
+            and ep1_0.payment_status='PENDING'
+2026-07-06 00:00:00.317 [INFO ] [scheduling-1] o.e.e.s.LoanRecoveryServiceImpl - Missed EMI scheduler completed successfully
+2026-07-06 00:00:00.317 [INFO ] [scheduling-1] o.e.e.s.EmiDefaulterScheduler - Completed scheduled task: Processing overdue EMI payments
+2026-07-06 09:05:57.141 [WARN ] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=4h42m21s899ms204µs).
+2026-07-06 09:14:58.474 [INFO ] [File Watcher] o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 36 class path changes (0 additions, 35 deletions, 1 modification)
+2026-07-06 09:14:58.482 [INFO ] [Thread-1] o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-07-06 09:14:58.493 [INFO ] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-07-06 09:14:58.500 [INFO ] [Thread-1] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-07-06 09:14:58.502 [DEBUG] [Thread-1] org.hibernate.SQL - 
+    set client_min_messages = WARNING
+2026-07-06 09:14:58.505 [DEBUG] [Thread-1] org.hibernate.SQL - 
+    alter table if exists emi_payments 
+       drop constraint if exists FK5le0nm04xx2ikebfhfijh6py4
+2026-07-06 09:14:58.544 [DEBUG] [Thread-1] org.hibernate.SQL - 
+    alter table if exists loans 
+       drop constraint if exists FK3s60kbg0a404doyf8ii6qwb9g
+2026-07-06 09:14:58.546 [DEBUG] [Thread-1] org.hibernate.SQL - 
+    alter table if exists penalties 
+       drop constraint if exists FK1idsoid707ut2thygqjvmtuda
+2026-07-06 09:14:58.547 [DEBUG] [Thread-1] org.hibernate.SQL - 
+    drop table if exists customers cascade
+2026-07-06 09:14:58.654 [DEBUG] [Thread-1] org.hibernate.SQL - 
+    drop table if exists emi_payments cascade
+2026-07-06 09:14:58.661 [DEBUG] [Thread-1] org.hibernate.SQL - 
+    drop table if exists loans cascade
+2026-07-06 09:14:58.670 [DEBUG] [Thread-1] org.hibernate.SQL - 
+    drop table if exists penalties cascade
+2026-07-06 09:14:58.680 [INFO ] [Thread-1] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-07-06 09:14:58.683 [INFO ] [Thread-1] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-07-06 09:14:58.811 [INFO ] [restartedMain] o.e.e.EmidefaulterApplication - Starting EmidefaulterApplication using Java 21.0.11 with PID 14584 (C:\Users\gopi.kant\Java narc\module4\day5\emidefaulter\target\classes started by gopi.kant in C:\Users\gopi.kant\Java narc\module4\day5\emidefaulter)
+2026-07-06 09:14:58.811 [INFO ] [restartedMain] o.e.e.EmidefaulterApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-06 09:14:59.069 [INFO ] [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-07-06 09:14:59.071 [INFO ] [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 0 ms. Found 0 JPA repository interfaces.
+2026-07-06 09:14:59.211 [INFO ] [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-07-06 09:14:59.213 [INFO ] [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-07-06 09:14:59.213 [INFO ] [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.22]
+2026-07-06 09:14:59.238 [INFO ] [restartedMain] o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 423 ms
+2026-07-06 09:14:59.306 [INFO ] [restartedMain] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-07-06 09:14:59.353 [INFO ] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-07-06 09:14:59.355 [INFO ] [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2026-07-06 09:14:59.508 [INFO ] [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@88fbc26
+2026-07-06 09:14:59.508 [INFO ] [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2026-07-06 09:14:59.541 [WARN ] [restartedMain] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-07-06 09:14:59.555 [INFO ] [restartedMain] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/jpademo]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.4
+	Default catalog/schema: jpademo/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-07-06 09:14:59.608 [INFO ] [restartedMain] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-07-06 09:14:59.610 [DEBUG] [restartedMain] org.hibernate.SQL - 
+    set client_min_messages = WARNING
+2026-07-06 09:14:59.611 [INFO ] [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-07-06 09:14:59.679 [WARN ] [restartedMain] o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-07-06 09:14:59.829 [WARN ] [restartedMain] o.s.b.s.a.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: cbd729ed-94d6-4d8d-a8dc-e1810c7a4647
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-07-06 09:14:59.851 [INFO ] [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-07-06 09:14:59.945 [INFO ] [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-07-06 09:14:59.948 [INFO ] [restartedMain] o.e.e.EmidefaulterApplication - Started EmidefaulterApplication in 1.201 seconds (process running for 43473.951)
+2026-07-06 09:14:59.951 [INFO ] [restartedMain] o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+   ServletWebSecurityAutoConfiguration.SecurityFilterChainConfiguration matched:
+      - AllNestedConditions 2 matched 0 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) did not find any beans; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+   UserDetailsServiceAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.security.authentication.AuthenticationManager' (OnClassCondition)
+      - found 'session' scope (OnWebApplicationCondition)
+      - AnyNestedCondition 1 matched 2 did not; NestedCondition on MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured.PasswordConfigured @ConditionalOnProperty (spring.security.user.password) did not find property 'spring.security.user.password'; NestedCondition on MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured.NameConfigured @ConditionalOnProperty (spring.security.user.name) did not find property 'spring.security.user.name'; NestedCondition on MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured.MissingAlternative @ConditionalOnMissingClass did not find unwanted classes 'org.springframework.security.oauth2.client.registration.ClientRegistrationRepository', 'org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector', 'org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository' (MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured)
+      - @ConditionalOnMissingBean (types: org.springframework.security.authentication.AuthenticationManager,org.springframework.security.authentication.AuthenticationProvider,org.springframework.security.core.userdetails.UserDetailsService,org.springframework.security.authentication.AuthenticationManagerResolver,org.springframework.security.oauth2.jwt.JwtDecoder; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+
+Negative matches:
+-----------------
+
+    None
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2026-07-06 09:15:01.680 [INFO ] [File Watcher] o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 35 class path changes (35 additions, 0 deletions, 0 modifications)
+2026-07-06 09:15:01.681 [INFO ] [Thread-5] o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-07-06 09:15:01.693 [INFO ] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-07-06 09:15:01.698 [INFO ] [Thread-5] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-07-06 09:15:01.698 [DEBUG] [Thread-5] org.hibernate.SQL - 
+    set client_min_messages = WARNING
+2026-07-06 09:15:01.700 [INFO ] [Thread-5] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2026-07-06 09:15:01.703 [INFO ] [Thread-5] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2026-07-06 09:15:01.821 [INFO ] [restartedMain] o.e.e.EmidefaulterApplication - Starting EmidefaulterApplication using Java 21.0.11 with PID 14584 (C:\Users\gopi.kant\Java narc\module4\day5\emidefaulter\target\classes started by gopi.kant in C:\Users\gopi.kant\Java narc\module4\day5\emidefaulter)
+2026-07-06 09:15:01.821 [INFO ] [restartedMain] o.e.e.EmidefaulterApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-06 09:15:02.085 [INFO ] [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-07-06 09:15:02.114 [INFO ] [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 28 ms. Found 4 JPA repository interfaces.
+2026-07-06 09:15:02.254 [INFO ] [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-07-06 09:15:02.254 [INFO ] [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-07-06 09:15:02.255 [INFO ] [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.22]
+2026-07-06 09:15:02.290 [INFO ] [restartedMain] o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 467 ms
+2026-07-06 09:15:02.300 [INFO ] [restartedMain] o.e.emidefaulter.security.JwtUtil - JwtUtil initialized successfully
+2026-07-06 09:15:02.377 [INFO ] [restartedMain] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-07-06 09:15:02.414 [INFO ] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-07-06 09:15:02.415 [INFO ] [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+2026-07-06 09:15:02.583 [INFO ] [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-3 - Added connection org.postgresql.jdbc.PgConnection@53e9a8ef
+2026-07-06 09:15:02.583 [INFO ] [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+2026-07-06 09:15:02.593 [WARN ] [restartedMain] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-07-06 09:15:02.602 [INFO ] [restartedMain] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/jpademo]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.4
+	Default catalog/schema: jpademo/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-07-06 09:15:02.913 [INFO ] [restartedMain] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-07-06 09:15:02.916 [DEBUG] [restartedMain] org.hibernate.SQL - 
+    set client_min_messages = WARNING
+2026-07-06 09:15:02.918 [DEBUG] [restartedMain] org.hibernate.SQL - 
+    alter table if exists emi_payments 
+       drop constraint if exists FK5le0nm04xx2ikebfhfijh6py4
+2026-07-06 09:15:02.920 [DEBUG] [restartedMain] org.hibernate.SQL - 
+    alter table if exists loans 
+       drop constraint if exists FK3s60kbg0a404doyf8ii6qwb9g
+2026-07-06 09:15:02.921 [DEBUG] [restartedMain] org.hibernate.SQL - 
+    alter table if exists penalties 
+       drop constraint if exists FK1idsoid707ut2thygqjvmtuda
+2026-07-06 09:15:02.922 [DEBUG] [restartedMain] org.hibernate.SQL - 
+    drop table if exists customers cascade
+2026-07-06 09:15:02.922 [DEBUG] [restartedMain] org.hibernate.SQL - 
+    drop table if exists emi_payments cascade
+2026-07-06 09:15:02.923 [DEBUG] [restartedMain] org.hibernate.SQL - 
+    drop table if exists loans cascade
+2026-07-06 09:15:02.924 [DEBUG] [restartedMain] org.hibernate.SQL - 
+    drop table if exists penalties cascade
+2026-07-06 09:15:02.925 [DEBUG] [restartedMain] org.hibernate.SQL - 
+    create table customers (
+        credit_score integer not null check ((credit_score<=900) and (credit_score>=300)),
+        customer_id bigint generated by default as identity,
+        phone_number varchar(10) not null,
+        city varchar(255) not null,
+        customer_name varchar(255) not null,
+        email varchar(255) not null unique,
+        password varchar(255) not null,
+        role varchar(255) not null,
+        primary key (customer_id)
+    )
+2026-07-06 09:15:03.339 [DEBUG] [restartedMain] org.hibernate.SQL - 
+    create table emi_payments (
+        amount_paid float(53) not null,
+        due_date date not null,
+        payment_date date,
+        loan_id bigint not null,
+        payment_id bigint generated by default as identity,
+        payment_status varchar(255) not null,
+        primary key (payment_id)
+    )
+2026-07-06 09:15:03.347 [DEBUG] [restartedMain] org.hibernate.SQL - 
+    create table loans (
+        emi_amount float(53) not null,
+        interest_rate float(53) not null,
+        loan_amount float(53) not null,
+        tenure_months integer not null,
+        customer_id bigint not null,
+        loan_id bigint generated by default as identity,
+        loan_status varchar(255) not null,
+        loan_type varchar(255) not null,
+        primary key (loan_id)
+    )
+2026-07-06 09:15:03.360 [DEBUG] [restartedMain] org.hibernate.SQL - 
+    create table penalties (
+        generated_date date not null,
+        penalty_amount float(53) not null,
+        payment_id bigint not null,
+        penalty_id bigint generated by default as identity,
+        penalty_reason varchar(255) not null,
+        primary key (penalty_id)
+    )
+2026-07-06 09:15:03.368 [DEBUG] [restartedMain] org.hibernate.SQL - 
+    alter table if exists emi_payments 
+       add constraint FK5le0nm04xx2ikebfhfijh6py4 
+       foreign key (loan_id) 
+       references loans
+2026-07-06 09:15:03.403 [DEBUG] [restartedMain] org.hibernate.SQL - 
+    alter table if exists loans 
+       add constraint FK3s60kbg0a404doyf8ii6qwb9g 
+       foreign key (customer_id) 
+       references customers
+2026-07-06 09:15:03.409 [DEBUG] [restartedMain] org.hibernate.SQL - 
+    alter table if exists penalties 
+       add constraint FK1idsoid707ut2thygqjvmtuda 
+       foreign key (payment_id) 
+       references emi_payments
+2026-07-06 09:15:03.416 [INFO ] [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-07-06 09:15:03.893 [INFO ] [restartedMain] o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-07-06 09:15:03.893 [WARN ] [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-07-06 09:15:04.002 [WARN ] [restartedMain] o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-07-06 09:15:04.495 [INFO ] [restartedMain] o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-07-06 09:15:04.498 [INFO ] [restartedMain] o.e.e.EmidefaulterApplication - Started EmidefaulterApplication in 2.723 seconds (process running for 43478.496)
+2026-07-06 09:15:04.500 [INFO ] [restartedMain] o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+    None
+
+
+Negative matches:
+-----------------
+
+   ServletWebSecurityAutoConfiguration.SecurityFilterChainConfiguration:
+      Did not match:
+         - AllNestedConditions 1 matched 1 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) found beans of type 'org.springframework.security.web.SecurityFilterChain' securityFilterChain; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+   UserDetailsServiceAutoConfiguration:
+      Did not match:
+         - @ConditionalOnMissingBean (types: org.springframework.security.authentication.AuthenticationManager,org.springframework.security.authentication.AuthenticationProvider,org.springframework.security.core.userdetails.UserDetailsService,org.springframework.security.authentication.AuthenticationManagerResolver,org.springframework.security.oauth2.jwt.JwtDecoder; SearchStrategy: all) found beans of type 'org.springframework.security.authentication.AuthenticationManager' authenticationManager and found beans of type 'org.springframework.security.core.userdetails.UserDetailsService' customUserDetailsService and found beans of type 'org.springframework.security.authentication.AuthenticationProvider' authenticationProvider (OnBeanCondition)
+      Matched:
+         - @ConditionalOnClass found required class 'org.springframework.security.authentication.AuthenticationManager' (OnClassCondition)
+         - found 'session' scope (OnWebApplicationCondition)
+         - AnyNestedCondition 1 matched 2 did not; NestedCondition on MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured.PasswordConfigured @ConditionalOnProperty (spring.security.user.password) did not find property 'spring.security.user.password'; NestedCondition on MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured.NameConfigured @ConditionalOnProperty (spring.security.user.name) did not find property 'spring.security.user.name'; NestedCondition on MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured.MissingAlternative @ConditionalOnMissingClass did not find unwanted classes 'org.springframework.security.oauth2.client.registration.ClientRegistrationRepository', 'org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector', 'org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository' (MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured)
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2026-07-06 09:15:06.720 [INFO ] [main] o.e.e.EmidefaulterApplicationTests - Starting EmidefaulterApplicationTests using Java 21.0.11 with PID 7112 (started by gopi.kant in C:\Users\gopi.kant\Java narc\module4\day5\emidefaulter)
+2026-07-06 09:15:06.722 [INFO ] [main] o.e.e.EmidefaulterApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2026-07-06 09:15:08.106 [INFO ] [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-07-06 09:15:08.235 [INFO ] [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 108 ms. Found 4 JPA repository interfaces.
+2026-07-06 09:15:09.161 [INFO ] [main] org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-07-06 09:15:09.341 [INFO ] [main] org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.4.1.Final
+2026-07-06 09:15:10.140 [INFO ] [main] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-07-06 09:15:10.183 [INFO ] [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-07-06 09:15:10.574 [INFO ] [main] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@42012093
+2026-07-06 09:15:10.576 [INFO ] [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-07-06 09:15:10.626 [WARN ] [main] org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-07-06 09:15:10.661 [INFO ] [main] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/jpademo]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.4
+	Default catalog/schema: jpademo/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-07-06 09:15:12.110 [INFO ] [main] org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-07-06 09:15:12.142 [DEBUG] [main] org.hibernate.SQL - 
+    set client_min_messages = WARNING
+2026-07-06 09:15:12.143 [DEBUG] [main] org.hibernate.SQL - 
+    alter table if exists emi_payments 
+       drop constraint if exists FK5le0nm04xx2ikebfhfijh6py4
+2026-07-06 09:15:12.146 [DEBUG] [main] org.hibernate.SQL - 
+    alter table if exists loans 
+       drop constraint if exists FK3s60kbg0a404doyf8ii6qwb9g
+2026-07-06 09:15:12.147 [DEBUG] [main] org.hibernate.SQL - 
+    alter table if exists penalties 
+       drop constraint if exists FK1idsoid707ut2thygqjvmtuda
+2026-07-06 09:15:12.149 [DEBUG] [main] org.hibernate.SQL - 
+    drop table if exists customers cascade
+2026-07-06 09:15:12.158 [DEBUG] [main] org.hibernate.SQL - 
+    drop table if exists emi_payments cascade
+2026-07-06 09:15:12.163 [DEBUG] [main] org.hibernate.SQL - 
+    drop table if exists loans cascade
+2026-07-06 09:15:12.166 [DEBUG] [main] org.hibernate.SQL - 
+    drop table if exists penalties cascade
+2026-07-06 09:15:12.176 [DEBUG] [main] org.hibernate.SQL - 
+    create table customers (
+        credit_score integer not null check ((credit_score<=900) and (credit_score>=300)),
+        customer_id bigint generated by default as identity,
+        phone_number varchar(10) not null,
+        city varchar(255) not null,
+        customer_name varchar(255) not null,
+        email varchar(255) not null unique,
+        password varchar(255) not null,
+        role varchar(255) not null,
+        primary key (customer_id)
+    )
+2026-07-06 09:15:12.201 [DEBUG] [main] org.hibernate.SQL - 
+    create table emi_payments (
+        amount_paid float(53) not null,
+        due_date date not null,
+        payment_date date,
+        loan_id bigint not null,
+        payment_id bigint generated by default as identity,
+        payment_status varchar(255) not null,
+        primary key (payment_id)
+    )
+2026-07-06 09:15:12.205 [DEBUG] [main] org.hibernate.SQL - 
+    create table loans (
+        emi_amount float(53) not null,
+        interest_rate float(53) not null,
+        loan_amount float(53) not null,
+        tenure_months integer not null,
+        customer_id bigint not null,
+        loan_id bigint generated by default as identity,
+        loan_status varchar(255) not null,
+        loan_type varchar(255) not null,
+        primary key (loan_id)
+    )
+2026-07-06 09:15:12.223 [DEBUG] [main] org.hibernate.SQL - 
+    create table penalties (
+        generated_date date not null,
+        penalty_amount float(53) not null,
+        payment_id bigint not null,
+        penalty_id bigint generated by default as identity,
+        penalty_reason varchar(255) not null,
+        primary key (penalty_id)
+    )
+2026-07-06 09:15:12.228 [DEBUG] [main] org.hibernate.SQL - 
+    alter table if exists emi_payments 
+       add constraint FK5le0nm04xx2ikebfhfijh6py4 
+       foreign key (loan_id) 
+       references loans
+2026-07-06 09:15:12.232 [DEBUG] [main] org.hibernate.SQL - 
+    alter table if exists loans 
+       add constraint FK3s60kbg0a404doyf8ii6qwb9g 
+       foreign key (customer_id) 
+       references customers
+2026-07-06 09:15:12.235 [DEBUG] [main] org.hibernate.SQL - 
+    alter table if exists penalties 
+       add constraint FK1idsoid707ut2thygqjvmtuda 
+       foreign key (payment_id) 
+       references emi_payments
+2026-07-06 09:15:12.240 [INFO ] [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-07-06 09:15:12.386 [INFO ] [main] o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-07-06 09:15:14.075 [INFO ] [main] o.e.emidefaulter.security.JwtUtil - JwtUtil initialized successfully
+2026-07-06 09:15:14.172 [INFO ] [main] o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-07-06 09:15:14.173 [WARN ] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-07-06 09:15:14.392 [WARN ] [main] o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-07-06 09:15:15.580 [INFO ] [main] o.e.e.EmidefaulterApplicationTests - Started EmidefaulterApplicationTests in 9.411 seconds (process running for 11.734)
+2026-07-06 09:15:16.051 [INFO ] [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-07-06 09:15:16.052 [DEBUG] [SpringApplicationShutdownHook] org.hibernate.SQL - 
+    set client_min_messages = WARNING
+2026-07-06 09:15:16.053 [DEBUG] [SpringApplicationShutdownHook] org.hibernate.SQL - 
+    alter table if exists emi_payments 
+       drop constraint if exists FK5le0nm04xx2ikebfhfijh6py4
+2026-07-06 09:15:16.056 [DEBUG] [SpringApplicationShutdownHook] org.hibernate.SQL - 
+    alter table if exists loans 
+       drop constraint if exists FK3s60kbg0a404doyf8ii6qwb9g
+2026-07-06 09:15:16.057 [DEBUG] [SpringApplicationShutdownHook] org.hibernate.SQL - 
+    alter table if exists penalties 
+       drop constraint if exists FK1idsoid707ut2thygqjvmtuda
+2026-07-06 09:15:16.059 [DEBUG] [SpringApplicationShutdownHook] org.hibernate.SQL - 
+    drop table if exists customers cascade
+2026-07-06 09:15:16.067 [DEBUG] [SpringApplicationShutdownHook] org.hibernate.SQL - 
+    drop table if exists emi_payments cascade
+2026-07-06 09:15:16.072 [DEBUG] [SpringApplicationShutdownHook] org.hibernate.SQL - 
+    drop table if exists loans cascade
+2026-07-06 09:15:16.078 [DEBUG] [SpringApplicationShutdownHook] org.hibernate.SQL - 
+    drop table if exists penalties cascade
+2026-07-06 09:15:16.088 [INFO ] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-07-06 09:15:16.093 [INFO ] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

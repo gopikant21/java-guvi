@@ -3,6 +3,7 @@ package org.example.emidefaulter.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 public class JwtUtil {
 
@@ -24,34 +26,58 @@ public class JwtUtil {
 
     public JwtUtil(@Value("${jwt.secret}") String secret,
                    @Value("${jwt.expiration-ms:3600000}") long jwtExpirationMs) {
+        log.debug("Initializing JwtUtil with expiration time: {} ms", jwtExpirationMs);
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         this.jwtExpirationMs = jwtExpirationMs;
+        log.info("JwtUtil initialized successfully");
     }
 
     public String generateToken(UserDetails userDetails) {
-        String roles = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
+        log.debug("Generating JWT token for user: {}", userDetails.getUsername());
+        try {
+            String roles = userDetails.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.joining(","));
 
-        Instant now = Instant.now();
-        Instant expiry = now.plusMillis(jwtExpirationMs);
+            Instant now = Instant.now();
+            Instant expiry = now.plusMillis(jwtExpirationMs);
 
-        return Jwts.builder()
-                .claims(Map.of("roles", roles))
-                .subject(userDetails.getUsername())
-                .issuedAt(Date.from(now))
-                .expiration(Date.from(expiry))
-                .signWith(secretKey)
-                .compact();
+            String token = Jwts.builder()
+                    .claims(Map.of("roles", roles))
+                    .subject(userDetails.getUsername())
+                    .issuedAt(Date.from(now))
+                    .expiration(Date.from(expiry))
+                    .signWith(secretKey)
+                    .compact();
+
+            log.info("JWT token generated successfully for user: {} with roles: {}", userDetails.getUsername(), roles);
+            return token;
+        } catch (Exception e) {
+            log.error("Error generating JWT token for user: {}", userDetails.getUsername(), e);
+            throw e;
+        }
     }
 
     public String extractUsername(String token) {
+        log.debug("Extracting username from token");
         return extractClaim(token, Claims::getSubject);
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        String username = extractUsername(token);
-        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        log.debug("Validating token for user: {}", userDetails.getUsername());
+        try {
+            String username = extractUsername(token);
+            boolean isValid = username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+            if (isValid) {
+                log.debug("Token is valid for user: {}", username);
+            } else {
+                log.warn("Token validation failed for user: {}", username);
+            }
+            return isValid;
+        } catch (Exception e) {
+            log.error("Error validating token for user: {}", userDetails.getUsername(), e);
+            return false;
+        }
     }
 
     public long getExpirySeconds() {
@@ -59,6 +85,7 @@ public class JwtUtil {
     }
 
     private boolean isTokenExpired(String token) {
+        log.debug("Checking token expiration");
         Date expiration = extractClaim(token, Claims::getExpiration);
         return expiration.before(new Date());
     }
@@ -72,4 +99,6 @@ public class JwtUtil {
         return claimsResolver.apply(claims);
     }
 }
+
+
 
