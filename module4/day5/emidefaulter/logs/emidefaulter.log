@@ -421,3 +421,30 @@ Unconditional classes:
     drop table if exists penalties cascade
 2026-07-06 09:15:16.088 [INFO ] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 2026-07-06 09:15:16.093 [INFO ] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-07-06 09:23:13.789 [INFO ] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-07-06 09:23:13.790 [INFO ] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-07-06 09:23:13.793 [INFO ] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2026-07-06 09:25:38.200 [INFO ] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-07-06 09:25:38.206 [INFO ] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-07-06 09:25:38.208 [INFO ] [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-07-06 09:25:38.208 [DEBUG] [SpringApplicationShutdownHook] org.hibernate.SQL - 
+    set client_min_messages = WARNING
+2026-07-06 09:25:38.209 [DEBUG] [SpringApplicationShutdownHook] org.hibernate.SQL - 
+    alter table if exists emi_payments 
+       drop constraint if exists FK5le0nm04xx2ikebfhfijh6py4
+2026-07-06 09:25:38.210 [DEBUG] [SpringApplicationShutdownHook] org.hibernate.SQL - 
+    alter table if exists loans 
+       drop constraint if exists FK3s60kbg0a404doyf8ii6qwb9g
+2026-07-06 09:25:38.210 [DEBUG] [SpringApplicationShutdownHook] org.hibernate.SQL - 
+    alter table if exists penalties 
+       drop constraint if exists FK1idsoid707ut2thygqjvmtuda
+2026-07-06 09:25:38.211 [DEBUG] [SpringApplicationShutdownHook] org.hibernate.SQL - 
+    drop table if exists customers cascade
+2026-07-06 09:25:38.211 [DEBUG] [SpringApplicationShutdownHook] org.hibernate.SQL - 
+    drop table if exists emi_payments cascade
+2026-07-06 09:25:38.212 [DEBUG] [SpringApplicationShutdownHook] org.hibernate.SQL - 
+    drop table if exists loans cascade
+2026-07-06 09:25:38.212 [DEBUG] [SpringApplicationShutdownHook] org.hibernate.SQL - 
+    drop table if exists penalties cascade
+2026-07-06 09:25:38.213 [INFO ] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
+2026-07-06 09:25:38.224 [INFO ] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.

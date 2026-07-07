@@ -1,0 +1,35 @@
+<h1>
+  Hi {{ title}}
+</h1>
+<h1>
+  {{person.fname}} {{person.lname}}
+</h1>
+
+<input [(ngModel)]="newName" placeholder="Enter a name">
+<button (click)="addName()">Add Name</button>
+<ul>
+  @for(name of names; track $index; let i=$index) {
+    <li>
+      {{name}}
+      <button (click)="editName(i)">Edit</button>
+      <button (click)="removeName(name)">Remove</button>
+    </li>
+  }
+</ul>
+
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead>
+  <tr>
+    <th>First Name</th>
+    <th>Last Name</th>
+  </tr>
+  </thead>
+  <tbody>
+  @for (emp of employee; track emp.fname) {
+  <tr>
+    <td>{{ emp.fname }}</td>
+    <td>{{ emp.lname }}</td>
+  </tr>
+  }
+  </tbody>
+</table>

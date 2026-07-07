@@ -1,0 +1,33 @@
+<div class="card h-100 shadow-sm">
+  @if (!isEditMode) {
+    <div class="card-body py-2">
+      <h6 class="card-title text-primary mb-1">{{p.name}}</h6>
+      <p class="card-text mb-1"><small><strong>ID:</strong> {{p.id}}</small></p>
+      <p class="card-text mb-1"><small><strong>Age:</strong> {{p.age}}</small></p>
+      <p class="card-text mb-0"><small><strong>Email:</strong> <a href="mailto:{{p.email}}">{{p.email}}</a></small></p>
+    </div>
+    <div class="card-footer bg-light d-flex justify-content-between align-items-center py-1 px-2">
+      <div class="gap-1 d-flex">
+        <button class="btn btn-sm btn-primary" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" (click)="startEdit()">Edit</button>
+        <button class="btn btn-sm btn-danger" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" (click)="removePerson()">Remove</button>
+      </div>
+    </div>
+  } @else {
+    <div class="card-body py-2">
+      <h6 class="card-title mb-2">Edit</h6>
+      <div class="mb-2">
+        <input type="text" class="form-control form-control-sm" [(ngModel)]="editPerson_data.name" placeholder="Name">
+      </div>
+      <div class="mb-2">
+        <input type="number" class="form-control form-control-sm" [(ngModel)]="editPerson_data.age" placeholder="Age">
+      </div>
+      <div class="mb-2">
+        <input type="email" class="form-control form-control-sm" [(ngModel)]="editPerson_data.email" placeholder="Email">
+      </div>
+    </div>
+    <div class="card-footer bg-light d-flex justify-content-between py-1 px-2 gap-1">
+      <button class="btn btn-sm btn-success" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" (click)="saveEdit()">Save</button>
+      <button class="btn btn-sm btn-secondary" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" (click)="cancelEdit()">Cancel</button>
+    </div>
+  }
+</div>

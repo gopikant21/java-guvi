@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        function sayhi(name1, name2, name3){
+            alert("Hi " + name1 + " " + name2 + " " + name3);
+        }
+        var names = ["sdgj", "gsdj", "gdsj"];
+        sayhi(names[0], names[1], names[2]);
+        sayhi(...names); //spread operator, is also used for cloning an array or object
+        var arr2 = ["a", "b"];
+        sayhi("sdjk", ...arr2);
+    </script>
+</body>
+</html>

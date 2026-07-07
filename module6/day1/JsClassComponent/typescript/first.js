@@ -1,0 +1,14 @@
+"use strict";
+var message = "Hello, TypeScript!";
+let message2 = 10;
+const message3 = "Hi this is the and the";
+console.log(message);
+console.log(message2);
+console.log(message3);
+var nums = [1, 2, 3];
+console.log(nums[0]);
+console.log(nums[3]);
+var alfa;
+alfa = ["82", "jhd"];
+console.log(alfa[2]);
+console.log(99 + 99 + "sghj" + 99 + 99);

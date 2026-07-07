@@ -1,0 +1,19 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import 'tailwindcss';
+
+@layer base {
+  body {
+    @apply font-sans antialiased;
+  }
+  
+  * {
+    @apply scrollbar-thin scrollbar-track-gray-900 scrollbar-thumb-gray-700;
+  }
+}
+
+@layer components {
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20;
+  }
+}

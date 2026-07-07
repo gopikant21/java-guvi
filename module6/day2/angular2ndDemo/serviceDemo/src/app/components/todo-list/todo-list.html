@@ -1,0 +1,21 @@
+<div class="space-y-4">
+  <div class="mb-4">
+    <h2 class="text-xl font-bold text-white">Your Tasks</h2>
+    <div class="h-0.5 w-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded mt-2"></div>
+  </div>
+
+  <!-- Add Todo Form -->
+  <app-add-todo-form></app-add-todo-form>
+
+  @if (todos.length === 0) {
+    <div class="text-center py-8">
+      <p class="text-gray-400 text-sm">No todos yet. Create one to get started!</p>
+    </div>
+  } @else {
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      @for (todo of todos; track todo.id) {
+        <app-todo-item [todo]="todo"></app-todo-item>
+      }
+    </div>
+  }
+</div>

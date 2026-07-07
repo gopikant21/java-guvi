@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="BackgroundAgentGlobalSettings">
+    <option name="selectedModelId" value="auto" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="257ee715-950f-42dc-bd22-79b9e70c5c99" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../../module5/week5 assignment/products.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/JsClassComponent.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/async.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap-grid.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap-grid.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap-grid.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap-grid.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap-grid.rtl.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap-grid.rtl.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap-grid.rtl.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap-grid.rtl.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap-reboot.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap-reboot.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap-reboot.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap-reboot.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap-reboot.rtl.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap-reboot.rtl.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap-reboot.rtl.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap-reboot.rtl.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap-utilities.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap-utilities.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap-utilities.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap-utilities.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap-utilities.rtl.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap-utilities.rtl.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap-utilities.rtl.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap-utilities.rtl.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap.rtl.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap.rtl.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap.rtl.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/css/bootstrap.rtl.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/demo2.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/demo3.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/demo4.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/js/bootstrap.bundle.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/js/bootstrap.bundle.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/js/bootstrap.bundle.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/js/bootstrap.bundle.min.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/js/bootstrap.esm.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/js/bootstrap.esm.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/js/bootstrap.esm.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/js/bootstrap.esm.min.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/js/bootstrap.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/js/bootstrap.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/js/bootstrap.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/js/bootstrap.min.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/promise.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/scope-of-variable.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/typescript/demo1.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/typescript/demo2.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/typescript/demo2.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/typescript/demo3.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/typescript/demo3.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/typescript/demo4.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/typescript/demo4.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/typescript/demo5.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/typescript/first.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../JsClassComponent/typescript/first.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/angularDemo.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/.editorconfig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/.prettierrc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/.vscode/extensions.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/.vscode/launch.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/.vscode/tasks.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/angular.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/public/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/src/app/app.config.server.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/src/app/app.config.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/src/app/app.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/src/app/app.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/src/app/app.routes.server.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/src/app/app.routes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/src/app/app.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/src/app/app.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/src/app/dto/EmployeeDTO.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/src/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/src/main.server.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/src/main.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/src/server.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/src/styles.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/tsconfig.app.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../angularDemo/first-app/tsconfig.spec.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-demo/.editorconfig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-demo/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-demo/.prettierrc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-demo/.vscode/extensions.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-demo/.vscode/launch.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-demo/.vscode/tasks.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-demo/API_DOCUMENTATION.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-demo/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-demo/angular.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-demo/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-demo/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-demo/public/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-demo/src/app/app.config.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-demo/src/app/app.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-demo/src/app/app.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-demo/src/app/app.routes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-demo/src/app/app.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-demo/src/app/app.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-demo/src/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-demo/src/main.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-demo/src/styles.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-demo/tsconfig.app.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-demo/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-demo/tsconfig.spec.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../module4/day5/emidefaulter/logs/emidefaulter.log" beforeDir="false" afterPath="$PROJECT_DIR$/../../../module4/day5/emidefaulter/logs/emidefaulter.log" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_C:/Users/gopi.kant/Java narc/module6/day1/product" value="3G81fZUhBbFZXIbmqodZqmsm3At" />
+    </persistenceIdMap>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 5,
+  "fromUser": false
+}]]></component>
+  <component name="ProjectId" id="3G81fZUhBbFZXIbmqodZqmsm3At" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "copilot.chat.legacySessionMetadata.migrated": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/gopi.kant/Java narc/module6/day1/product/product-demo",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\Users\\gopi.kant\\Java narc\\module6\\day1\\product\\product-demo\\node_modules\\typescript\\lib",
+    "ultimate.editor.notification.dismissed.AngularFreeTierEditorNotificationProvider": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\gopi.kant\Java narc\module6\day1\product\product-demo" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-37e91769500f-intellij.indexing.shared.core-IU-261.24374.151" />
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-IU-261.24374.151" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="257ee715-950f-42dc-bd22-79b9e70c5c99" name="Changes" comment="" />
+      <created>1783338487921</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1783338487921</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
