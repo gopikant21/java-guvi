@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap');
+@import 'tailwindcss';
+
+@theme {
+	--color-bg-deep: #0f172a;
+	--color-bg-mid: #1e293b;
+	--color-accent-a: #14b8a6;
+	--color-accent-b: #f97316;
+	--color-accent-c: #eab308;
+}
+
+@layer base {
+	html,
+	body {
+		min-height: 100%;
+	}
+
+	body {
+		margin: 0;
+		font-family: 'Sora', sans-serif;
+		color: #e2e8f0;
+		background:
+			radial-gradient(circle at 15% 15%, rgb(20 184 166 / 22%), transparent 38%),
+			radial-gradient(circle at 85% 20%, rgb(249 115 22 / 20%), transparent 34%),
+			radial-gradient(circle at 50% 85%, rgb(234 179 8 / 16%), transparent 35%),
+			linear-gradient(140deg, #020617, #0f172a 35%, #1e293b 100%);
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+}
+
+@layer components {
+	.glass-panel {
+		@apply rounded-3xl border border-white/20 bg-white/10 p-6 shadow-[0_24px_80px_-28px_rgba(15,23,42,0.8)] backdrop-blur-lg;
+	}
+
+	.metric-card {
+		@apply rounded-2xl border border-white/20 bg-white/10 p-6 text-center;
+	}
+
+	.action-btn {
+		@apply inline-flex items-center justify-center rounded-xl border border-white/20 px-5 py-3 text-sm font-semibold text-slate-100 transition duration-200 ease-out hover:-translate-y-0.5;
+	}
+
+	.action-btn-inc {
+		@apply bg-emerald-500/80 hover:bg-emerald-400;
+	}
+
+	.action-btn-dec {
+		@apply bg-rose-500/80 hover:bg-rose-400;
+	}
+
+	.action-btn-by {
+		@apply bg-amber-500/80 hover:bg-amber-400;
+	}
+
+	.form-input {
+		@apply w-full rounded-xl border border-white/30 bg-slate-900/60 px-4 py-3 text-slate-100 outline-none transition focus:border-amber-300/80 focus:ring-2 focus:ring-amber-300/40;
+	}
+}
+
+@keyframes floatIn {
+	from {
+		opacity: 0;
+		transform: translateY(20px) scale(0.98);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@keyframes pulseGlow {
+	0%,
+	100% {
+		box-shadow: 0 0 0 0 rgb(20 184 166 / 0%);
+	}
+	50% {
+		box-shadow: 0 0 0 10px rgb(20 184 166 / 10%);
+	}
+}
+
+.animate-float-in {
+	animation: floatIn 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-pulse-glow {
+	animation: pulseGlow 2.2s ease-in-out infinite;
+}

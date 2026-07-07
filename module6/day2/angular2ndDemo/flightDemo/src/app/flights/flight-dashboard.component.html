@@ -1,0 +1,199 @@
+<div class="min-h-screen bg-slate-100 bg-[radial-gradient(circle_at_top,_#e0f2fe_0%,_#f1f5f9_55%,_#f8fafc_100%)] px-4 py-8 sm:px-6 lg:px-10">
+  <div class="mx-auto w-full max-w-7xl space-y-6">
+    <section class="rounded-3xl bg-white/90 p-6 shadow-xl ring-1 ring-slate-200 backdrop-blur sm:p-8">
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-[0.22em] text-cyan-700">Flight Booking Dashboard</p>
+          <h1 class="mt-2 text-3xl font-bold text-slate-900 sm:text-4xl">Manage Flights</h1>
+          <p class="mt-2 text-sm text-slate-600 sm:text-base">Create, edit, and remove flights from a local in-memory store.</p>
+        </div>
+        <div class="rounded-2xl bg-cyan-50 px-4 py-3 text-sm font-medium text-cyan-800 shadow-sm">
+          Total Flights: <span class="font-bold">{{ flights.length }}</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid grid-cols-1 gap-6 lg:grid-cols-5">
+      <div class="lg:col-span-2 rounded-3xl bg-white p-6 shadow-lg ring-1 ring-slate-200">
+        <h2 class="text-xl font-semibold text-slate-900">{{ isEditMode ? 'Update Flight' : 'Add Flight' }}</h2>
+        <p class="mt-1 text-sm text-slate-500">All fields are mandatory.</p>
+
+        <div
+          *ngIf="message"
+          class="mt-4 rounded-xl border px-4 py-3 text-sm font-medium"
+          [class]="messageType === 'success' ? 'mt-4 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-700' : 'mt-4 rounded-xl border border-rose-200 bg-rose-50 text-rose-700'"
+        >
+          {{ message }}
+        </div>
+
+        <form #flightForm="ngForm" (ngSubmit)="onSubmit(flightForm)" class="mt-5 space-y-4" novalidate>
+          <div>
+            <label for="flightId" class="mb-1 block text-sm font-medium text-slate-700">Flight ID</label>
+            <input
+              id="flightId"
+              name="flightId"
+              type="number"
+              min="1"
+              required
+              [(ngModel)]="formData.flightId"
+              #flightId="ngModel"
+              class="w-full rounded-xl border border-slate-300 px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"
+            />
+            <p *ngIf="(flightId.invalid && (flightId.touched || submitted))" class="mt-1 text-xs text-rose-600">Flight ID must be greater than 0.</p>
+          </div>
+
+          <div>
+            <label for="airline" class="mb-1 block text-sm font-medium text-slate-700">Airline</label>
+            <input
+              id="airline"
+              name="airline"
+              type="text"
+              required
+              minlength="2"
+              [(ngModel)]="formData.airline"
+              #airline="ngModel"
+              class="w-full rounded-xl border border-slate-300 px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"
+            />
+            <p *ngIf="(airline.invalid && (airline.touched || submitted))" class="mt-1 text-xs text-rose-600">Airline name must be at least 2 characters.</p>
+          </div>
+
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label for="source" class="mb-1 block text-sm font-medium text-slate-700">Source</label>
+              <input
+                id="source"
+                name="source"
+                type="text"
+                required
+                minlength="2"
+                [(ngModel)]="formData.source"
+                #source="ngModel"
+                class="w-full rounded-xl border border-slate-300 px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"
+              />
+              <p *ngIf="(source.invalid && (source.touched || submitted))" class="mt-1 text-xs text-rose-600">Source is required.</p>
+            </div>
+
+            <div>
+              <label for="destination" class="mb-1 block text-sm font-medium text-slate-700">Destination</label>
+              <input
+                id="destination"
+                name="destination"
+                type="text"
+                required
+                minlength="2"
+                [(ngModel)]="formData.destination"
+                #destination="ngModel"
+                class="w-full rounded-xl border border-slate-300 px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"
+              />
+              <p *ngIf="(destination.invalid && (destination.touched || submitted))" class="mt-1 text-xs text-rose-600">Destination is required.</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label for="price" class="mb-1 block text-sm font-medium text-slate-700">Price</label>
+              <input
+                id="price"
+                name="price"
+                type="number"
+                min="1"
+                required
+                [(ngModel)]="formData.price"
+                #price="ngModel"
+                class="w-full rounded-xl border border-slate-300 px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"
+              />
+              <p *ngIf="(price.invalid && (price.touched || submitted))" class="mt-1 text-xs text-rose-600">Price must be greater than 0.</p>
+            </div>
+
+            <div>
+              <label for="availableSeats" class="mb-1 block text-sm font-medium text-slate-700">Available Seats</label>
+              <input
+                id="availableSeats"
+                name="availableSeats"
+                type="number"
+                min="0"
+                required
+                [(ngModel)]="formData.availableSeats"
+                #availableSeats="ngModel"
+                class="w-full rounded-xl border border-slate-300 px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"
+              />
+              <p *ngIf="(availableSeats.invalid && (availableSeats.touched || submitted))" class="mt-1 text-xs text-rose-600">Seats cannot be negative.</p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button
+              type="submit"
+              class="rounded-xl bg-cyan-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-cyan-700"
+            >
+              {{ isEditMode ? 'Update Flight' : 'Add Flight' }}
+            </button>
+            <button
+              type="button"
+              class="rounded-xl bg-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-300"
+              (click)="cancelEdit(flightForm)"
+            >
+              {{ isEditMode ? 'Cancel Edit' : 'Reset Form' }}
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="lg:col-span-3 rounded-3xl bg-white p-6 shadow-lg ring-1 ring-slate-200">
+        <div class="mb-4 flex items-center justify-between">
+          <h2 class="text-xl font-semibold text-slate-900">Flight List</h2>
+          <span class="rounded-xl bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">Responsive Table</span>
+        </div>
+
+        <div *ngIf="flights.length === 0" class="rounded-xl border border-dashed border-slate-300 p-6 text-center text-sm text-slate-500">
+          No flights available. Add a new flight to get started.
+        </div>
+
+        <div *ngIf="flights.length > 0" class="overflow-x-auto">
+          <table class="min-w-full border-separate border-spacing-y-2 text-left text-sm">
+            <thead>
+              <tr class="text-xs uppercase tracking-wider text-slate-500">
+                <th class="px-3 py-2">ID</th>
+                <th class="px-3 py-2">Airline</th>
+                <th class="px-3 py-2">Route</th>
+                <th class="px-3 py-2">Price</th>
+                <th class="px-3 py-2">Seats</th>
+                <th class="px-3 py-2">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let flight of flights; trackBy: trackByFlightId"
+                class="rounded-2xl bg-slate-50 shadow-sm transition hover:-translate-y-0.5 hover:bg-cyan-50"
+              >
+                <td class="rounded-l-xl px-3 py-3 font-semibold text-slate-900">{{ flight.flightId }}</td>
+                <td class="px-3 py-3 text-slate-700">{{ flight.airline }}</td>
+                <td class="px-3 py-3 text-slate-700">{{ flight.source }} -> {{ flight.destination }}</td>
+                <td class="px-3 py-3 text-slate-700">INR {{ flight.price }}</td>
+                <td class="px-3 py-3 text-slate-700">{{ flight.availableSeats }}</td>
+                <td class="rounded-r-xl px-3 py-3">
+                  <div class="flex gap-2">
+                    <button
+                      type="button"
+                      class="rounded-lg bg-amber-100 px-3 py-1.5 text-xs font-semibold text-amber-800 transition hover:bg-amber-200"
+                      (click)="onEdit(flight)"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      type="button"
+                      class="rounded-lg bg-rose-100 px-3 py-1.5 text-xs font-semibold text-rose-700 transition hover:bg-rose-200"
+                      (click)="onDelete(flight.flightId)"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

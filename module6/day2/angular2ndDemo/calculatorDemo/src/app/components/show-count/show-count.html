@@ -1,0 +1,23 @@
+<article class="glass-panel space-y-6">
+	<header class="space-y-2 text-center sm:text-left">
+		<p class="text-xs font-semibold uppercase tracking-[0.2em] text-teal-200/90">Live Calculator</p>
+		<h1 class="text-3xl font-extrabold leading-tight text-slate-50 sm:text-4xl">Counter Control Deck</h1>
+		<p class="text-sm text-slate-300/90">Tap quick actions or apply a custom value. Updates happen instantly.</p>
+	</header>
+
+	<section class="metric-card animate-pulse-glow">
+		<p class="text-xs uppercase tracking-[0.2em] text-slate-300">Current Count</p>
+		<p class="mt-2 text-5xl font-extrabold text-amber-300">{{ countService.getCount() }}</p>
+	</section>
+
+	<section class="grid gap-3 sm:grid-cols-2">
+		<app-increment></app-increment>
+		<app-decrement></app-decrement>
+	</section>
+
+	<section class="rounded-2xl border border-white/15 bg-slate-900/40 p-4">
+		<p class="mb-3 text-xs uppercase tracking-[0.2em] text-slate-300">Custom Step</p>
+		<app-increament-by></app-increament-by>
+	</section>
+</article>
+
