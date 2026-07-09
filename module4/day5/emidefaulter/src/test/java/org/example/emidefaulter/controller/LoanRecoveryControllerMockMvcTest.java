@@ -1,6 +1,8 @@
 package org.example.emidefaulter.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.emidefaulter.entity.Customer;
+import org.example.emidefaulter.entity.CustomerRole;
 import org.example.emidefaulter.entity.Loan;
 import org.example.emidefaulter.exception.GlobalExceptionHandler;
 import org.example.emidefaulter.security.JwtUtil;
@@ -9,6 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -54,9 +58,13 @@ class LoanRecoveryControllerMockMvcTest {
         LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
         validator.afterPropertiesSet();
 
+        MappingJackson2HttpMessageConverter jacksonConverter =
+                new MappingJackson2HttpMessageConverter(new ObjectMapper().findAndRegisterModules());
+
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
                 .setControllerAdvice(new GlobalExceptionHandler())
                 .setValidator(validator)
+                .setMessageConverters(jacksonConverter)
                 .build();
     }
 
@@ -136,7 +144,7 @@ class LoanRecoveryControllerMockMvcTest {
                 .password("encoded-password")
                 .city("Mumbai")
                 .creditScore(750)
-                .role("CUSTOMER")
+                .role(CustomerRole.CUSTOMER)
                 .build();
 
         when(loanRecoveryService.registerCustomer(any(Customer.class))).thenReturn(customer);
@@ -174,7 +182,7 @@ class LoanRecoveryControllerMockMvcTest {
                   "password": "short",
                   "city": "",
                   "creditScore": 950,
-                  "role": ""
+                  "role": null
                 }
                 """;
 
@@ -187,7 +195,7 @@ class LoanRecoveryControllerMockMvcTest {
 
     @Test
     void getAllLoansReturnsPagePayload() throws Exception {
-        Page<Loan> page = new PageImpl<>(List.of());
+        Page<Loan> page = new PageImpl<>(List.of(), PageRequest.of(0, 10), 0);
         when(loanRecoveryService.getLoans(any())).thenReturn(page);
 
         mockMvc.perform(get("/loans")

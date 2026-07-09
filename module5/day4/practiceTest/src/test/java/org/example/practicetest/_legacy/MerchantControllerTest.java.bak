@@ -1,0 +1,71 @@
+package org.example.practicetest;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.practicetest.controller.MerchantController;
+import org.example.practicetest.entity.Merchant;
+import org.example.practicetest.service.MerchantService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.List;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@WebMvcTest(MerchantController.class)
+@Import(WebMvcTestSecurityConfig.class)
+class MerchantControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @MockBean
+    private MerchantService merchantService;
+
+    @Test
+    void createShouldReturnCreatedMerchant() throws Exception {
+        Merchant request = merchant("XYZ", "merchant@xyz.com");
+        Merchant saved = merchant("XYZ", "merchant@xyz.com");
+        saved.setId(1L);
+        when(merchantService.create(any(Merchant.class))).thenReturn(saved);
+
+        mockMvc.perform(post("/api/merchants")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").value(1));
+    }
+
+    @Test
+    void getAllShouldReturnMerchantList() throws Exception {
+        Merchant merchant = merchant("XYZ", "merchant@xyz.com");
+        merchant.setId(1L);
+        when(merchantService.getAll()).thenReturn(List.of(merchant));
+
+        mockMvc.perform(get("/api/merchants"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].email").value("merchant@xyz.com"));
+    }
+
+    private Merchant merchant(String name, String email) {
+        Merchant merchant = new Merchant();
+        merchant.setName(name);
+        merchant.setEmail(email);
+        merchant.setTaxId("AB12CD34EF");
+        merchant.setPassword("password");
+        return merchant;
+    }
+}
+
+

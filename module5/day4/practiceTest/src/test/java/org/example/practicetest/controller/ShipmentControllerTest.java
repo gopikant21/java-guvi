@@ -1,0 +1,68 @@
+package org.example.practicetest.controller;
+
+import org.example.practicetest.config.WebMvcTestSecurityConfig;
+import org.example.practicetest.entity.Shipment;
+import org.example.practicetest.security.JwtService;
+import org.example.practicetest.service.ShipmentService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@WebMvcTest(ShipmentController.class)
+@Import(WebMvcTestSecurityConfig.class)
+class ShipmentControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private ShipmentService shipmentService;
+
+    @MockBean
+    private JwtService jwtService;
+
+    @Test
+    void getAllShouldReturnShipments() throws Exception {
+        Shipment shipment = shipment(1L, "TRK-100");
+        when(shipmentService.getAll()).thenReturn(List.of(shipment));
+
+        mockMvc.perform(get("/api/shipments"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].trackingNumber").value("TRK-100"));
+    }
+
+    @Test
+    void getByIdShouldReturnShipment() throws Exception {
+        Shipment shipment = shipment(2L, "TRK-200");
+        when(shipmentService.getById(2L)).thenReturn(shipment);
+
+        mockMvc.perform(get("/api/shipments/2"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(2));
+    }
+
+    private Shipment shipment(Long id, String tracking) {
+        Shipment shipment = new Shipment();
+        shipment.setId(id);
+        shipment.setTrackingNumber(tracking);
+        shipment.setCarrier("UPS");
+        shipment.setShippingCost(BigDecimal.ONE);
+        shipment.setShipmentDate(LocalDate.now());
+        return shipment;
+    }
+}
+
+
+

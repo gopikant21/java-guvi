@@ -10,7 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.validation.FieldError;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -64,10 +67,46 @@ public class GlobalExceptionHandler {
         return buildError(HttpStatus.NOT_FOUND, ex.getMessage(), request.getRequestURI());
     }
 
+    @ExceptionHandler(DuplicateResourceException.class)
+    public ResponseEntity<ApiErrorDTO> handleDuplicateResource(DuplicateResourceException ex, HttpServletRequest request) {
+        log.warn("Duplicate resource exception: {}", ex.getMessage());
+        return buildError(HttpStatus.CONFLICT, ex.getMessage(), request.getRequestURI());
+    }
+
+    @ExceptionHandler(InvalidLoanStatusException.class)
+    public ResponseEntity<ApiErrorDTO> handleInvalidLoanStatus(InvalidLoanStatusException ex, HttpServletRequest request) {
+        log.warn("Invalid loan status exception: {}", ex.getMessage());
+        return buildError(HttpStatus.BAD_REQUEST, ex.getMessage(), request.getRequestURI());
+    }
+
+    @ExceptionHandler({InvalidOperationException.class, InvalidParameterException.class})
+    public ResponseEntity<ApiErrorDTO> handleInvalidBusinessInput(RuntimeException ex, HttpServletRequest request) {
+        log.warn("Business validation exception: {}", ex.getMessage());
+        return buildError(HttpStatus.BAD_REQUEST, ex.getMessage(), request.getRequestURI());
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ApiErrorDTO> handleDataIntegrityViolation(DataIntegrityViolationException ex, HttpServletRequest request) {
+        log.warn("Data integrity violation: {}", ex.getMessage());
+        return buildError(HttpStatus.CONFLICT, "Operation violates data integrity constraints", request.getRequestURI());
+    }
+
     @ExceptionHandler({ValidationException.class, ConstraintViolationException.class})
     public ResponseEntity<ApiErrorDTO> handleValidationException(Exception ex, HttpServletRequest request) {
         log.warn("Validation exception: {}", ex.getMessage());
         return buildError(HttpStatus.BAD_REQUEST, ex.getMessage(), request.getRequestURI());
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ApiErrorDTO> handleTypeMismatch(MethodArgumentTypeMismatchException ex, HttpServletRequest request) {
+        log.warn("Type mismatch exception: {}", ex.getMessage());
+        return buildError(HttpStatus.BAD_REQUEST, "Invalid value for parameter: " + ex.getName(), request.getRequestURI());
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiErrorDTO> handleMessageNotReadable(HttpMessageNotReadableException ex, HttpServletRequest request) {
+        log.warn("Malformed request payload: {}", ex.getMessage());
+        return buildError(HttpStatus.BAD_REQUEST, "Malformed or invalid request payload", request.getRequestURI());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

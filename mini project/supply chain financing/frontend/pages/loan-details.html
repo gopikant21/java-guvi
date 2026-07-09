@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Details - SCF</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="../index.html">SCF</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="loans.html">My Loans</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="profile.html">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="logout()">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="dashboard-container">
+        <div class="container">
+            <a href="loans.html" class="btn btn-outline-secondary mb-3">← Back to Loans</a>
+
+            <div id="alertContainer"></div>
+
+            <!-- Loan Details Card -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 id="loanNumber" class="text-primary fw-bold"></h3>
+                            <p id="loanStatus" class="mb-3"></p>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            <h4 id="loanAmount" class="text-success fw-bold"></h4>
+                            <p class="text-muted">Loan Amount</p>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Loan Details Grid -->
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <h6>Interest Rate</h6>
+                                <div class="stat-value" id="interestRate">12.5%</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <h6>Tenure</h6>
+                                <div class="stat-value" id="tenure">24 mo.</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <h6>Amount Paid</h6>
+                                <div class="stat-value" id="amountPaid">₹0</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <h6>Remaining</h6>
+                                <div class="stat-value" id="remainingAmount">₹0</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Details -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <div>
+                                <label class="text-muted small">Purpose</label>
+                                <p class="fw-bold" id="purpose">-</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div>
+                                <label class="text-muted small">Created Date</label>
+                                <p class="fw-bold" id="createdDate">-</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div>
+                                <label class="text-muted small">Approval Date</label>
+                                <p class="fw-bold" id="approvalDate">-</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div>
+                                <label class="text-muted small">Disbursed Date</label>
+                                <p class="fw-bold" id="disbursedDate">-</p>
+                            </div>
+                        </div>
+                        <div class="col-md-12" id="rejectionReasonContainer" style="display: none;">
+                            <div>
+                                <label class="text-muted small">Rejection Reason</label>
+                                <p class="fw-bold text-danger" id="rejectionReason">-</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Repayment Progress -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Repayment Progress</label>
+                        <div class="progress" style="height: 25px;">
+                            <div id="progressBar" class="progress-bar bg-success" role="progressbar" style="width: 0%">
+                                <span id="progressText">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Repayment Section -->
+            <div id="repaymentSection" style="display: none;">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white border-bottom">
+                        <h5 class="mb-0" id="repay">Make Repayment</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="repaymentForm">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="repayAmount" class="form-label">Repayment Amount (₹)</label>
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="repayAmount"
+                                        placeholder="Enter amount"
+                                        min="100"
+                                        step="100"
+                                        required
+                                    >
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="paymentMode" class="form-label">Payment Mode</label>
+                                    <select class="form-select" id="paymentMode" required>
+                                        <option value="">Select Payment Mode</option>
+                                        <option value="UPI">UPI</option>
+                                        <option value="NEFT">NEFT</option>
+                                        <option value="IMPS">IMPS</option>
+                                        <option value="RTGS">RTGS</option>
+                                        <option value="CASH">CASH</option>
+                                        <option value="CARD">CARD</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="remarks" class="form-label">Remarks (Optional)</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="remarks"
+                                        placeholder="e.g., Monthly installment"
+                                    >
+                                </div>
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-success w-100">Process Repayment</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Repayment History -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-bottom">
+                    <h5 class="mb-0">Repayment History</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Payment Mode</th>
+                                    <th>Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody id="repaymentTable">
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted py-4">No repayments yet</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script>
+        requireAuth();
+
+        // Get loan ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const loanId = urlParams.get('id');
+
+        if (!loanId) {
+            showAlert('Invalid loan ID', 'danger');
+            setTimeout(() => window.location.href = 'loans.html', 2000);
+        }
+
+        // Load loan details
+        async function loadLoanDetails() {
+            showLoader();
+            try {
+                const loan = await api.getLoanDetails(loanId);
+                const repayments = await api.getRepaymentHistory(loanId);
+
+                displayLoanDetails(loan);
+                displayRepaymentHistory(repayments);
+
+                // Show repayment form if loan is active
+                if (['DISBURSED', 'PARTIALLY_PAID'].includes(loan.status)) {
+                    document.getElementById('repaymentSection').style.display = 'block';
+                    // Set max repayment amount to remaining
+                    document.getElementById('repayAmount').max = loan.remainingAmount;
+                }
+
+                hideLoader();
+            } catch (error) {
+                hideLoader();
+                console.error('Error loading loan details:', error);
+                showAlert(handleAPIError(error), 'danger');
+            }
+        }
+
+        // Display loan details
+        function displayLoanDetails(loan) {
+            document.getElementById('loanNumber').textContent = loan.loanNumber;
+            const statusColor = getStatusColorClass(loan.status);
+            document.getElementById('loanStatus').innerHTML =
+                `<span class="badge bg-${statusColor}">${loan.status.replace(/_/g, ' ')}</span>`;
+
+            document.getElementById('loanAmount').textContent = formatCurrency(loan.amount);
+            document.getElementById('interestRate').textContent = loan.interestRate + '%';
+            document.getElementById('tenure').textContent = loan.tenureMonths + ' mo.';
+
+            const amountPaid = loan.amount - loan.remainingAmount;
+            document.getElementById('amountPaid').textContent = formatCurrency(amountPaid);
+            document.getElementById('remainingAmount').textContent = formatCurrency(loan.remainingAmount);
+
+            document.getElementById('purpose').textContent = loan.purpose;
+            document.getElementById('createdDate').textContent = formatDate(loan.createdAt);
+            document.getElementById('approvalDate').textContent = loan.approvedDate ? formatDate(loan.approvedDate) : '-';
+            document.getElementById('disbursedDate').textContent = loan.disbursedDate ? formatDate(loan.disbursedDate) : '-';
+
+            // Show rejection reason if rejected
+            if (loan.status === 'REJECTED' && loan.rejectionReason) {
+                document.getElementById('rejectionReasonContainer').style.display = 'block';
+                document.getElementById('rejectionReason').textContent = loan.rejectionReason;
+            }
+
+            // Update progress bar
+            const progress = getProgressPercentage(loan.remainingAmount, loan.amount);
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressText').textContent = progress + '%';
+        }
+
+        // Display repayment history
+        function displayRepaymentHistory(repayments) {
+            const tableBody = document.getElementById('repaymentTable');
+
+            if (repayments.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="4" class="text-center text-muted py-4">No repayments yet</td></tr>';
+                return;
+            }
+
+            let html = '';
+            repayments.forEach(repayment => {
+                html += `
+                    <tr>
+                        <td>${formatDate(repayment.paymentDate)}</td>
+                        <td class="fw-bold">${formatCurrency(repayment.amount)}</td>
+                        <td>${repayment.paymentMode}</td>
+                        <td>${repayment.remarks || '-'}</td>
+                    </tr>
+                `;
+            });
+
+            tableBody.innerHTML = html;
+        }
+
+        // Handle repayment submission
+        document.getElementById('repaymentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const amount = parseFloat(document.getElementById('repayAmount').value);
+            const paymentMode = document.getElementById('paymentMode').value;
+            const remarks = document.getElementById('remarks').value;
+
+            showLoader();
+            try {
+                await api.repayLoan(loanId, {
+                    amount: amount,
+                    paymentMode: paymentMode,
+                    remarks: remarks
+                });
+
+                hideLoader();
+                showAlert('Repayment processed successfully!', 'success');
+                document.getElementById('repaymentForm').reset();
+
+                setTimeout(() => loadLoanDetails(), 1500);
+            } catch (error) {
+                hideLoader();
+                const errorMessage = handleAPIError(error);
+                showAlert(errorMessage, 'danger');
+            }
+        });
+
+        // Initial load
+        loadLoanDetails();
+    </script>
+</body>
+</html>
+

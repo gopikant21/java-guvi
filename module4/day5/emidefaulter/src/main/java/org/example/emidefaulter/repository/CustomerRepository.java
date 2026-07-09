@@ -24,7 +24,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
             from Customer c
             join c.loans l
             join l.emiPayments e
-            where e.paymentStatus = 'MISSED'
+            where e.paymentStatus = org.example.emidefaulter.entity.PaymentStatus.MISSED
             group by c
             having count(e.paymentId) > :missedEmiThreshold
             """)
@@ -44,7 +44,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
                 c.customerName,
                 c.city,
                 count(distinct l.loanId),
-                coalesce(sum(case when e.paymentStatus in ('PENDING', 'MISSED') then 1 else 0 end), 0),
+                coalesce(sum(case when e.paymentStatus in (org.example.emidefaulter.entity.PaymentStatus.PENDING, org.example.emidefaulter.entity.PaymentStatus.MISSED) then 1 else 0 end), 0),
                 coalesce(sum(p.penaltyAmount), 0)
             )
             from Customer c
@@ -60,7 +60,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
                 c.customerId,
                 c.customerName,
                 coalesce(sum(case
-                    when e.paymentStatus in ('PENDING', 'MISSED') then (l.emiAmount - coalesce(e.amountPaid, 0))
+                    when e.paymentStatus in (org.example.emidefaulter.entity.PaymentStatus.PENDING, org.example.emidefaulter.entity.PaymentStatus.MISSED) then (l.emiAmount - coalesce(e.amountPaid, 0))
                     else 0
                 end), 0)
             )
@@ -69,7 +69,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
             left join l.emiPayments e
             group by c.customerId, c.customerName
             order by coalesce(sum(case
-                when e.paymentStatus in ('PENDING', 'MISSED') then (l.emiAmount - coalesce(e.amountPaid, 0))
+                when e.paymentStatus in (org.example.emidefaulter.entity.PaymentStatus.PENDING, org.example.emidefaulter.entity.PaymentStatus.MISSED) then (l.emiAmount - coalesce(e.amountPaid, 0))
                 else 0
             end), 0) desc
             """)

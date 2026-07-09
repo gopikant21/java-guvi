@@ -5,9 +5,6 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,7 +19,10 @@ import org.example.emidefaulter.dto.LoginResponseDTO;
 import org.example.emidefaulter.entity.Customer;
 import org.example.emidefaulter.entity.EmiPayment;
 import org.example.emidefaulter.entity.Loan;
+import org.example.emidefaulter.entity.LoanStatus;
 import org.example.emidefaulter.entity.Penalty;
+import org.example.emidefaulter.entity.PaymentStatus;
+import org.example.emidefaulter.exception.InvalidParameterException;
 import org.example.emidefaulter.security.JwtUtil;
 import org.example.emidefaulter.service.LoanRecoveryService;
 import org.springframework.data.domain.Page;
@@ -45,11 +45,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @RestController
@@ -57,6 +57,8 @@ import java.util.List;
 @Validated
 @Tag(name = "EMI Loan Management", description = "APIs for loan tracking, EMI payments, penalties, and defaulter management")
 public class LoanRecoveryController {
+
+    private static final Set<String> ALLOWED_SORT_FIELDS = Set.of("loanId", "loanType", "loanAmount", "interestRate", "tenureMonths", "emiAmount", "loanStatus");
 
     private final LoanRecoveryService loanRecoveryService;
     private final AuthenticationManager authenticationManager;
@@ -133,7 +135,7 @@ public class LoanRecoveryController {
     @PreAuthorize("hasRole('RECOVERY_MANAGER')")
     @Operation(summary = "Update Loan Status", description = "Change loan status (RECOVERY_MANAGER only)")
     @ApiResponse(responseCode = "200", description = "Loan status updated")
-    public ResponseEntity<Loan> updateLoanStatus(@PathVariable Long loanId, @RequestParam @NotBlank String status) {
+    public ResponseEntity<Loan> updateLoanStatus(@PathVariable Long loanId, @RequestParam LoanStatus status) {
         log.info("Updating loan status for loan ID: {} to status: {}", loanId, status);
         try {
             Loan updatedLoan = loanRecoveryService.updateLoanStatus(loanId, status);
@@ -191,7 +193,7 @@ public class LoanRecoveryController {
     @PreAuthorize("hasAnyRole('ADMIN','AUDITOR','RECOVERY_MANAGER')")
     @Operation(summary = "Get Loans by Status", description = "Fetch loans filtered by status (ACTIVE, DEFAULTED, CLOSED)")
     @ApiResponse(responseCode = "200", description = "List of loans")
-    public ResponseEntity<List<Loan>> getLoansByStatus(@PathVariable String status) {
+    public ResponseEntity<List<Loan>> getLoansByStatus(@PathVariable LoanStatus status) {
         return ResponseEntity.ok(loanRecoveryService.findLoansByStatus(status));
     }
 
@@ -207,7 +209,7 @@ public class LoanRecoveryController {
     @PreAuthorize("hasAnyRole('ADMIN','AUDITOR','RECOVERY_MANAGER')")
     @Operation(summary = "Get Payments by Status", description = "Fetch EMI payments filtered by status (PAID, PENDING, MISSED)")
     @ApiResponse(responseCode = "200", description = "List of EMI payments")
-    public ResponseEntity<List<EmiPayment>> getPaymentsByStatus(@PathVariable String status) {
+    public ResponseEntity<List<EmiPayment>> getPaymentsByStatus(@PathVariable PaymentStatus status) {
         return ResponseEntity.ok(loanRecoveryService.findPaymentsByStatus(status));
     }
 
@@ -284,7 +286,15 @@ public class LoanRecoveryController {
             @RequestParam(defaultValue = "emiAmount") String sortBy,
             @RequestParam(defaultValue = "DESC") String direction
     ) {
-        Sort.Direction sortDirection = Sort.Direction.fromString(direction);
+        if (!ALLOWED_SORT_FIELDS.contains(sortBy)) {
+            throw new InvalidParameterException("Unsupported sortBy field: " + sortBy);
+        }
+        final Sort.Direction sortDirection;
+        try {
+            sortDirection = Sort.Direction.fromString(direction);
+        } catch (IllegalArgumentException ex) {
+            throw new InvalidParameterException("Invalid direction: " + direction + ". Allowed values are ASC or DESC");
+        }
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, sortBy));
         return ResponseEntity.ok(loanRecoveryService.getLoans(pageable));
     }

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Loans - SCF</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="../index.html">SCF</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="loans.html">My Loans</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="profile.html">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="logout()">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="dashboard-container">
+        <div class="container">
+            <div id="alertContainer"></div>
+
+            <!-- Header -->
+            <div class="dashboard-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="mb-2">My Loans</h1>
+                        <p class="text-muted">View and manage all your loan applications</p>
+                    </div>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#applyLoanModal">
+                        + Apply New Loan
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="statusFilter" class="form-label">Filter by Status</label>
+                            <select class="form-select" id="statusFilter">
+                                <option value="">All Status</option>
+                                <option value="PENDING">Pending</option>
+                                <option value="APPROVED">Approved</option>
+                                <option value="REJECTED">Rejected</option>
+                                <option value="DISBURSED">Disbursed</option>
+                                <option value="PARTIALLY_PAID">Partially Paid</option>
+                                <option value="FULLY_PAID">Fully Paid</option>
+                                <option value="CLOSED">Closed</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">&nbsp;</label>
+                            <button class="btn btn-outline-secondary w-100" onclick="loadLoans()">Apply Filter</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loans Container -->
+            <div id="loansContainer">
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Apply Loan Modal -->
+    <div class="modal fade" id="applyLoanModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Apply for Loan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="applyLoanForm">
+                        <div class="mb-3">
+                            <label for="loanAmount" class="form-label">Loan Amount (₹)</label>
+                            <input
+                                type="number"
+                                class="form-control"
+                                id="loanAmount"
+                                placeholder="Enter amount"
+                                min="10000"
+                                step="10000"
+                                required
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label for="interestRate" class="form-label">Interest Rate (%)</label>
+                            <input
+                                type="number"
+                                class="form-control"
+                                id="interestRate"
+                                placeholder="e.g., 12.5"
+                                min="0.1"
+                                step="0.1"
+                                required
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label for="tenureMonths" class="form-label">Tenure (Months)</label>
+                            <input
+                                type="number"
+                                class="form-control"
+                                id="tenureMonths"
+                                placeholder="e.g., 24"
+                                min="1"
+                                max="120"
+                                required
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label for="loanPurpose" class="form-label">Purpose of Loan</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="loanPurpose"
+                                placeholder="e.g., Inventory Purchase"
+                                required
+                            >
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Submit Application</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script>
+        requireAuth();
+
+        // Load loans
+        async function loadLoans() {
+            showLoader();
+            try {
+                const loans = await api.getMyLoans();
+                const statusFilter = document.getElementById('statusFilter').value;
+
+                // Filter loans if status is selected
+                let filteredLoans = loans;
+                if (statusFilter) {
+                    filteredLoans = loans.filter(l => l.status === statusFilter);
+                }
+
+                displayLoans(filteredLoans);
+                hideLoader();
+            } catch (error) {
+                hideLoader();
+                console.error('Error loading loans:', error);
+                showAlert(handleAPIError(error), 'danger');
+            }
+        }
+
+        // Display loans
+        function displayLoans(loans) {
+            const container = document.getElementById('loansContainer');
+
+            if (loans.length === 0) {
+                container.innerHTML = createEmptyState('No loans found. Apply for a loan to get started!');
+                return;
+            }
+
+            let html = '';
+            loans.forEach(loan => {
+                const statusColor = getStatusColorClass(loan.status);
+                const progress = getProgressPercentage(loan.remainingAmount, loan.amount);
+
+                html += `
+                    <div class="loan-card">
+                        <div class="loan-header">
+                            <div>
+                                <div class="loan-number">${loan.loanNumber}</div>
+                                <small class="text-muted">${formatDate(loan.createdAt)}</small>
+                            </div>
+                            <span class="badge bg-${statusColor}">${loan.status.replace(/_/g, ' ')}</span>
+                        </div>
+
+                        <div class="loan-details">
+                            <div class="loan-detail-item">
+                                <span class="loan-detail-label">Amount</span>
+                                <span class="loan-detail-value">${formatCurrency(loan.amount)}</span>
+                            </div>
+                            <div class="loan-detail-item">
+                                <span class="loan-detail-label">Rate</span>
+                                <span class="loan-detail-value">${loan.interestRate}%</span>
+                            </div>
+                            <div class="loan-detail-item">
+                                <span class="loan-detail-label">Tenure</span>
+                                <span class="loan-detail-value">${loan.tenureMonths} months</span>
+                            </div>
+                            <div class="loan-detail-item">
+                                <span class="loan-detail-label">Purpose</span>
+                                <span class="loan-detail-value">${truncateText(loan.purpose, 30)}</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <small>Repayment Progress</small>
+                                <small>${progress}%</small>
+                            </div>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar" role="progressbar" style="width: ${progress}%"></div>
+                            </div>
+                            <small class="text-muted d-block mt-1">
+                                Remaining: ${formatCurrency(loan.remainingAmount)}
+                            </small>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <a href="loan-details.html?id=${loan.id}" class="btn btn-sm btn-outline-primary flex-grow-1">
+                                View Details
+                            </a>
+                            ${['DISBURSED', 'PARTIALLY_PAID'].includes(loan.status) ?
+                                `<a href="loan-details.html?id=${loan.id}#repay" class="btn btn-sm btn-outline-success">
+                                    Make Repayment
+                                </a>` :
+                                ''}
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Handle loan application
+        document.getElementById('applyLoanForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            showLoader();
+            try {
+                await api.applyLoan({
+                    amount: parseFloat(document.getElementById('loanAmount').value),
+                    interestRate: parseFloat(document.getElementById('interestRate').value),
+                    tenureMonths: parseInt(document.getElementById('tenureMonths').value),
+                    purpose: document.getElementById('loanPurpose').value
+                });
+
+                hideLoader();
+                showAlert('Loan application submitted successfully!', 'success');
+
+                // Close modal and reload
+                bootstrap.Modal.getInstance(document.getElementById('applyLoanModal')).hide();
+                document.getElementById('applyLoanForm').reset();
+
+                setTimeout(() => loadLoans(), 1000);
+            } catch (error) {
+                hideLoader();
+                const errorMessage = handleAPIError(error);
+                showAlert(errorMessage, 'danger');
+            }
+        });
+
+        // Initial load
+        loadLoans();
+    </script>
+</body>
+</html>
+

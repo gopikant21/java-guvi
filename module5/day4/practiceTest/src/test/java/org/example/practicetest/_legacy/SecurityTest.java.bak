@@ -1,0 +1,95 @@
+package org.example.practicetest;
+
+import org.example.practicetest.security.JwtAuthenticationFilter;
+import org.example.practicetest.security.JwtService;
+import org.example.practicetest.security.SecurityConfig;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@WebMvcTest(controllers = {SecurityTest.ProtectedController.class, SecurityTest.PublicAuthController.class})
+@Import({SecurityConfig.class, JwtAuthenticationFilter.class})
+class SecurityTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private JwtService jwtService;
+
+    @Test
+    void loginAndRegisterShouldBePublic() throws Exception {
+        mockMvc.perform(post("/api/auth/login").contentType(MediaType.APPLICATION_JSON).content("{}"))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(post("/api/auth/register").contentType(MediaType.APPLICATION_JSON).content("{}"))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    void missingJwtShouldReturnUnauthorized() throws Exception {
+        mockMvc.perform(get("/api/protected"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void invalidJwtShouldReturnUnauthorized() throws Exception {
+        when(jwtService.extractUsername("bad-token")).thenThrow(new IllegalArgumentException("invalid"));
+
+        mockMvc.perform(get("/api/protected").header("Authorization", "Bearer bad-token"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void expiredJwtShouldReturnUnauthorized() throws Exception {
+        when(jwtService.extractUsername("expired-token")).thenThrow(new IllegalStateException("expired"));
+
+        mockMvc.perform(get("/api/protected").header("Authorization", "Bearer expired-token"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void validJwtShouldAccessProtectedEndpoint() throws Exception {
+        when(jwtService.extractUsername("good-token")).thenReturn("merchant@xyz.com");
+        when(jwtService.isTokenValid("good-token", "merchant@xyz.com")).thenReturn(true);
+
+        mockMvc.perform(get("/api/protected").header("Authorization", "Bearer good-token"))
+                .andExpect(status().isOk());
+    }
+
+    @RestController
+    @RequestMapping("/api")
+    static class ProtectedController {
+        @GetMapping("/protected")
+        String protectedEndpoint() {
+            return "ok";
+        }
+    }
+
+    @RestController
+    @RequestMapping("/api/auth")
+    static class PublicAuthController {
+        @PostMapping("/login")
+        void login() {
+        }
+
+        @PostMapping("/register")
+        void register() {
+        }
+    }
+}
+
+

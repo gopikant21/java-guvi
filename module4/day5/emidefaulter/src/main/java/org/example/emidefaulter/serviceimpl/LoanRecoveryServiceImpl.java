@@ -10,9 +10,15 @@ import org.example.emidefaulter.dto.DashboardDTO;
 import org.example.emidefaulter.entity.Customer;
 import org.example.emidefaulter.entity.EmiPayment;
 import org.example.emidefaulter.entity.Loan;
+import org.example.emidefaulter.entity.LoanStatus;
 import org.example.emidefaulter.entity.Penalty;
+import org.example.emidefaulter.entity.PaymentStatus;
 import org.example.emidefaulter.exception.CustomerNotFoundException;
+import org.example.emidefaulter.exception.DuplicateResourceException;
 import org.example.emidefaulter.exception.EmiPaymentNotFoundException;
+import org.example.emidefaulter.exception.InvalidLoanStatusException;
+import org.example.emidefaulter.exception.InvalidOperationException;
+import org.example.emidefaulter.exception.InvalidParameterException;
 import org.example.emidefaulter.exception.LoanNotFoundException;
 import org.example.emidefaulter.exception.PenaltyNotFoundException;
 import org.example.emidefaulter.repository.CustomerRepository;
@@ -47,6 +53,9 @@ public class LoanRecoveryServiceImpl implements LoanRecoveryService {
     public Customer registerCustomer(Customer customer) {
         log.debug("Registering new customer with email: {}", customer.getEmail());
         try {
+            if (customerRepository.findByEmail(customer.getEmail()).isPresent()) {
+                throw new DuplicateResourceException("Customer already exists with email: " + customer.getEmail());
+            }
             customer.setPassword(passwordEncoder.encode(customer.getPassword()));
             Customer savedCustomer = customerRepository.save(customer);
             log.info("Customer registered successfully with ID: {} and email: {}", savedCustomer.getCustomerId(), customer.getEmail());
@@ -63,6 +72,9 @@ public class LoanRecoveryServiceImpl implements LoanRecoveryService {
         try {
             Customer customer = customerRepository.findById(customerId)
                     .orElseThrow(() -> new CustomerNotFoundException("Customer not found with id: " + customerId));
+            if (!loanRepository.findByCustomerCustomerIdAndLoanStatus(customerId, LoanStatus.ACTIVE).isEmpty()) {
+                throw new InvalidOperationException("Cannot delete customer with active loans. Close active loans first.");
+            }
             customerRepository.delete(customer);
             log.info("Customer deleted successfully with ID: {}", customerId);
         } catch (CustomerNotFoundException e) {
@@ -93,11 +105,14 @@ public class LoanRecoveryServiceImpl implements LoanRecoveryService {
 
     @Override
     @Transactional
-    public Loan updateLoanStatus(Long loanId, String loanStatus) {
+    public Loan updateLoanStatus(Long loanId, LoanStatus loanStatus) {
         log.debug("Updating loan status for loan ID: {} to status: {}", loanId, loanStatus);
         try {
             Loan loan = loanRepository.findById(loanId)
                     .orElseThrow(() -> new LoanNotFoundException("Loan not found with id: " + loanId));
+            if (loanStatus == null) {
+                throw new InvalidLoanStatusException("Invalid loan status: " + loanStatus);
+            }
             loan.setLoanStatus(loanStatus);
             log.info("Loan status updated successfully for ID: {} to status: {}", loanId, loanStatus);
             return loan;
@@ -117,6 +132,15 @@ public class LoanRecoveryServiceImpl implements LoanRecoveryService {
         try {
             EmiPayment payment = emiPaymentRepository.findById(paymentId)
                     .orElseThrow(() -> new EmiPaymentNotFoundException("EMI payment not found with id: " + paymentId));
+            if (penaltyAmount == null || penaltyAmount <= 0) {
+                throw new InvalidParameterException("Penalty amount must be greater than zero");
+            }
+            if (!(PaymentStatus.PENDING.equals(payment.getPaymentStatus()) || PaymentStatus.MISSED.equals(payment.getPaymentStatus()))) {
+                throw new InvalidOperationException("Penalty can only be generated for PENDING or MISSED payments");
+            }
+            if (penaltyRepository.findFirstByPaymentPaymentId(paymentId).isPresent()) {
+                throw new InvalidOperationException("Penalty already exists for payment id: " + paymentId);
+            }
 
             Penalty penalty = Penalty.builder()
                     .payment(payment)
@@ -143,7 +167,7 @@ public class LoanRecoveryServiceImpl implements LoanRecoveryService {
     }
 
     @Override
-    public List<Loan> findLoansByStatus(String status) {
+    public List<Loan> findLoansByStatus(LoanStatus status) {
         return loanRepository.findByLoanStatus(status);
     }
 
@@ -153,7 +177,7 @@ public class LoanRecoveryServiceImpl implements LoanRecoveryService {
     }
 
     @Override
-    public List<EmiPayment> findPaymentsByStatus(String status) {
+    public List<EmiPayment> findPaymentsByStatus(PaymentStatus status) {
         return emiPaymentRepository.findByPaymentStatus(status);
     }
 
@@ -203,6 +227,9 @@ public class LoanRecoveryServiceImpl implements LoanRecoveryService {
             if (percentage <= 0) {
                 log.error("Invalid percentage value: {}. Percentage must be greater than zero", percentage);
                 throw new ValidationException("Percentage must be greater than zero");
+            }
+            if (percentage > 50) {
+                throw new InvalidParameterException("Percentage cannot exceed 50");
             }
             int updatedRows = loanRepository.increaseInterestRate(percentage);
             log.info("Interest rate increased successfully for {} loans by percentage: {}", updatedRows, percentage);
@@ -266,8 +293,8 @@ public class LoanRecoveryServiceImpl implements LoanRecoveryService {
         log.debug("Generating dashboard metrics");
         try {
             long totalCustomers = customerRepository.count();
-            long activeLoans = loanRepository.countByLoanStatus("ACTIVE");
-            long defaultedLoans = loanRepository.countByLoanStatus("DEFAULTED");
+            long activeLoans = loanRepository.countByLoanStatus(LoanStatus.ACTIVE);
+            long defaultedLoans = loanRepository.countByLoanStatus(LoanStatus.DEFAULTED);
 
             double totalOutstandingAmount = getOutstandingAmountCityWise().stream()
                     .mapToDouble(CityOutstandingDTO::totalOutstandingEmi)
@@ -321,7 +348,7 @@ public class LoanRecoveryServiceImpl implements LoanRecoveryService {
             log.debug("Found {} overdue EMI payments", overduePayments.size());
 
             for (EmiPayment payment : overduePayments) {
-                payment.setPaymentStatus("MISSED");
+                payment.setPaymentStatus(PaymentStatus.MISSED);
 
                 boolean alreadyPenalized = penaltyRepository.findFirstByPaymentPaymentId(payment.getPaymentId()).isPresent();
                 if (!alreadyPenalized) {
@@ -342,10 +369,10 @@ public class LoanRecoveryServiceImpl implements LoanRecoveryService {
                         .toList();
 
                 if (payments.size() >= 3
-                        && "MISSED".equals(payments.get(0).getPaymentStatus())
-                        && "MISSED".equals(payments.get(1).getPaymentStatus())
-                        && "MISSED".equals(payments.get(2).getPaymentStatus())) {
-                    loan.setLoanStatus("DEFAULTED");
+                        && PaymentStatus.MISSED.equals(payments.get(0).getPaymentStatus())
+                        && PaymentStatus.MISSED.equals(payments.get(1).getPaymentStatus())
+                        && PaymentStatus.MISSED.equals(payments.get(2).getPaymentStatus())) {
+                    loan.setLoanStatus(LoanStatus.DEFAULTED);
                     log.warn("Loan ID: {} marked as DEFAULTED due to 3 consecutive missed EMI payments", loan.getLoanId());
                 }
             }

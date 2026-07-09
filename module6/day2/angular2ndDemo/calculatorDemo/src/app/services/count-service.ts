@@ -13,8 +13,8 @@ export class CountService {
         this.count$.next(this.count$.value - 1);
     }
 
-    getCount(): number {
-        return this.count$.value;
+    getCount(): Observable<number> {
+        return this.count$.asObservable();
     }
 
     increaseBy(value: number): void {

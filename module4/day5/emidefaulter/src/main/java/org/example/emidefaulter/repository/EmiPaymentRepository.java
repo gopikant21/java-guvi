@@ -1,6 +1,7 @@
 package org.example.emidefaulter.repository;
 
 import org.example.emidefaulter.entity.EmiPayment;
+import org.example.emidefaulter.entity.PaymentStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,14 +11,14 @@ import java.util.List;
 
 public interface EmiPaymentRepository extends JpaRepository<EmiPayment, Long> {
 
-    List<EmiPayment> findByPaymentStatus(String status);
+    List<EmiPayment> findByPaymentStatus(PaymentStatus status);
 
     @Query("""
             select e
             from EmiPayment e
             where e.dueDate < :today
             and e.paymentDate is null
-            and e.paymentStatus = 'PENDING'
+            and e.paymentStatus = org.example.emidefaulter.entity.PaymentStatus.PENDING
             """)
     List<EmiPayment> findOverduePendingPayments(@Param("today") LocalDate today);
 

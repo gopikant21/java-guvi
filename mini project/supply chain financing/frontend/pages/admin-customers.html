@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Customers - SCF Admin</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="../index.html">SCF Admin</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin-dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin-loans.html">All Loans</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="admin-customers.html">Customers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="logout()">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="dashboard-container">
+        <div class="container">
+            <div id="alertContainer"></div>
+
+            <!-- Header -->
+            <div class="dashboard-header">
+                <h1 class="mb-2">Customer Management</h1>
+                <p class="text-muted">View all registered customers and their loan activities</p>
+            </div>
+
+            <!-- Search -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-8">
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="searchInput"
+                                placeholder="Search by name, email, or phone..."
+                            >
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-primary w-100" onclick="loadCustomers()">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customers Table -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-bottom">
+                    <h5 class="mb-0">All Customers</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Customer ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Member Since</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customersTable">
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted py-4">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customer Details Modal -->
+    <div class="modal fade" id="customerModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Customer Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="customerContent"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script>
+        requireAdmin();
+
+        let allCustomers = [];
+
+        // Load customers
+        async function loadCustomers() {
+            showLoader();
+            try {
+                const customers = await api.getAllCustomers();
+                allCustomers = customers;
+
+                // Filter by search
+                const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+                let filtered = customers;
+
+                if (searchTerm) {
+                    filtered = customers.filter(c =>
+                        c.name.toLowerCase().includes(searchTerm) ||
+                        c.email.toLowerCase().includes(searchTerm) ||
+                        c.phone.includes(searchTerm)
+                    );
+                }
+
+                displayCustomers(filtered);
+                hideLoader();
+            } catch (error) {
+                hideLoader();
+                console.error('Error loading customers:', error);
+                showAlert(handleAPIError(error), 'danger');
+            }
+        }
+
+        // Display customers
+        function displayCustomers(customers) {
+            const table = document.getElementById('customersTable');
+
+            if (customers.length === 0) {
+                table.innerHTML = '<tr><td colspan="6" class="text-center text-muted py-4">No customers found</td></tr>';
+                return;
+            }
+
+            let html = '';
+            customers.forEach(customer => {
+                html += `
+                    <tr>
+                        <td>#${customer.id}</td>
+                        <td class="fw-bold">${customer.name}</td>
+                        <td>${customer.email}</td>
+                        <td>${customer.phone}</td>
+                        <td>${formatDate(customer.createdAt)}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary" onclick="viewCustomerDetails(${customer.id})">
+                                View
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            table.innerHTML = html;
+        }
+
+        // View customer details
+        async function viewCustomerDetails(customerId) {
+            showLoader();
+            try {
+                const data = await api.getCustomerDetails(customerId);
+                hideLoader();
+                displayCustomerModal(data);
+            } catch (error) {
+                hideLoader();
+                console.error('Error loading customer details:', error);
+                showAlert(handleAPIError(error), 'danger');
+            }
+        }
+
+        // Display customer modal
+        function displayCustomerModal(data) {
+            const customer = data.customer;
+            const loans = data.loans || [];
+
+            let loansHTML = '<h6 class="mb-3">Loans</h6>';
+            if (loans.length > 0) {
+                loansHTML += '<div class="table-responsive"><table class="table table-sm"><thead class="table-light"><tr><th>Loan #</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead><tbody>';
+                loans.forEach(loan => {
+                    const statusColor = getStatusColorClass(loan.status);
+                    loansHTML += `
+                        <tr>
+                            <td><strong>${loan.loanNumber}</strong></td>
+                            <td>${formatCurrency(loan.amount)}</td>
+                            <td><span class="badge bg-${statusColor}">${loan.status.replace(/_/g, ' ')}</span></td>
+                            <td>${formatDate(loan.createdAt || new Date().toISOString())}</td>
+                        </tr>
+                    `;
+                });
+                loansHTML += '</tbody></table></div>';
+            } else {
+                loansHTML += '<p class="text-muted">No loans applied</p>';
+            }
+
+            const modalContent = `
+                <div class="mb-3">
+                    <h6 class="text-primary">Customer ID: #${customer.id}</h6>
+                    <span class="badge bg-success">Active</span>
+                </div>
+
+                <hr>
+
+                <h6>Personal Information</h6>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Name:</strong> ${customer.name}</p>
+                        <p><strong>Email:</strong> ${customer.email}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Phone:</strong> ${customer.phone}</p>
+                        <p><strong>Member Since:</strong> ${formatDate(customer.createdAt)}</p>
+                    </div>
+                </div>
+
+                <hr>
+
+                <h6>Loan Summary</h6>
+                <p>Total Loans: <strong>${loans.length}</strong></p>
+                <p>Total Amount Applied: <strong>${formatCurrency(loans.reduce((sum, l) => sum + l.amount, 0))}</strong></p>
+
+                <hr>
+
+                ${loansHTML}
+            `;
+
+            document.getElementById('customerContent').innerHTML = modalContent;
+
+            const modal = new bootstrap.Modal(document.getElementById('customerModal'));
+            modal.show();
+        }
+
+        // Search on enter
+        document.getElementById('searchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                loadCustomers();
+            }
+        });
+
+        // Initial load
+        loadCustomers();
+    </script>
+</body>
+</html>
+

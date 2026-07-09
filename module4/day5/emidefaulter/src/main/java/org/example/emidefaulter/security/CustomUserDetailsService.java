@@ -33,7 +33,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             UserDetails userDetails = User.builder()
                     .username(customer.getEmail())
                     .password(customer.getPassword())
-                    .authorities(List.of(new SimpleGrantedAuthority("ROLE_" + customer.getRole())))
+                    .authorities(List.of(new SimpleGrantedAuthority("ROLE_" + customer.getRole().name())))
                     .build();
 
             log.info("User details loaded successfully for username: {} with role: {}", username, customer.getRole());

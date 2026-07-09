@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,7 +14,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -38,9 +39,10 @@ public class Loan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long loanId;
 
-    @NotBlank(message = "Loan type is required")
+    @NotNull(message = "Loan type is required")
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String loanType;
+    private LoanType loanType;
 
     @NotNull(message = "Loan amount is required")
     @Positive(message = "Loan amount must be positive")
@@ -62,9 +64,10 @@ public class Loan {
     @Column(nullable = false)
     private Double emiAmount;
 
-    @NotBlank(message = "Loan status is required")
+    @NotNull(message = "Loan status is required")
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String loanStatus;
+    private LoanStatus loanStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)

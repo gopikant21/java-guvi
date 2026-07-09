@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - SCF</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="../index.html">SCF Admin</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="admin-dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin-loans.html">All Loans</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin-customers.html">Customers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="logout()">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="dashboard-container">
+        <div class="container">
+            <div id="alertContainer"></div>
+
+            <!-- Dashboard Header -->
+            <div class="dashboard-header">
+                <h1 class="mb-2">Admin Dashboard</h1>
+                <p class="text-muted">System overview and analytics</p>
+            </div>
+
+            <!-- Stats Row -->
+            <div class="row mb-4">
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card">
+                        <h6>Total Customers</h6>
+                        <div class="stat-value" id="totalCustomers">0</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card">
+                        <h6>Total Loans</h6>
+                        <div class="stat-value" id="totalLoans">0</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card warning">
+                        <h6>Pending Loans</h6>
+                        <div class="stat-value" id="pendingLoans">0</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card success">
+                        <h6>Approved Loans</h6>
+                        <div class="stat-value" id="approvedLoans">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Second Row Stats -->
+            <div class="row mb-4">
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card info">
+                        <h6>Disbursed Loans</h6>
+                        <div class="stat-value" id="disbursedLoans">0</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card danger">
+                        <h6>Rejected Loans</h6>
+                        <div class="stat-value" id="rejectedLoans">0</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card">
+                        <h6>Closed Loans</h6>
+                        <div class="stat-value" id="closedLoans">0</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card success">
+                        <h6>Amount Disbursed</h6>
+                        <div class="stat-value" id="totalDisbursed">₹0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Quick Actions</h5>
+                            <div class="d-flex flex-wrap gap-2">
+                                <a href="admin-loans.html" class="btn btn-primary">View All Loans</a>
+                                <a href="admin-loans.html?status=PENDING" class="btn btn-outline-warning">Pending Loans</a>
+                                <a href="admin-customers.html" class="btn btn-outline-info">Manage Customers</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Loans -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-white border-bottom">
+                            <h5 class="mb-0">Recent Loans</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Loan Number</th>
+                                            <th>Customer</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
+                                            <th>Date</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recentLoansTable">
+                                        <tr>
+                                            <td colspan="6" class="text-center text-muted py-4">Loading...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script>
+        requireAdmin();
+
+        // Load dashboard data
+        async function loadDashboard() {
+            showLoader();
+            try {
+                const dashboard = await api.getAdminDashboard();
+                const loans = await api.getAllLoans();
+
+                displayDashboard(dashboard);
+                displayRecentLoans(loans.slice(0, 10));
+
+                hideLoader();
+            } catch (error) {
+                hideLoader();
+                console.error('Error loading dashboard:', error);
+                showAlert(handleAPIError(error), 'danger');
+            }
+        }
+
+        // Display dashboard stats
+        function displayDashboard(data) {
+            document.getElementById('totalCustomers').textContent = data.totalCustomers;
+            document.getElementById('totalLoans').textContent = data.totalLoans;
+            document.getElementById('pendingLoans').textContent = data.pendingLoans;
+            document.getElementById('approvedLoans').textContent = data.approvedLoans;
+            document.getElementById('disbursedLoans').textContent = data.disbursedLoans;
+            document.getElementById('rejectedLoans').textContent = data.rejectedLoans;
+            document.getElementById('closedLoans').textContent = data.closedLoans;
+            document.getElementById('totalDisbursed').textContent = formatCurrency(data.totalAmountDisbursed);
+        }
+
+        // Display recent loans
+        function displayRecentLoans(loans) {
+            const table = document.getElementById('recentLoansTable');
+
+            if (loans.length === 0) {
+                table.innerHTML = '<tr><td colspan="6" class="text-center text-muted py-4">No loans found</td></tr>';
+                return;
+            }
+
+            let html = '';
+            loans.slice(0, 10).forEach(loan => {
+                const statusColor = getStatusColorClass(loan.status);
+                html += `
+                    <tr>
+                        <td class="fw-bold">${loan.loanNumber}</td>
+                        <td>${loan.customerName}</td>
+                        <td>${formatCurrency(loan.amount)}</td>
+                        <td><span class="badge bg-${statusColor}">${loan.status.replace(/_/g, ' ')}</span></td>
+                        <td>${formatDate(loan.createdAt)}</td>
+                        <td>
+                            <a href="admin-loans.html?id=${loan.id}" class="btn btn-sm btn-outline-primary">
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            table.innerHTML = html;
+        }
+
+        // Initial load
+        loadDashboard();
+    </script>
+</body>
+</html>
+

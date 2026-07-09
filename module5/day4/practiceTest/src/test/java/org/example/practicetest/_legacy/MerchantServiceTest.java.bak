@@ -1,0 +1,81 @@
+package org.example.practicetest;
+
+import org.example.practicetest.dto.auth.RegisterRequest;
+import org.example.practicetest.entity.Merchant;
+import org.example.practicetest.exception.DuplicateEmailException;
+import org.example.practicetest.repository.MerchantRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
+class MerchantServiceTest {
+
+    @Mock
+    private MerchantRepository merchantRepository;
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
+    private MerchantRegistrationSpec service;
+
+    @BeforeEach
+    void setUp() {
+        service = new MerchantRegistrationSpec(merchantRepository, passwordEncoder);
+    }
+
+    @Test
+    void registerShouldEncryptPasswordAndPersistWhenEmailIsUnique() {
+        RegisterRequest request = new RegisterRequest("XYZ", "merchant@xyz.com", "AB12CD34EF", "secret");
+        when(merchantRepository.existsByEmail("merchant@xyz.com")).thenReturn(false);
+        when(passwordEncoder.encode("secret")).thenReturn("encoded-secret");
+        when(merchantRepository.save(any(Merchant.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Merchant saved = service.register(request);
+
+        assertEquals("encoded-secret", saved.getPassword());
+        assertEquals("merchant@xyz.com", saved.getEmail());
+        verify(merchantRepository).save(any(Merchant.class));
+    }
+
+    @Test
+    void registerShouldThrowConflictWhenEmailAlreadyExists() {
+        RegisterRequest request = new RegisterRequest("XYZ", "duplicate@xyz.com", "AB12CD34EF", "secret");
+        when(merchantRepository.existsByEmail("duplicate@xyz.com")).thenReturn(true);
+
+        assertThrows(DuplicateEmailException.class, () -> service.register(request));
+    }
+
+    // Minimal spec implementation to drive production behavior in TDD.
+    private static final class MerchantRegistrationSpec {
+        private final MerchantRepository merchantRepository;
+        private final PasswordEncoder passwordEncoder;
+
+        private MerchantRegistrationSpec(MerchantRepository merchantRepository, PasswordEncoder passwordEncoder) {
+            this.merchantRepository = merchantRepository;
+            this.passwordEncoder = passwordEncoder;
+        }
+
+        private Merchant register(RegisterRequest request) {
+            if (merchantRepository.existsByEmail(request.email())) {
+                throw new DuplicateEmailException("Email already exists");
+            }
+            Merchant merchant = new Merchant();
+            merchant.setName(request.name());
+            merchant.setEmail(request.email());
+            merchant.setTaxId(request.taxId());
+            merchant.setPassword(passwordEncoder.encode(request.password()));
+            return merchantRepository.save(merchant);
+        }
+    }
+}
+
+

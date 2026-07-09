@@ -1,0 +1,60 @@
+package org.example.practicetest.repository;
+
+import org.example.practicetest.entity.Merchant;
+import org.example.practicetest.entity.OrderEntity;
+import org.example.practicetest.entity.OrderStatus;
+import org.example.practicetest.repository.MerchantRepository;
+import org.example.practicetest.repository.OrderRepository;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import java.math.BigDecimal;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+@DataJpaTest
+class OrderRepositoryTest {
+
+    @Autowired
+    private MerchantRepository merchantRepository;
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Test
+    void shouldPersistOrderAndFindByOrderNumber() {
+        Merchant merchant = merchantRepository.saveAndFlush(merchant("m1@xyz.com", "AB12CD34EF"));
+        orderRepository.saveAndFlush(order("ORD-1", merchant, BigDecimal.TEN));
+
+        assertTrue(orderRepository.findByOrderNumber("ORD-1").isPresent());
+    }
+
+    @Test
+    void shouldRejectDuplicateOrderNumber() {
+        Merchant merchant = merchantRepository.saveAndFlush(merchant("m1@xyz.com", "AB12CD34EF"));
+        orderRepository.saveAndFlush(order("ORD-1", merchant, BigDecimal.TEN));
+
+        assertThrows(Exception.class, () -> orderRepository.saveAndFlush(order("ORD-1", merchant, BigDecimal.ONE)));
+    }
+
+    private Merchant merchant(String email, String taxId) {
+        Merchant merchant = new Merchant();
+        merchant.setName("XYZ");
+        merchant.setEmail(email);
+        merchant.setTaxId(taxId);
+        merchant.setPassword("encoded");
+        return merchant;
+    }
+
+    private OrderEntity order(String number, Merchant merchant, BigDecimal amount) {
+        OrderEntity order = new OrderEntity();
+        order.setOrderNumber(number);
+        order.setOrderStatus(OrderStatus.PENDING);
+        order.setMerchant(merchant);
+        order.setTotalAmount(amount);
+        return order;
+    }
+}
+
+
