@@ -1,0 +1,62 @@
+<section class="movies-wrap">
+  <header>
+    <h2>Movies CRUD (Signals)</h2>
+    <p class="meta">Total movies: {{ totalMovies() }}</p>
+  </header>
+
+  <div class="form-row">
+    <input
+      type="text"
+      placeholder="Movie title"
+      [value]="titleInput()"
+      (input)="onTitleInput($any($event.target).value)"
+    />
+
+    <input
+      type="number"
+      min="1"
+      placeholder="Release year"
+      [value]="yearInput()"
+      (input)="onYearInput($any($event.target).value)"
+    />
+
+    @if (editingId() === null) {
+      <button type="button" class="primary" (click)="createMovie()">Create</button>
+    } @else {
+      <button type="button" class="primary" (click)="updateMovie()">Update</button>
+      <button type="button" class="ghost" (click)="cancelEdit()">Cancel</button>
+    }
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Year</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (movies().length === 0) {
+          <tr>
+            <td colspan="4" class="empty">No movies available.</td>
+          </tr>
+        } @else {
+          @for (item of movies(); track item.id) {
+            <tr>
+              <td>{{ item.id }}</td>
+              <td>{{ item.title }}</td>
+              <td>{{ item.year }}</td>
+              <td class="actions">
+                <button type="button" class="edit" (click)="startEdit(item)">Edit</button>
+                <button type="button" class="danger" (click)="deleteMovie(item.id)">Delete</button>
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+</section>

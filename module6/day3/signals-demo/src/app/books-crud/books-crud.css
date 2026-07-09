@@ -1,0 +1,93 @@
+.books-wrap {
+  margin-top: 1rem;
+  background: #ffffff;
+  border: 1px solid #cfd8e7;
+  border-radius: 14px;
+  padding: 1rem;
+  box-shadow: 0 10px 24px rgba(18, 38, 63, 0.07);
+}
+
+.books-wrap h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.meta {
+  margin: 0.4rem 0 0;
+  color: #4c5f7a;
+}
+
+.form-row {
+  margin-top: 0.9rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+input {
+  border: 1px solid #c4d3ec;
+  border-radius: 10px;
+  padding: 0.48rem 0.62rem;
+  font-size: 0.9rem;
+}
+
+button {
+  border: 1px solid #b8c8e6;
+  border-radius: 10px;
+  background: #f8fbff;
+  color: #0f315f;
+  padding: 0.45rem 0.8rem;
+  cursor: pointer;
+}
+
+button.primary {
+  background: #165dff;
+  color: #fff;
+  border-color: #165dff;
+}
+
+button.ghost {
+  background: #fff;
+}
+
+button.edit {
+  background: #edf4ff;
+}
+
+button.danger {
+  background: #fff1f2;
+  color: #a3292f;
+  border-color: #f4c8cc;
+}
+
+.table-wrap {
+  margin-top: 0.9rem;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border-bottom: 1px solid #edf1f7;
+  text-align: left;
+  padding: 0.55rem 0.4rem;
+  font-size: 0.9rem;
+}
+
+th {
+  color: #415471;
+}
+
+td.actions {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.empty {
+  text-align: center;
+  color: #6b7f9c;
+}

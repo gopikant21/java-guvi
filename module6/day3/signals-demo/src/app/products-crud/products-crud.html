@@ -1,0 +1,62 @@
+<section class="products-wrap">
+  <header>
+    <h2>Products CRUD (Signals)</h2>
+    <p class="meta">Total products: {{ totalProducts() }}</p>
+  </header>
+
+  <div class="form-row">
+    <input
+      type="text"
+      placeholder="Product name"
+      [value]="nameInput()"
+      (input)="onNameInput($any($event.target).value)"
+    />
+
+    <input
+      type="number"
+      min="1"
+      placeholder="Price"
+      [value]="priceInput()"
+      (input)="onPriceInput($any($event.target).value)"
+    />
+
+    @if (editingId() === null) {
+      <button type="button" class="primary" (click)="createProduct()">Create</button>
+    } @else {
+      <button type="button" class="primary" (click)="updateProduct()">Update</button>
+      <button type="button" class="ghost" (click)="cancelEdit()">Cancel</button>
+    }
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (products().length === 0) {
+          <tr>
+            <td colspan="4" class="empty">No products available.</td>
+          </tr>
+        } @else {
+          @for (item of products(); track item.id) {
+            <tr>
+              <td>{{ item.id }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.price }}</td>
+              <td class="actions">
+                <button type="button" class="edit" (click)="startEdit(item)">Edit</button>
+                <button type="button" class="danger" (click)="deleteProduct(item.id)">Delete</button>
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+</section>

@@ -1,0 +1,61 @@
+<section class="books-wrap">
+  <header>
+    <h2>Books CRUD (Signals)</h2>
+    <p class="meta">Total books: {{ totalBooks() }}</p>
+  </header>
+
+  <div class="form-row">
+    <input
+      type="text"
+      placeholder="Book title"
+      [value]="titleInput()"
+      (input)="onTitleInput($any($event.target).value)"
+    />
+
+    <input
+      type="text"
+      placeholder="Author"
+      [value]="authorInput()"
+      (input)="onAuthorInput($any($event.target).value)"
+    />
+
+    @if (editingId() === null) {
+      <button type="button" class="primary" (click)="createBook()">Create</button>
+    } @else {
+      <button type="button" class="primary" (click)="updateBook()">Update</button>
+      <button type="button" class="ghost" (click)="cancelEdit()">Cancel</button>
+    }
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (books().length === 0) {
+          <tr>
+            <td colspan="4" class="empty">No books available.</td>
+          </tr>
+        } @else {
+          @for (item of books(); track item.id) {
+            <tr>
+              <td>{{ item.id }}</td>
+              <td>{{ item.title }}</td>
+              <td>{{ item.author }}</td>
+              <td class="actions">
+                <button type="button" class="edit" (click)="startEdit(item)">Edit</button>
+                <button type="button" class="danger" (click)="deleteBook(item.id)">Delete</button>
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+</section>

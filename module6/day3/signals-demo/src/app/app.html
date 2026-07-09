@@ -1,0 +1,103 @@
+<main class="container">
+  <header class="hero">
+    <p class="kicker">Angular Signals</p>
+    <h1>Signal Assignment Demo</h1>
+    <p class="subtitle">Create, read, set, and update Number, String, Array, and Object signals.</p>
+  </header>
+
+  <nav class="crud-nav" aria-label="CRUD navigation">
+    <button
+      type="button"
+      [class.active]="activeCrud() === 'products'"
+      (click)="setActiveCrud('products')"
+    >
+      Products CRUD
+    </button>
+    <button
+      type="button"
+      [class.active]="activeCrud() === 'books'"
+      (click)="setActiveCrud('books')"
+    >
+      Books CRUD
+    </button>
+    <button
+      type="button"
+      [class.active]="activeCrud() === 'movies'"
+      (click)="setActiveCrud('movies')"
+    >
+      Movies CRUD
+    </button>
+  </nav>
+
+  @if (activeCrud() === 'products') {
+    <app-products-crud></app-products-crud>
+  } @else if (activeCrud() === 'books') {
+    <app-books-crud></app-books-crud>
+  } @else {
+    <app-movies-crud></app-movies-crud>
+  }
+
+  <section class="grid">
+    <article class="card">
+      <h2>1) Counter (Number)</h2>
+      <p class="value">Value: <strong>{{ counter() }}</strong></p>
+      <div class="actions">
+        <button type="button" (click)="readCounter()">Read: counter()</button>
+        <button type="button" (click)="setCounterToTen()">Set 10</button>
+        <button type="button" (click)="incrementCounter()">+1</button>
+        <button type="button" (click)="decrementCounter()">-1</button>
+      </div>
+    </article>
+
+    <article class="card">
+      <h2>2) Name (String)</h2>
+      <p class="value">Value: <strong>{{ name() }}</strong></p>
+      <div class="actions">
+        <button type="button" (click)="readName()">Read: name()</button>
+        <button type="button" (click)="setNameToRahul()">Set Rahul</button>
+        <button type="button" (click)="uppercaseName()">UPPERCASE</button>
+      </div>
+    </article>
+
+    <article class="card">
+      <h2>3) Fruits (Array)</h2>
+      <p class="value">Value: <strong>{{ fruits().join(', ') }}</strong></p>
+      <div class="actions">
+        <button type="button" (click)="readFruits()">Read: fruits()</button>
+        <button type="button" (click)="replaceFruits()">Set Orange, Mango</button>
+        <button type="button" (click)="addGrapes()">Add Grapes</button>
+        <button type="button" (click)="removeBanana()">Remove Banana</button>
+        <button type="button" (click)="replaceAppleWithKiwi()">Apple to Kiwi</button>
+      </div>
+    </article>
+
+    <article class="card">
+      <h2>4) User (Object)</h2>
+      <p class="value">
+        Value:
+        <strong>ID {{ user().id }} | {{ user().name }} | Age {{ user().age }}</strong>
+      </p>
+      <div class="actions">
+        <button type="button" (click)="readUser()">Read: user()</button>
+        <button type="button" (click)="replaceUser()">Set Rahul, 25</button>
+        <button type="button" (click)="incrementAge()">Age +1</button>
+        <button type="button" (click)="updateUserNameAndAge()">Set Amit, 30</button>
+      </div>
+    </article>
+  </section>
+
+  <section class="log-card">
+    <h2>Read Logs</h2>
+    @if (logs().length === 0) {
+      <p class="empty">Click any Read button to log current signal values.</p>
+    } @else {
+      <ul>
+        @for (item of logs(); track item) {
+          <li>{{ item }}</li>
+        }
+      </ul>
+    }
+  </section>
+
+  
+</main>

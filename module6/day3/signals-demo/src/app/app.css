@@ -1,0 +1,146 @@
+:host {
+	--bg-1: #f7fbff;
+	--bg-2: #eef5ff;
+	--card: #ffffff;
+	--ink: #152238;
+	--muted: #4c5f7a;
+	--line: #cfd8e7;
+	--accent: #165dff;
+	--accent-2: #0e9f6e;
+	color: var(--ink);
+	display: block;
+	min-height: 100dvh;
+	background: radial-gradient(circle at top right, #dbeafe 0%, transparent 48%),
+		radial-gradient(circle at bottom left, #d1fae5 0%, transparent 44%),
+		linear-gradient(160deg, var(--bg-1), var(--bg-2));
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+	max-width: 1100px;
+	margin: 0 auto;
+	padding: 2rem 1rem 2.5rem;
+}
+
+.hero {
+	margin-bottom: 1.25rem;
+}
+
+.kicker {
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	font-size: 0.8rem;
+	color: var(--accent);
+	font-weight: 700;
+}
+
+h1 {
+	margin: 0.35rem 0;
+	font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+}
+
+.subtitle {
+	margin: 0;
+	color: var(--muted);
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+	gap: 1rem;
+	margin-top: 1rem;
+}
+
+.card,
+.log-card {
+	background: var(--card);
+	border: 1px solid var(--line);
+	border-radius: 14px;
+	padding: 1rem;
+	box-shadow: 0 10px 24px rgba(18, 38, 63, 0.07);
+}
+
+h2 {
+	margin-top: 0;
+	font-size: 1.05rem;
+}
+
+.value {
+	margin: 0.55rem 0 0.85rem;
+	color: var(--muted);
+}
+
+.actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.45rem;
+}
+
+button {
+	border: 1px solid #b8c8e6;
+	border-radius: 999px;
+	background: #f8fbff;
+	color: #0f315f;
+	padding: 0.42rem 0.8rem;
+	cursor: pointer;
+	font-size: 0.86rem;
+	transition: all 0.2s ease;
+}
+
+button:hover {
+	transform: translateY(-1px);
+	border-color: var(--accent);
+	background: #edf4ff;
+}
+
+button:active {
+	transform: translateY(0);
+}
+
+.log-card {
+	margin-top: 1rem;
+}
+
+.crud-nav {
+	margin-top: 1.2rem;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.55rem;
+	padding: 0.7rem;
+	background: rgba(255, 255, 255, 0.75);
+	border: 1px solid var(--line);
+	border-radius: 12px;
+	box-shadow: 0 8px 20px rgba(18, 38, 63, 0.06);
+}
+
+.crud-nav button {
+	border-radius: 10px;
+	padding: 0.5rem 0.9rem;
+	font-weight: 600;
+}
+
+.crud-nav button.active {
+	background: var(--accent);
+	color: #ffffff;
+	border-color: var(--accent);
+	box-shadow: 0 6px 14px rgba(22, 93, 255, 0.3);
+}
+
+.empty {
+	color: var(--muted);
+	margin-bottom: 0;
+}
+
+ul {
+	margin: 0;
+	padding-left: 1.2rem;
+}
+
+li {
+	margin: 0.35rem 0;
+	color: #20334f;
+}
+
+li::marker {
+	color: var(--accent-2);
+}
