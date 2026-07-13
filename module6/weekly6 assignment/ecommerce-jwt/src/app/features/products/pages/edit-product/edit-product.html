@@ -1,0 +1,33 @@
+<!-- src/app/features/products/pages/edit-product/edit-product.html -->
+<h2>Edit Product</h2>
+
+@if (loading()) {
+  <p>Loading...</p>
+} @else {
+  @if (errorMessage()) {
+    <p>{{ errorMessage() }}</p>
+  }
+
+  @if (productLoaded()) {
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <p><input type="text" placeholder="Name" formControlName="name" /></p>
+      <p><input type="text" placeholder="Description" formControlName="description" /></p>
+      <p><input type="text" placeholder="Brand" formControlName="brand" /></p>
+
+      <p>
+        <select formControlName="category">
+          @for (c of categories; track c) {
+            <option [value]="c">{{ c }}</option>
+          }
+        </select>
+      </p>
+
+      <p><input type="number" placeholder="Price" formControlName="price" /></p>
+      <p><input type="number" placeholder="Stocks" formControlName="stocks" /></p>
+
+      <button type="submit" [disabled]="submitting()">
+        {{ submitting() ? 'Updating...' : 'Update' }}
+      </button>
+    </form>
+  }
+}

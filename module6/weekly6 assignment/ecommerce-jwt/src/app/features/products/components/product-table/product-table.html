@@ -1,0 +1,41 @@
+<!-- src/app/features/products/components/product-table/product-table.html -->
+@if (loading) {
+  <p>Loading products...</p>
+} @else if (errorMessage) {
+  <p>{{ errorMessage }}</p>
+} @else if (products.length === 0) {
+  <p>No products found.</p>
+} @else {
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Brand</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (p of products; track p.id) {
+        <tr>
+          <td>{{ p.id }}</td>
+          <td>{{ p.name }}</td>
+          <td>{{ p.brand }}</td>
+          <td>{{ p.category }}</td>
+          <td>{{ p.price }}</td>
+          <td>{{ p.stocks }}</td>
+          <td>
+            <button type="button" (click)="onView(p.id)">View</button>
+            @if (isAdmin) {
+              <button type="button" (click)="onEdit(p.id)">Edit</button>
+              <button type="button" (click)="onDelete(p.id)">Delete</button>
+            }
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}

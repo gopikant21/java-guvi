@@ -1,0 +1,48 @@
+<div class="shell">
+	<header class="topbar">
+		<div>
+			<p class="kicker">Customer Portal</p>
+			<h1>Ecommerce RBAC</h1>
+		</div>
+
+		<div class="session">
+			<p class="user">{{ username }}</p>
+			<p class="role">{{ roles }}</p>
+			<button type="button" (click)="logout()">Logout</button>
+		</div>
+	</header>
+
+	<div class="content-grid">
+		<aside class="sidebar">
+			<section>
+				<h2>Home</h2>
+				<a routerLink="/dashboard/customer" routerLinkActive="active">Dashboard</a>
+			</section>
+
+			<section>
+				<h2>Products</h2>
+				<a routerLink="/products" routerLinkActive="active">Browse Products</a>
+				<a routerLink="/products/details" routerLinkActive="active">Product Details</a>
+			</section>
+
+			<section>
+				<h2>Orders</h2>
+				<a routerLink="/orders" routerLinkActive="active">My Orders</a>
+				<a routerLink="/orders/create" routerLinkActive="active">Create Order</a>
+				<a routerLink="/orders/details" routerLinkActive="active">Order Details</a>
+			</section>
+
+			<section>
+				<h2>Profile</h2>
+				<a routerLink="/profile" routerLinkActive="active">My Profile</a>
+				<a routerLink="/customers/register" routerLinkActive="active">Register Customer</a>
+				<a routerLink="/customers/details" routerLinkActive="active">Customer Details</a>
+				<a routerLink="/customers/edit" routerLinkActive="active">Edit Customer</a>
+			</section>
+		</aside>
+
+		<main class="main-content">
+			<router-outlet />
+		</main>
+	</div>
+</div>

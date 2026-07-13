@@ -1,5 +1,6 @@
 package org.example.productjwt.repository;
 
+import org.example.productjwt.enums.ProductCategory;
 import org.example.productjwt.model.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,12 +17,12 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     // Derived query methods
-    Page<Product> findByCategoryIgnoreCase(String category, Pageable pageable);
+    Page<Product> findByCategory(ProductCategory category, Pageable pageable);
     Page<Product> findByBrandIgnoreCase(String brand, Pageable pageable);
     Page<Product> findByPriceBetween(Double minPrice, Double maxPrice, Pageable pageable);
     Page<Product> findByNameContainingIgnoreCase(String name, Pageable pageable);
     Page<Product> findByStocksGreaterThan(int stocks, Pageable pageable);
-    Page<Product> findByCategoryIgnoreCaseAndStocksGreaterThan(String category, int stocks, Pageable pageable);
+    Page<Product> findByCategoryAndStocksGreaterThan(ProductCategory category, int stocks, Pageable pageable);
 
     // Custom @Query methods
 
@@ -30,12 +31,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findLowStockProducts(@Param("threshold") int threshold);
 
     // Find products by category with low stock
-    @Query("SELECT p FROM Product p WHERE LOWER(p.category) = LOWER(:category) AND p.stocks < :threshold")
-    List<Product> findLowStockByCategory(@Param("category") String category, @Param("threshold") int threshold);
+    @Query("SELECT p FROM Product p WHERE p.category = :category AND p.stocks < :threshold")
+    List<Product> findLowStockByCategory(@Param("category") ProductCategory category, @Param("threshold") int threshold);
 
     // Count total products by category
-    @Query("SELECT COUNT(p) FROM Product p WHERE LOWER(p.category) = LOWER(:category)")
-    long countByCategory(@Param("category") String category);
+    @Query("SELECT COUNT(p) FROM Product p WHERE p.category = :category")
+    long countByCategory(@Param("category") ProductCategory category);
 
     // Find products not in any orders
     @Query("SELECT p FROM Product p WHERE p.id NOT IN (SELECT DISTINCT oi.product.id FROM OrderItem oi)")
@@ -44,14 +45,14 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     // UPDATE query: Increase price by percentage for all products in a category
     @Modifying
     @Transactional
-    @Query("UPDATE Product p SET p.price = p.price * (1 + :percentage / 100) WHERE LOWER(p.category) = LOWER(:category)")
-    int updatePriceByPercentageForCategory(@Param("category") String category, @Param("percentage") Double percentage);
+    @Query("UPDATE Product p SET p.price = p.price * (1 + :percentage / 100) WHERE p.category = :category")
+    int updatePriceByPercentageForCategory(@Param("category") ProductCategory category, @Param("percentage") Double percentage);
 
     // UPDATE query: Set stock to zero for products in a category
     @Modifying
     @Transactional
-    @Query("UPDATE Product p SET p.stocks = 0 WHERE LOWER(p.category) = LOWER(:category)")
-    int clearStockByCategory(@Param("category") String category);
+    @Query("UPDATE Product p SET p.stocks = 0 WHERE p.category = :category")
+    int clearStockByCategory(@Param("category") ProductCategory category);
 
     // UPDATE query: Restock products with quantity
     @Modifying

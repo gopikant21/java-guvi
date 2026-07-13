@@ -29,7 +29,7 @@ public class ProductController {
 
     // Get all products
     @GetMapping
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<List<ProductResponseDto>> getAllProducts() {
         List<ProductResponseDto> products = productService.getAllProducts();
         return ResponseEntity.ok(products);
@@ -37,7 +37,7 @@ public class ProductController {
 
     // Get product by ID
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<ProductResponseDto> getProductById(@PathVariable Long id) {
         ProductResponseDto product = productService.getProductById(id);
         return ResponseEntity.ok(product);
@@ -61,7 +61,7 @@ public class ProductController {
 
     // Search by category
     @GetMapping("/category/{category}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<List<ProductResponseDto>> getProductsByCategory(@PathVariable String category) {
         List<ProductResponseDto> products = productService.getProductsByCategory(category);
         return ResponseEntity.ok(products);
@@ -69,7 +69,7 @@ public class ProductController {
 
     // Search by brand
     @GetMapping("/brand/{brand}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<List<ProductResponseDto>> getProductsByBrand(@PathVariable String brand) {
         List<ProductResponseDto> products = productService.getProductsByBrand(brand);
         return ResponseEntity.ok(products);
@@ -77,7 +77,7 @@ public class ProductController {
 
     // Search by price range
     @GetMapping("/price")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<List<ProductResponseDto>> getProductsByPriceRange(
             @RequestParam Double minPrice,
             @RequestParam Double maxPrice) {
@@ -87,7 +87,7 @@ public class ProductController {
 
     // Search by name
     @GetMapping("/search")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<List<ProductResponseDto>> searchProducts(@RequestParam String name) {
         List<ProductResponseDto> products = productService.searchProductsByName(name);
         return ResponseEntity.ok(products);
@@ -95,7 +95,7 @@ public class ProductController {
 
     // Get available products
     @GetMapping("/available")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<List<ProductResponseDto>> getAvailableProducts() {
         List<ProductResponseDto> products = productService.getAvailableProducts();
         return ResponseEntity.ok(products);
@@ -103,7 +103,7 @@ public class ProductController {
 
     // Get available products by category
     @GetMapping("/available/category/{category}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<List<ProductResponseDto>> getAvailableProductsByCategory(@PathVariable String category) {
         List<ProductResponseDto> products = productService.getAvailableProductsByCategory(category);
         return ResponseEntity.ok(products);

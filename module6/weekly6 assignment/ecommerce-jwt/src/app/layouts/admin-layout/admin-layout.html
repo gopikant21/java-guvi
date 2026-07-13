@@ -1,0 +1,46 @@
+<div class="shell">
+	<header class="topbar">
+		<div>
+			<p class="kicker">Admin Console</p>
+			<h1>Ecommerce RBAC Operations</h1>
+		</div>
+
+		<div class="session">
+			<p class="user">{{ username }}</p>
+			<p class="role">{{ roles }}</p>
+			<button type="button" (click)="logout()">Logout</button>
+		</div>
+	</header>
+
+	<div class="content-grid">
+		<aside class="sidebar">
+			<section>
+				<h2>Overview</h2>
+				<a routerLink="/dashboard/admin" routerLinkActive="active">Dashboard</a>
+				<a routerLink="/admin/analytics" routerLinkActive="active">Analytics</a>
+				<a routerLink="/admin/reports" routerLinkActive="active">Reports</a>
+			</section>
+
+			<section>
+				<h2>Products</h2>
+				<a routerLink="/admin/products" routerLinkActive="active">All Products</a>
+				<a routerLink="/admin/products/inventory" routerLinkActive="active">Inventory</a>
+			</section>
+
+			<section>
+				<h2>Customers</h2>
+				<a routerLink="/admin/customers" routerLinkActive="active">All Customers</a>
+			</section>
+
+			<section>
+				<h2>Orders</h2>
+				<a routerLink="/admin/orders" routerLinkActive="active">All Orders</a>
+				<a routerLink="/admin/orders/details" routerLinkActive="active">Order Details</a>
+			</section>
+		</aside>
+
+		<main class="main-content">
+			<router-outlet />
+		</main>
+	</div>
+</div>

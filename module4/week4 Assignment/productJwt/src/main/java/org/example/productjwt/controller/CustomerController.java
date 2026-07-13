@@ -36,7 +36,7 @@ public class CustomerController {
 
     // Get customer by ID
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<CustomerResponseDto> getCustomerById(@PathVariable Long id) {
         CustomerResponseDto customer = customerService.getCustomerById(id);
         return ResponseEntity.ok(customer);
@@ -44,7 +44,7 @@ public class CustomerController {
 
     // Get customer by email
     @GetMapping("/email/{email}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<CustomerResponseDto> getCustomerByEmail(@PathVariable String email) {
         CustomerResponseDto customer = customerService.getCustomerByEmail(email);
         return ResponseEntity.ok(customer);
@@ -52,7 +52,7 @@ public class CustomerController {
 
     // Get customer by phone
     @GetMapping("/phone/{phone}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<CustomerResponseDto> getCustomerByPhone(@PathVariable String phone) {
         CustomerResponseDto customer = customerService.getCustomerByPhone(phone);
         return ResponseEntity.ok(customer);
@@ -60,7 +60,7 @@ public class CustomerController {
 
     // Update customer
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<CustomerResponseDto> updateCustomer(
             @PathVariable Long id,
             @Valid @RequestBody CustomerRequestDto customerRequestDto) {
@@ -112,7 +112,7 @@ public class CustomerController {
 
     // UPDATE: Update customer address
     @PutMapping("/{id}/update-address")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<String> updateCustomerAddress(
             @PathVariable Long id,
             @RequestParam String address) {
@@ -122,7 +122,7 @@ public class CustomerController {
 
     // UPDATE: Update customer contact information
     @PutMapping("/{id}/update-contact")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<String> updateCustomerContactInfo(
             @PathVariable Long id,
             @RequestParam(required = false) String phone,

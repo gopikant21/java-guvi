@@ -1,0 +1,19 @@
+<!-- src/app/features/products/pages/product-list/product-list.html -->
+<h2>Products</h2>
+
+@if (isAdmin()) {
+  <p>
+    <button type="button" (click)="goToAdd()">Add Product</button>
+    <button type="button" (click)="goToInventory()">Low Stock</button>
+  </p>
+}
+
+<app-product-table
+  [products]="products()"
+  [loading]="loading()"
+  [errorMessage]="errorMessage()"
+  [isAdmin]="isAdmin()"
+  (view)="onView($event)"
+  (edit)="onEdit($event)"
+  (remove)="onDelete($event)"
+/>

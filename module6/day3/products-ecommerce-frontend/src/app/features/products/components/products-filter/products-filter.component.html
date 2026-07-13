@@ -1,0 +1,60 @@
+<div class="rounded-2xl border border-white/10 bg-slate-900/70 p-5 shadow-2xl backdrop-blur">
+  <div class="mb-3 flex items-center justify-between gap-2">
+    <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-300">Product Filters</h3>
+    <button class="btn-ghost" (click)="reset.emit()" [disabled]="loading">Reset</button>
+  </div>
+
+  <div class="space-y-3">
+    <input class="field" type="number" placeholder="Get by id" [ngModel]="productById" (ngModelChange)="productByIdChange.emit($event)" name="filterProductById" />
+
+    <!-- <input class="field" placeholder="Exact name" [ngModel]="searchName" (ngModelChange)="searchNameChange.emit($event)" name="filterSearchName" />
+    <button class="btn-ghost w-full" (click)="byName.emit()" [disabled]="loading">Search Name</button> -->
+
+    <input class="field" placeholder="Keyword" [ngModel]="searchKeyword" (ngModelChange)="searchKeywordChange.emit($event)" name="filterSearchKeyword" />
+
+    <select class="field" [ngModel]="searchCategory" (ngModelChange)="searchCategoryChange.emit($event)" name="filterSearchCategory">
+      <option value="">Select category</option>
+      <option *ngFor="let option of categoryOptions" [value]="option">{{ option }}</option>
+    </select>
+
+    <select class="field" [ngModel]="searchBrand" (ngModelChange)="searchBrandChange.emit($event)" name="filterSearchBrand">
+      <option value="">Select brand</option>
+      <option *ngFor="let option of brandOptions" [value]="option">{{ option }}</option>
+    </select>
+
+    <input class="field" type="number" placeholder="Price value" [ngModel]="singlePrice" (ngModelChange)="singlePriceChange.emit($event)" name="filterSinglePrice" />
+
+    <div class="grid grid-cols-2 gap-2">
+      <input class="field" type="number" placeholder="Min" [ngModel]="rangeMin" (ngModelChange)="rangeMinChange.emit($event)" name="filterRangeMin" />
+      <input class="field" type="number" placeholder="Max" [ngModel]="rangeMax" (ngModelChange)="rangeMaxChange.emit($event)" name="filterRangeMax" />
+    </div>
+    <button class="btn-apply w-full" (click)="applyFilters.emit()" [disabled]="loading">Apply Filters</button>
+
+    <div class="grid grid-cols-2 gap-2">
+      <button class="btn-ghost" (click)="inStock.emit()" [disabled]="loading">In Stock</button>
+      <button class="btn-ghost" (click)="outOfStock.emit()" [disabled]="loading">Out of Stock</button>
+    </div>
+
+    <div class="grid grid-cols-2 gap-2">
+      <button class="btn-ghost" (click)="sortName.emit()" [disabled]="loading">Sort Name</button>
+      <button class="btn-ghost" (click)="sortRating.emit()" [disabled]="loading">Sort Rating</button>
+      <button class="btn-ghost" (click)="sortPriceAsc.emit()" [disabled]="loading">Price Asc</button>
+      <button class="btn-ghost" (click)="sortPriceDesc.emit()" [disabled]="loading">Price Desc</button>
+    </div>
+
+    <input class="field" type="number" placeholder="Top rated limit" [ngModel]="topRatedLimit" (ngModelChange)="topRatedLimitChange.emit($event)" name="filterTopRatedLimit" />
+    <button class="btn-ghost w-full" (click)="topRated.emit()" [disabled]="loading">Top Rated</button>
+
+    <input class="field" type="number" step="0.1" placeholder="Min rating" [ngModel]="discountedMinRating" (ngModelChange)="discountedMinRatingChange.emit($event)" name="filterMinRating" />
+    <button class="btn-ghost w-full" (click)="discounted.emit()" [disabled]="loading">Discounted</button>
+
+    <div class="grid grid-cols-2 gap-2">
+      <input class="field" type="number" placeholder="Action id" [ngModel]="actionProductId" (ngModelChange)="actionProductIdChange.emit($event)" name="filterActionProductId" />
+      <input class="field" type="number" placeholder="Qty" [ngModel]="actionQuantity" (ngModelChange)="actionQuantityChange.emit($event)" name="filterActionQty" />
+    </div>
+    <div class="grid grid-cols-2 gap-2">
+      <button class="btn-ghost" (click)="buy.emit()" [disabled]="loading">Buy</button>
+      <button class="btn-ghost" (click)="restock.emit()" [disabled]="loading">Restock</button>
+    </div>
+  </div>
+</div>

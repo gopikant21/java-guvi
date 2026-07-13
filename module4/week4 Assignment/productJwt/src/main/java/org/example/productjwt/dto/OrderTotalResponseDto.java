@@ -1,14 +1,9 @@
 package org.example.productjwt.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class OrderTotalResponseDto {
-    private Long orderId;
-    private Double total;
-}
+/**
+ * Record representing the total amount for an order.
+ * @param orderId the order ID
+ * @param total the total amount for the order
+ */
+public record OrderTotalResponseDto(Long orderId, Double total) {}
 

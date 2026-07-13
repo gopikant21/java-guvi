@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 public class ProductDAOImpl implements ProductDAO {
 
     private Map<Integer, Product> products;
+    private int nextId = 11; // Start after initial data (IDs 1-10)
 
     @PostConstruct
     public void init() {
@@ -138,12 +139,14 @@ public class ProductDAOImpl implements ProductDAO {
         ));
     }
 
-
-
     // ---------------- CRUD ----------------
 
     @Override
     public void save(Product product) {
+        // Generate new ID if not already set (id is 0 or less)
+        if (product.getId() <= 0) {
+            product.setId(nextId++);
+        }
         product.setCreatedAt(LocalDateTime.now());
         product.setUpdatedAt(LocalDateTime.now());
         products.put(product.getId(), product);

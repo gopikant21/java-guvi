@@ -1,0 +1,15 @@
+<h2>Product Details</h2>
+
+@if (loading()) {
+  <p>Loading...</p>
+} @else if (errorMessage()) {
+  <p>{{ errorMessage() }}</p>
+} @else if (product(); as p) {
+  <p><strong>ID:</strong> {{ p.id }}</p>
+  <p><strong>Name:</strong> {{ p.name }}</p>
+  <p><strong>Description:</strong> {{ p.description }}</p>
+  <p><strong>Brand:</strong> {{ p.brand }}</p>
+  <p><strong>Category:</strong> {{ p.category }}</p>
+  <p><strong>Price:</strong> {{ p.price }}</p>
+  <p><strong>Stocks:</strong> {{ p.stocks }}</p>
+}

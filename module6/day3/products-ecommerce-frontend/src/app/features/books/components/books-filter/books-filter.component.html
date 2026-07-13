@@ -1,0 +1,31 @@
+<div class="rounded-2xl border border-white/10 bg-slate-900/70 p-5 shadow-2xl backdrop-blur">
+  <div class="mb-3 flex items-center justify-between gap-2">
+    <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-300">Book Filters</h3>
+    <button class="btn-ghost" (click)="reset.emit()" [disabled]="loading">Reset</button>
+  </div>
+
+  <div class="space-y-3">
+    <input class="field" type="number" placeholder="Get by id" [ngModel]="bookById" (ngModelChange)="bookByIdChange.emit($event)" name="filterBookById" />
+
+    <input class="field" placeholder="Title" [ngModel]="searchTitle" (ngModelChange)="searchTitleChange.emit($event)" name="filterTitle" />
+
+    <input class="field" placeholder="Author" [ngModel]="searchAuthor" (ngModelChange)="searchAuthorChange.emit($event)" name="filterAuthor" />
+
+    <input class="field" placeholder="Publisher" [ngModel]="searchPublisher" (ngModelChange)="searchPublisherChange.emit($event)" name="filterPublisher" />
+
+    <input class="field" type="number" placeholder="Price value" [ngModel]="singlePrice" (ngModelChange)="singlePriceChange.emit($event)" name="filterSinglePrice" />
+
+    <div class="grid grid-cols-2 gap-2">
+      <input class="field" type="number" placeholder="Min" [ngModel]="rangeMin" (ngModelChange)="rangeMinChange.emit($event)" name="filterRangeMin" />
+      <input class="field" type="number" placeholder="Max" [ngModel]="rangeMax" (ngModelChange)="rangeMaxChange.emit($event)" name="filterRangeMax" />
+    </div>
+    <button class="btn-apply w-full" (click)="applyFilters.emit()" [disabled]="loading">Apply Filters</button>
+
+    <div class="grid grid-cols-2 gap-2">
+      <button class="btn-ghost" (click)="sortTitle.emit()" [disabled]="loading">Sort Title</button>
+      <button class="btn-ghost" (click)="sortAuthor.emit()" [disabled]="loading">Sort Author</button>
+      <button class="btn-ghost" (click)="sortPriceAsc.emit()" [disabled]="loading">Price Asc</button>
+      <button class="btn-ghost" (click)="sortPriceDesc.emit()" [disabled]="loading">Price Desc</button>
+    </div>
+  </div>
+</div>

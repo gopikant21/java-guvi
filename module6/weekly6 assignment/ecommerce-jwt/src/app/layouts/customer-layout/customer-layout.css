@@ -1,0 +1,158 @@
+.shell {
+	min-height: 100vh;
+	height: 100dvh;
+	display: flex;
+	flex-direction: column;
+	background: #f8fafc;
+	overflow: hidden;
+}
+
+.topbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 16px;
+	padding: 16px 24px;
+	background: #111827;
+	border-bottom: 1px solid #e2e8f0;
+    color: #f8fafc;
+	flex-shrink: 0;
+}
+
+.kicker {
+	margin: 0;
+	font-size: 0.73rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: #0369a1;
+	font-weight: 700;
+}
+
+.topbar h1 {
+	margin: 3px 0 0;
+	font-size: 1.25rem;
+}
+
+.session {
+	text-align: right;
+}
+
+.session p {
+	margin: 0;
+}
+
+.session .user {
+	font-weight: 700;
+}
+
+.session .role {
+	color: #475569;
+	font-size: 0.86rem;
+	margin-bottom: 6px;
+}
+
+.session button {
+	border: 1px solid #cbd5e1;
+	background: #fff;
+	color: #0f172a;
+	border-radius: 6px;
+	padding: 6px 10px;
+	cursor: pointer;
+}
+
+.content-grid {
+	display: grid;
+	grid-template-columns: 260px 1fr;
+	flex: 1 1 auto;
+	min-height: 0;
+	overflow: hidden;
+}
+
+.sidebar {
+	background: #0f172a;
+	color: #e2e8f0;
+	height: 100%;
+	min-height: 0;
+	padding: 18px 14px;
+	display: grid;
+	gap: 16px;
+	overflow-y: hidden;
+	overscroll-behavior: contain;
+}
+
+.sidebar:hover,
+.sidebar:focus-within {
+	overflow-y: auto;
+}
+
+.sidebar {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+.sidebar::-webkit-scrollbar {
+	width: 0;
+	height: 0;
+}
+
+.sidebar h2 {
+	font-size: 0.8rem;
+	margin: 0 0 8px;
+	text-transform: uppercase;
+	letter-spacing: 0.07em;
+	color: #93c5fd;
+}
+
+.sidebar a {
+	display: block;
+	text-decoration: none;
+	color: #e2e8f0;
+	padding: 7px 9px;
+	border-radius: 6px;
+	margin-bottom: 3px;
+}
+
+.sidebar a.active,
+.sidebar a:hover {
+	background: #1e293b;
+}
+
+.main-content {
+	padding: 22px;
+	height: 100%;
+	min-height: 0;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+}
+
+@media (max-width: 980px) {
+	.content-grid {
+		grid-template-columns: 1fr;
+		grid-template-rows: auto minmax(0, 1fr);
+	}
+
+	.sidebar {
+		height: auto;
+		max-height: 40vh;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 640px) {
+	.topbar {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.session {
+		text-align: left;
+	}
+
+	.sidebar {
+		grid-template-columns: 1fr;
+	}
+
+	.main-content {
+		padding: 14px;
+	}
+}

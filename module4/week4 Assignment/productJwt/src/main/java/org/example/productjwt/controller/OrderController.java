@@ -23,7 +23,7 @@ public class OrderController {
 
     // Create order for customer
     @PostMapping("/customer/{customerId}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<OrderResponseDto> createOrder(@PathVariable Long customerId) {
         OrderResponseDto newOrder = orderService.createOrder(customerId);
         return new ResponseEntity<>(newOrder, HttpStatus.CREATED);
@@ -39,7 +39,7 @@ public class OrderController {
 
     // Get order by ID
     @GetMapping("/{orderId}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<OrderResponseDto> getOrderById(@PathVariable Long orderId) {
         OrderResponseDto order = orderService.getOrderById(orderId);
         return ResponseEntity.ok(order);
@@ -47,7 +47,7 @@ public class OrderController {
 
     // Get orders for a customer
     @GetMapping("/customer/{customerId}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<List<OrderResponseDto>> getCustomerOrders(@PathVariable Long customerId) {
         List<OrderResponseDto> orders = orderService.getCustomerOrders(customerId);
         return ResponseEntity.ok(orders);
@@ -55,7 +55,7 @@ public class OrderController {
 
     // Get orders for a customer sorted by newest first
     @GetMapping("/customer/{customerId}/newest")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<List<OrderResponseDto>> getCustomerOrdersSortedByNewest(@PathVariable Long customerId) {
         List<OrderResponseDto> orders = orderService.getCustomerOrdersSortedByNewest(customerId);
         return ResponseEntity.ok(orders);
@@ -63,7 +63,7 @@ public class OrderController {
 
     // Add item to order
     @PostMapping("/{orderId}/items")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<OrderItemResponseDto> addItemToOrder(
             @PathVariable Long orderId,
             @Valid @RequestBody OrderItemRequestDto orderItemRequestDto) {
@@ -73,7 +73,7 @@ public class OrderController {
 
     // Get items in an order
     @GetMapping("/{orderId}/items")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<List<OrderItemResponseDto>> getOrderItems(@PathVariable Long orderId) {
         List<OrderItemResponseDto> items = orderService.getOrderItems(orderId);
         return ResponseEntity.ok(items);
@@ -81,7 +81,7 @@ public class OrderController {
 
     // Update item quantity in order
     @PutMapping("/items/{orderItemId}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<OrderItemResponseDto> updateOrderItemQuantity(
             @PathVariable Long orderItemId,
             @RequestParam int quantity) {
@@ -91,7 +91,7 @@ public class OrderController {
 
     // Remove item from order
     @DeleteMapping("/items/{orderItemId}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<String> removeItemFromOrder(@PathVariable Long orderItemId) {
         orderService.removeItemFromOrder(orderItemId);
         return ResponseEntity.ok("Item removed from order");
@@ -99,7 +99,7 @@ public class OrderController {
 
     // Get order total
     @GetMapping("/{orderId}/total")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<OrderTotalResponseDto> getOrderTotal(@PathVariable Long orderId) {
         OrderTotalResponseDto response = orderService.getOrderTotal(orderId);
         return ResponseEntity.ok(response);
@@ -107,7 +107,7 @@ public class OrderController {
 
     // Cancel order
     @DeleteMapping("/{orderId}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<String> cancelOrder(@PathVariable Long orderId) {
         orderService.cancelOrder(orderId);
         return ResponseEntity.ok("Order cancelled and stock restored");

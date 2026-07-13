@@ -1,0 +1,41 @@
+<section class="customer-list-page">
+  <header class="page-header">
+    <h2>Customer List</h2>
+    <button type="button" (click)="fetchCustomers()" [disabled]="loading()">
+      {{ loading() ? 'Loading...' : 'Refresh' }}
+    </button>
+  </header>
+
+  @if (errorMessage()) {
+    <p class="error">{{ errorMessage() }}</p>
+  }
+
+  @if (loading()) {
+    <p>Loading customers...</p>
+  } @else if (!customers().length) {
+    <p>No customers found.</p>
+  } @else {
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Address</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (customer of customers(); track customer.id) {
+            <tr>
+                <td>{{ customer.id }}</td>
+                <td>{{ customer.name }}</td>
+                <td>{{ customer.email }}</td>
+                <td>{{ customer.phone || '-' }}</td>
+                <td>{{ customer.address || '-' }}</td>
+            </tr>
+        }
+      </tbody>
+    </table>
+  }
+</section>

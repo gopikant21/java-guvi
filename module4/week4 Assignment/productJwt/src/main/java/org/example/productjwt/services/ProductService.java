@@ -2,6 +2,7 @@ package org.example.productjwt.services;
 
 import org.example.productjwt.dto.ProductRequestDto;
 import org.example.productjwt.dto.ProductResponseDto;
+import org.example.productjwt.enums.ProductCategory;
 import org.example.productjwt.exceptions.ResourceNotFoundException;
 import org.example.productjwt.mapper.ProductMapper;
 import org.example.productjwt.model.Product;
@@ -72,8 +73,9 @@ public class ProductService implements IProductService {
 
     // Search operations
     public List<ProductResponseDto> getProductsByCategory(String category) {
+        ProductCategory categoryEnum = parseCategory(category);
         return productRepository.findAll().stream()
-                .filter(p -> category.equalsIgnoreCase(p.getCategory()))
+                .filter(p -> categoryEnum.equals(p.getCategory()))
                 .map(productMapper::toResponseDto)
                 .collect(Collectors.toList());
     }
@@ -110,8 +112,9 @@ public class ProductService implements IProductService {
     }
 
     public List<ProductResponseDto> getAvailableProductsByCategory(String category) {
+        ProductCategory categoryEnum = parseCategory(category);
         return productRepository.findAll().stream()
-                .filter(p -> category.equalsIgnoreCase(p.getCategory()) && p.getStocks() > 0)
+                .filter(p -> categoryEnum.equals(p.getCategory()) && p.getStocks() > 0)
                 .map(productMapper::toResponseDto)
                 .collect(Collectors.toList());
     }
@@ -149,14 +152,14 @@ public class ProductService implements IProductService {
 
     // Get low stock products in specific category
     public List<ProductResponseDto> getLowStockByCategory(String category, int threshold) {
-        return productRepository.findLowStockByCategory(category, threshold).stream()
+        return productRepository.findLowStockByCategory(parseCategory(category), threshold).stream()
                 .map(productMapper::toResponseDto)
                 .collect(Collectors.toList());
     }
 
     // Get count of products in category
     public long getProductCountByCategory(String category) {
-        return productRepository.countByCategory(category);
+        return productRepository.countByCategory(parseCategory(category));
     }
 
     // Get products that have never been ordered
@@ -171,12 +174,20 @@ public class ProductService implements IProductService {
         if (percentage < 0) {
             throw new IllegalArgumentException("Percentage cannot be negative");
         }
-        return productRepository.updatePriceByPercentageForCategory(category, percentage);
+        return productRepository.updatePriceByPercentageForCategory(parseCategory(category), percentage);
     }
 
     // UPDATE: Clear stock for all products in a category
     public int clearStockByCategory(String category) {
-        return productRepository.clearStockByCategory(category);
+        return productRepository.clearStockByCategory(parseCategory(category));
+    }
+
+    private ProductCategory parseCategory(String category) {
+        try {
+            return ProductCategory.valueOf(category.toUpperCase());
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Invalid category: " + category);
+        }
     }
 
     // UPDATE: Restock a product by quantity

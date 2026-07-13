@@ -2,6 +2,7 @@ package org.example.productjwt.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.productjwt.enums.OrderStatus;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -30,6 +31,10 @@ public class Order {
 
     @Column(name = "order_date", nullable = false, updatable = false)
     private LocalDateTime orderDate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private OrderStatus status = OrderStatus.PENDING;
 
     @PrePersist
     public void setOrderDate() {

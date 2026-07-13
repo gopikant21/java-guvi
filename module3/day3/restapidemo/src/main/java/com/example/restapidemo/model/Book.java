@@ -1,10 +1,21 @@
 package com.example.restapidemo.model;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+
 public class Book {
     private int id;
+
+    @NotBlank(message = "Title is required")
     private String title;
+
+    @NotBlank(message = "Author is required")
     private String author;
+
+    @NotBlank(message = "Publisher is required")
     private String publisher;
+
+    @Positive(message = "Price must be greater than 0")
     private double price;
 
 

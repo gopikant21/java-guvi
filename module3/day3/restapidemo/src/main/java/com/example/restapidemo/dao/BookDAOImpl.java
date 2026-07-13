@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 public class BookDAOImpl implements BookDAO {
 
     private Map<Integer, Book> books;
+    private int nextId = 6; // Start after initial data (IDs 1-5)
 
     @PostConstruct
     public void init() {
@@ -34,6 +35,10 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public void save(Book book) {
+        // Generate new ID if not already set (id is 0 or less)
+        if (book.getId() <= 0) {
+            book.setId(nextId++);
+        }
         books.put(book.getId(), book);
     }
 

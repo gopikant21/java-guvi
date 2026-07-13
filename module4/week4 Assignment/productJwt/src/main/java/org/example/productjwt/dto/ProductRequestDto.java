@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.productjwt.enums.ProductCategory;
 
 @Data
 @NoArgsConstructor
@@ -20,7 +21,9 @@ public class ProductRequestDto {
     @DecimalMin(value = "0.01", message = "Price must be greater than zero")
     private Double price;
 
-    private String category;
+    @NotNull(message = "Category is required")
+    private ProductCategory category;
+
     private String brand;
 
     @Min(value = 0, message = "Stocks cannot be negative")

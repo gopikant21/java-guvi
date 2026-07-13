@@ -1,0 +1,139 @@
+<section class="books-layout grid gap-4 lg:grid-cols-[320px_minmax(0,1fr)]">
+  <aside class="books-sidebar space-y-4">
+    <app-books-filter
+      [loading]="loading()"
+      [(bookById)]="bookById"
+      [(searchTitle)]="searchTitle"
+      [(searchAuthor)]="searchAuthor"
+      [(searchPublisher)]="searchPublisher"
+      [(singlePrice)]="singlePrice"
+      [(rangeMin)]="rangeMin"
+      [(rangeMax)]="rangeMax"
+      (reset)="loadBooks()"
+      (applyFilters)="applyCombinedFilters()"
+      (getById)="getBookById()"
+      (byTitle)="searchBooksByTitle()"
+      (byAuthor)="searchBooksByAuthor()"
+      (byPublisher)="searchBooksByPublisher()"
+      (priceAbove)="priceAbove()"
+      (priceBelow)="priceBelow()"
+      (priceRange)="priceRange()"
+      (sortTitle)="sortByTitle()"
+      (sortAuthor)="sortByAuthor()"
+      (sortPriceAsc)="sortByPriceAsc()"
+      (sortPriceDesc)="sortByPriceDesc()"
+    />
+
+    <div class="rounded-2xl border border-white/10 bg-slate-900/70 p-5 shadow-2xl backdrop-blur">
+      <div class="mb-3 flex items-center justify-between gap-2">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-300">Book Stats</h3>
+        <button class="btn-ghost" (click)="loadStats()" [disabled]="statsLoading()">{{ statsLoading() ? 'Loading...' : 'Load' }}</button>
+      </div>
+
+      <div class="grid gap-3" *ngIf="stats() as s">
+        <div class="metric-card"><p>Total</p><strong>{{ s.count }}</strong></div>
+        <div class="metric-card"><p>Avg Price</p><strong>{{ s.averagePrice }}</strong></div>
+        <div class="metric-card"><p>Max Price</p><strong>{{ s.maxPrice }}</strong></div>
+        <div class="metric-card"><p>Min Price</p><strong>{{ s.minPrice }}</strong></div>
+      </div>
+
+      <div class="mt-3 space-y-3" *ngIf="stats() as s">
+        <div class="rounded-xl border border-white/10 bg-slate-800/70 p-3">
+          <p class="mb-2 text-xs uppercase tracking-wider text-slate-400">Author Count</p>
+          <p class="text-xs text-slate-300" *ngFor="let row of objectEntries(s.authorCount)">{{ row[0] }}: {{ row[1] }}</p>
+        </div>
+        <div class="rounded-xl border border-white/10 bg-slate-800/70 p-3">
+          <p class="mb-2 text-xs uppercase tracking-wider text-slate-400">Publisher Count</p>
+          <p class="text-xs text-slate-300" *ngFor="let row of objectEntries(s.publisherCount)">{{ row[0] }}: {{ row[1] }}</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="books-main space-y-4">
+    <div class="rounded-2xl border border-white/10 bg-slate-900/70 p-5 shadow-2xl backdrop-blur">
+    <div class="flex flex-wrap items-center justify-between gap-2">
+      <div>
+        <h2 class="text-xl font-semibold text-slate-100">Books</h2>
+        <p class="mt-1 text-xs text-slate-400">Connected to /api/books</p>
+      </div>
+      <button class="btn-primary" type="button" (click)="openAddForm()" [disabled]="loading()">Add New Book</button>
+    </div>
+
+    <p class="mt-3 text-xs text-slate-400">Use Add New Book to create and card Update to edit.</p>
+    </div>
+
+    <div class="rounded-2xl border border-white/10 bg-slate-900/70 p-5 shadow-2xl backdrop-blur">
+      <div class="mb-3 flex items-center justify-between">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-300">Live Books</h3>
+        <button class="btn-ghost" (click)="loadBooks()" [disabled]="loading()">Refresh</button>
+      </div>
+
+      <div *ngIf="error()" class="mb-3 rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-xs text-rose-200">
+        <p>{{ error() }}</p>
+        <ul *ngIf="errorDetails().length" class="mt-2 list-disc space-y-1 pl-4 text-[11px] text-rose-100/90">
+          <li *ngFor="let detail of errorDetails()">{{ detail }}</li>
+        </ul>
+      </div>
+
+      <div class="grid gap-3 sm:grid-cols-2" *ngIf="books().length; else emptyState">
+        <article *ngFor="let item of books()" class="rounded-xl border border-white/10 bg-slate-800/70 p-4">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <p class="text-sm font-semibold text-slate-100">{{ item.title }}</p>
+              <p class="mt-1 text-xs text-slate-400">{{ item.author }} | {{ item.publisher }}</p>
+            </div>
+            <div class="flex gap-2">
+              <button
+                class="rounded-lg border border-emerald-400/30 px-2 py-1 text-xs text-emerald-200 transition hover:bg-emerald-400/20"
+                (click)="openUpdateFormForItem(item)"
+                [disabled]="!item.id || loading()"
+              >
+                Update
+              </button>
+              <button
+                class="rounded-lg border border-rose-400/30 px-2 py-1 text-xs text-rose-200 transition hover:bg-rose-400/20"
+                (click)="deleteBook(item.id)"
+                [disabled]="!item.id || loading()"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+          <div class="mt-3 text-xs text-slate-300">
+            <span class="rounded-md bg-emerald-500/20 px-2 py-1">Price: {{ item.price }}</span>
+          </div>
+        </article>
+      </div>
+
+      <ng-template #emptyState>
+        <p class="rounded-lg border border-dashed border-slate-600 px-3 py-5 text-center text-sm text-slate-400">
+          No books found.
+        </p>
+      </ng-template>
+    </div>
+  </div>
+
+  <app-modal [open]="showAddForm()" title="Add New Book" (closed)="closeAddForm()">
+    <form class="mt-4 grid gap-3 sm:grid-cols-2" (ngSubmit)="createBook()">
+      <input class="field" placeholder="Title" [(ngModel)]="draft.title" name="title" required />
+      <input class="field" placeholder="Author" [(ngModel)]="draft.author" name="author" required />
+      <input class="field" placeholder="Publisher" [(ngModel)]="draft.publisher" name="publisher" required />
+      <input class="field" type="number" placeholder="Price" [(ngModel)]="draft.price" name="price" required min="0" step="0.01" />
+      <button class="btn-primary sm:col-span-2" type="submit" [disabled]="loading()">{{ loading() ? 'Saving...' : 'Add Book' }}</button>
+      <button class="btn-ghost sm:col-span-2" type="button" (click)="closeAddForm()" [disabled]="loading()">Cancel</button>
+    </form>
+  </app-modal>
+
+  <app-modal [open]="showUpdateForm()" title="Update Book" (closed)="closeUpdateForm()">
+    <form class="mt-4 grid gap-3 sm:grid-cols-2" (ngSubmit)="updateBook()">
+      <input class="field sm:col-span-2" type="number" placeholder="Book id to update" [(ngModel)]="updateBookId" name="updateBookId" required />
+      <input class="field" placeholder="Title" [(ngModel)]="updateDraft.title" name="updateTitle" required />
+      <input class="field" placeholder="Author" [(ngModel)]="updateDraft.author" name="updateAuthor" required />
+      <input class="field" placeholder="Publisher" [(ngModel)]="updateDraft.publisher" name="updatePublisher" required />
+      <input class="field" type="number" step="0.01" placeholder="Price" [(ngModel)]="updateDraft.price" name="updatePrice" required />
+      <button class="btn-primary sm:col-span-2" type="submit" [disabled]="loading()">Update Book</button>
+      <button class="btn-ghost sm:col-span-2" type="button" (click)="closeUpdateForm()" [disabled]="loading()">Cancel</button>
+    </form>
+  </app-modal>
+</section>

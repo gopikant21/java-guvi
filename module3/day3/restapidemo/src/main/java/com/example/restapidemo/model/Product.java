@@ -1,28 +1,53 @@
 package com.example.restapidemo.model;
 
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+
 import java.time.LocalDateTime;
 
 public class Product {
 
     private int id;
+
+    @NotBlank(message = "Name is required")
     private String name;
+
+    @NotBlank(message = "Description is required")
     private String description;
 
     // Pricing
+    @Positive(message = "Price must be greater than 0")
     private double price;
+
+    @DecimalMin(value = "0.0", message = "Discount percentage cannot be negative")
+    @DecimalMax(value = "100.0", message = "Discount percentage cannot exceed 100")
     private double discountPercentage;
+
+    @DecimalMin(value = "0.0", message = "Tax percentage cannot be negative")
+    @DecimalMax(value = "100.0", message = "Tax percentage cannot exceed 100")
     private double taxPercentage;
 
     // Category & brand
+    @NotBlank(message = "Category is required")
     private String category;
+
+    @NotBlank(message = "Brand is required")
     private String brand;
 
     // Inventory
+    @PositiveOrZero(message = "Stock quantity cannot be negative")
     private int stockQuantity;
     private boolean inStock;
 
     // Ratings & reviews
+    @DecimalMin(value = "0.0", message = "Rating cannot be less than 0")
+    @DecimalMax(value = "5.0", message = "Rating cannot be greater than 5")
     private double rating;
+
+    @PositiveOrZero(message = "Review count cannot be negative")
     private int reviewCount;
 
     // Tracking
@@ -31,6 +56,8 @@ public class Product {
 
     // Status
     private boolean active;
+
+    @NotBlank(message = "SKU is required")
     private String sku; // Stock Keeping Unit
 
     public Product() {}

@@ -1,6 +1,7 @@
 package org.example.productjwt.config;
 
 import org.example.productjwt.services.JwtService;
+import org.example.productjwt.services.CustomerUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,38 +15,71 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
-    // Setting up an in-memory test user using modern Spring Security standards
+    // Inject database-backed CustomerUserDetailsService
+    // Fallback to in-memory test users if database user not found
     @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
+    public UserDetailsService userDetailsService(
+            CustomerUserDetailsService customerUserDetailsService,
+            PasswordEncoder passwordEncoder) {
         return username -> {
-            if ("admin".equals(username)) {
-                return new User("admin", passwordEncoder.encode("password"), Collections.emptyList());
+            try {
+                // Try database first (seeded customers from customer_auth table)
+                return customerUserDetailsService.loadUserByUsername(username);
+            } catch (UsernameNotFoundException e) {
+                // Fallback to in-memory test users for development/testing
+                if ("admin".equals(username)) {
+                    return new User(
+                            "admin",
+                            passwordEncoder.encode("password"),
+                            List.of(
+                                    () -> "ROLE_ADMIN",
+                                    () -> "ROLE_USER"
+                            )
+                    );
+                }
+                if ("user".equals(username)) {
+                    return new User(
+                            "user",
+                            passwordEncoder.encode("password"),
+                            List.of(() -> "ROLE_USER")
+                    );
+                }
+                // Re-throw if not a test user either
+                throw e;
             }
-            throw new org.springframework.security.core.userdetails.UsernameNotFoundException("User not found");
         };
     }
 
     @Bean
-    public JwtAuthFilter jwtAuthFilter(JwtService jwtService, UserDetailsService userDetailsService) {
-        return new JwtAuthFilter(jwtService, userDetailsService);
+    public JwtAuthFilter jwtAuthFilter(JwtService jwtService) {
+        return new JwtAuthFilter(jwtService);
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationProvider authenticationProvider, JwtAuthFilter jwtAuthFilter) throws Exception {
         http
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(AbstractHttpConfigurer::disable)
+            .exceptionHandling(exception -> exception
+                    .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
+            )
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth/login").permitAll()
                 .requestMatchers("/api/customers/register").permitAll()
@@ -57,6 +91,20 @@ public class SecurityConfig {
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("*")); // Allow all origins
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(false);
+        configuration.setMaxAge(3600L); // 1 hour
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
     @Bean
@@ -76,5 +124,4 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
-
 

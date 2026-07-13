@@ -1,0 +1,175 @@
+<section class="products-layout grid gap-4 lg:grid-cols-[320px_minmax(0,1fr)]">
+  <aside class="products-sidebar space-y-4">
+    <app-products-filter
+      [loading]="loading()"
+      [categoryOptions]="categoryOptions()"
+      [brandOptions]="brandOptions()"
+      [(productById)]="productById"
+      [(searchName)]="searchName"
+      [(searchKeyword)]="searchKeyword"
+      [(searchCategory)]="searchCategory"
+      [(searchBrand)]="searchBrand"
+      [(singlePrice)]="singlePrice"
+      [(rangeMin)]="rangeMin"
+      [(rangeMax)]="rangeMax"
+      [(topRatedLimit)]="topRatedLimit"
+      [(discountedMinRating)]="discountedMinRating"
+      [(actionProductId)]="actionProductId"
+      [(actionQuantity)]="actionQuantity"
+      (reset)="loadProducts()"
+      (applyFilters)="applyCombinedFilters()"
+      (getById)="getProductById()"
+      (byName)="searchProductsByName()"
+      (byKeyword)="searchProductsByKeyword()"
+      (byCategory)="filterProductsByCategory()"
+      (byBrand)="filterProductsByBrand()"
+      (priceAbove)="priceAbove()"
+      (priceBelow)="priceBelow()"
+      (priceRange)="priceRange()"
+      (inStock)="inStock()"
+      (outOfStock)="outOfStock()"
+      (sortName)="sortByName()"
+      (sortRating)="sortByRatingDesc()"
+      (sortPriceAsc)="sortByPriceAsc()"
+      (sortPriceDesc)="sortByPriceDesc()"
+      (topRated)="topRated()"
+      (discounted)="discountedByMinRating()"
+      (buy)="buyNow()"
+      (restock)="restockNow()"
+    />
+
+    <div class="rounded-2xl border border-white/10 bg-slate-900/70 p-5 shadow-2xl backdrop-blur">
+      <div class="mb-3 flex items-center justify-between gap-2">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-300">Product Stats</h3>
+        <button class="btn-ghost" (click)="loadStats()" [disabled]="statsLoading()">{{ statsLoading() ? 'Loading...' : 'Load' }}</button>
+      </div>
+
+      <div class="grid gap-3" *ngIf="stats() as s">
+        <div class="metric-card"><p>Total</p><strong>{{ s.count }}</strong></div>
+        <div class="metric-card"><p>Avg Price</p><strong>{{ s.averagePrice }}</strong></div>
+        <div class="metric-card"><p>Max Price</p><strong>{{ s.maxPrice }}</strong></div>
+        <div class="metric-card"><p>Min Price</p><strong>{{ s.minPrice }}</strong></div>
+        <div class="metric-card"><p>Inventory Value</p><strong>{{ s.inventoryValue }}</strong></div>
+      </div>
+
+      <div class="mt-3 space-y-3" *ngIf="stats() as s">
+        <div class="rounded-xl border border-white/10 bg-slate-800/70 p-3">
+          <p class="mb-2 text-xs uppercase tracking-wider text-slate-400">Category Count</p>
+          <p class="text-xs text-slate-300" *ngFor="let row of objectEntries(s.categoryCount)">{{ row[0] }}: {{ row[1] }}</p>
+        </div>
+        <div class="rounded-xl border border-white/10 bg-slate-800/70 p-3">
+          <p class="mb-2 text-xs uppercase tracking-wider text-slate-400">Brand Count</p>
+          <p class="text-xs text-slate-300" *ngFor="let row of objectEntries(s.brandCount)">{{ row[0] }}: {{ row[1] }}</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="products-main space-y-4">
+    <div class="rounded-2xl border border-white/10 bg-slate-900/70 p-5 shadow-2xl backdrop-blur">
+    <div class="flex flex-wrap items-center justify-between gap-2">
+      <div>
+        <h2 class="text-xl font-semibold text-slate-100">Products</h2>
+        <p class="mt-1 text-xs text-slate-400">Connected to /api/products</p>
+      </div>
+      <button class="btn-primary" type="button" (click)="openAddForm()" [disabled]="loading()">Add New Product</button>
+    </div>
+
+    <p class="mt-3 text-xs text-slate-400">Use Add New Product to create and card Update to edit.</p>
+    </div>
+
+    <div class="rounded-2xl border border-white/10 bg-slate-900/70 p-5 shadow-2xl backdrop-blur">
+      <div class="mb-3 flex items-center justify-between">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-300">Live Products</h3>
+        <button class="btn-ghost" (click)="loadProducts()" [disabled]="loading()">Refresh</button>
+      </div>
+
+      <div *ngIf="error()" class="mb-3 rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-xs text-rose-200">
+        <p>{{ error() }}</p>
+        <ul *ngIf="errorDetails().length" class="mt-2 list-disc space-y-1 pl-4 text-[11px] text-rose-100/90">
+          <li *ngFor="let detail of errorDetails()">{{ detail }}</li>
+        </ul>
+      </div>
+
+      <div class="grid gap-3 sm:grid-cols-2" *ngIf="products().length; else emptyState">
+        <article *ngFor="let item of products()" class="rounded-xl border border-white/10 bg-slate-800/70 p-4">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <p class="text-sm font-semibold text-slate-100">{{ item.name }}</p>
+              <p class="mt-1 text-xs text-slate-400">{{ item.category }} | {{ item.brand }}</p>
+            </div>
+            <div class="flex gap-2">
+              <button
+                class="rounded-lg border border-cyan-400/30 px-2 py-1 text-xs text-cyan-200 transition hover:bg-cyan-400/20"
+                (click)="openUpdateFormForItem(item)"
+                [disabled]="!item.id || loading()"
+              >
+                Update
+              </button>
+              <button
+                class="rounded-lg border border-rose-400/30 px-2 py-1 text-xs text-rose-200 transition hover:bg-rose-400/20"
+                (click)="deleteProduct(item.id)"
+                [disabled]="!item.id || loading()"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+          <p class="mt-3 text-xs text-slate-300">{{ item.description || 'No description' }}</p>
+          <div class="mt-3 flex gap-2 text-xs text-slate-300">
+            <span class="rounded-md bg-cyan-500/20 px-2 py-1">Price: {{ item.price }}</span>
+            <span class="rounded-md bg-indigo-500/20 px-2 py-1">Stock: {{ item.stockQuantity }}</span>
+            <span class="rounded-md bg-amber-500/20 px-2 py-1">Rating: {{ item.rating }}</span>
+          </div>
+        </article>
+      </div>
+
+      <ng-template #emptyState>
+        <p class="rounded-lg border border-dashed border-slate-600 px-3 py-5 text-center text-sm text-slate-400">
+          No products found.
+        </p>
+      </ng-template>
+    </div>
+  </div>
+
+  <app-modal [open]="showAddForm()" title="Add New Product" (closed)="closeAddForm()">
+    <form class="mt-4 grid gap-3 sm:grid-cols-2" (ngSubmit)="createProduct()">
+      <input class="field" placeholder="Name" [(ngModel)]="draft.name" name="name" required />
+      <select class="field" [(ngModel)]="draft.category" name="category" required>
+        <option value="" disabled>Select category</option>
+        <option *ngFor="let option of categoryOptions()" [value]="option">{{ option }}</option>
+      </select>
+      <select class="field" [(ngModel)]="draft.brand" name="brand" required>
+        <option value="" disabled>Select brand</option>
+        <option *ngFor="let option of brandOptions()" [value]="option">{{ option }}</option>
+      </select>
+      <input class="field" type="number" placeholder="Price" [(ngModel)]="draft.price" name="price" required min="0" step="0.01" />
+      <input class="field" type="number" placeholder="Stock" [(ngModel)]="draft.stockQuantity" name="stockQuantity" required min="0" />
+      <input class="field" type="number" placeholder="Rating" [(ngModel)]="draft.rating" name="rating" required min="0" max="5" step="0.1" />
+      <textarea class="field sm:col-span-2" rows="2" placeholder="Description" [(ngModel)]="draft.description" name="description"></textarea>
+      <button class="btn-primary sm:col-span-2" type="submit" [disabled]="loading()">{{ loading() ? 'Saving...' : 'Add Product' }}</button>
+      <button class="btn-ghost sm:col-span-2" type="button" (click)="closeAddForm()" [disabled]="loading()">Cancel</button>
+    </form>
+  </app-modal>
+
+  <app-modal [open]="showUpdateForm()" title="Update Product" (closed)="closeUpdateForm()">
+    <form class="mt-4 grid gap-3 sm:grid-cols-2" (ngSubmit)="updateProduct()">
+      <input class="field sm:col-span-2" type="number" placeholder="Product id to update" [(ngModel)]="updateProductId" name="updateProductId" required />
+      <input class="field" placeholder="Name" [(ngModel)]="updateDraft.name" name="updateName" required />
+      <select class="field" [(ngModel)]="updateDraft.category" name="updateCategory" required>
+        <option value="" disabled>Select category</option>
+        <option *ngFor="let option of categoryOptions()" [value]="option">{{ option }}</option>
+      </select>
+      <select class="field" [(ngModel)]="updateDraft.brand" name="updateBrand" required>
+        <option value="" disabled>Select brand</option>
+        <option *ngFor="let option of brandOptions()" [value]="option">{{ option }}</option>
+      </select>
+      <input class="field" type="number" placeholder="Price" [(ngModel)]="updateDraft.price" name="updatePrice" required />
+      <input class="field" type="number" placeholder="Stock" [(ngModel)]="updateDraft.stockQuantity" name="updateStock" required />
+      <input class="field" type="number" step="0.1" placeholder="Rating" [(ngModel)]="updateDraft.rating" name="updateRating" required />
+      <textarea class="field sm:col-span-2" rows="2" placeholder="Description" [(ngModel)]="updateDraft.description" name="updateDescription"></textarea>
+      <button class="btn-primary sm:col-span-2" type="submit" [disabled]="loading()">Update Product</button>
+      <button class="btn-ghost sm:col-span-2" type="button" (click)="closeUpdateForm()" [disabled]="loading()">Cancel</button>
+    </form>
+  </app-modal>
+</section>

@@ -1,0 +1,8 @@
+@if (errorState.message()) {
+	<div class="error-banner" role="alert" aria-live="assertive">
+		<span>{{ errorState.message() }}</span>
+		<button type="button" (click)="dismissError()" aria-label="Dismiss error">Dismiss</button>
+	</div>
+}
+
+<router-outlet />
