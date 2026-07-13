@@ -1,0 +1,42 @@
+<section class="auth-wrap">
+  <div class="auth-card">
+    <h1>Create Account</h1>
+    <p class="hint">Register as a customer to apply for supply-chain loans.</p>
+
+    <form [formGroup]="form" (ngSubmit)="register()" class="grid">
+      <label>
+        Full Name
+        <input type="text" formControlName="name" placeholder="John Doe" />
+      </label>
+
+      <label>
+        Email
+        <input type="email" formControlName="email" placeholder="name@company.com" />
+      </label>
+
+      <label>
+        Password
+        <input type="password" formControlName="password" placeholder="Minimum 6 characters" />
+      </label>
+
+      <label>
+        Phone
+        <input type="tel" formControlName="phone" placeholder="10-digit mobile number" />
+      </label>
+
+      @if (errorMessage()) {
+        <p class="error">{{ errorMessage() }}</p>
+      }
+
+      @if (successMessage()) {
+        <p class="success">{{ successMessage() }}</p>
+      }
+
+      <button class="btn primary" type="submit" [disabled]="isSubmitting()">
+        {{ isSubmitting() ? 'Creating...' : 'Create Account' }}
+      </button>
+    </form>
+
+    <p class="alt">Already have an account? <a routerLink="/login">Sign in</a></p>
+  </div>
+</section>

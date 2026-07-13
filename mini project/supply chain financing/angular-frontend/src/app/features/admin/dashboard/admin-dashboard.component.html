@@ -1,0 +1,167 @@
+<section class="page-grid">
+  @if (dashboard(); as stats) {
+    <div class="stat-grid">
+      <article class="stat card">
+        <h3>Total Customers</h3>
+        <p>{{ stats.totalCustomers }}</p>
+      </article>
+      <article class="stat card">
+        <h3>Total Loans</h3>
+        <p>{{ stats.totalLoans }}</p>
+      </article>
+      <article class="stat card">
+        <h3>Pending</h3>
+        <p>{{ stats.pendingLoans }}</p>
+      </article>
+      <article class="stat card">
+        <h3>Disbursed</h3>
+        <p>{{ stats.disbursedLoans }}</p>
+      </article>
+      <article class="stat card full">
+        <h3>Total Amount Disbursed</h3>
+        <p>{{ stats.totalAmountDisbursed | number: '1.0-0' }}</p>
+      </article>
+    </div>
+  }
+
+  <div class="card">
+    <div class="row-between">
+      <h2>Loan Management</h2>
+      <button class="btn ghost" type="button" (click)="refresh()" [disabled]="loading()">Refresh</button>
+    </div>
+
+    <form [formGroup]="filterForm" (ngSubmit)="loadLoans()" class="filters">
+      <label>
+        Status
+        <select formControlName="status">
+          <option value="">All</option>
+          @for (status of statuses; track status) {
+            <option [value]="status">{{ status }}</option>
+          }
+        </select>
+      </label>
+
+      <label>
+        Customer ID
+        <input type="number" formControlName="customerId" placeholder="Optional" />
+      </label>
+
+      <button class="btn primary" type="submit">Apply Filter</button>
+    </form>
+
+    @if (errorMessage()) {
+      <p class="error">{{ errorMessage() }}</p>
+    }
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Loan Number</th>
+            <th>Customer</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (loan of loans(); track loan.id) {
+            <tr>
+              <td>{{ loan.id }}</td>
+              <td>{{ loan.loanNumber }}</td>
+              <td>{{ loan.customerName }}</td>
+              <td>{{ loan.amount | number: '1.0-0' }}</td>
+              <td><span class="pill">{{ loan.status }}</span></td>
+              <td>
+                <div class="actions">
+                  <button class="btn action" type="button" (click)="openLoanDetails(loan.id)">View</button>
+                  @if (loan.status === 'PENDING') {
+                    <button class="btn action" type="button" (click)="approve(loan.id)">Approve</button>
+                    <button class="btn action" type="button" (click)="reject(loan.id)">Reject</button>
+                  }
+                  @if (loan.status === 'APPROVED') {
+                    <button class="btn action" type="button" (click)="disburse(loan.id)">Disburse</button>
+                  }
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="empty">No loans found.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  @if (detailLoading() || selectedLoanDetails() || detailErrorMessage()) {
+    <div class="modal-backdrop" (click)="closeLoanDetails()"></div>
+    <section class="modal" role="dialog" aria-modal="true" aria-label="Loan details">
+      <header class="modal-header">
+        <h3>Loan Details</h3>
+        <button class="btn ghost" type="button" (click)="closeLoanDetails()">Close</button>
+      </header>
+
+      @if (detailLoading()) {
+        <p>Loading loan details...</p>
+      }
+
+      @if (detailErrorMessage()) {
+        <p class="error">{{ detailErrorMessage() }}</p>
+      }
+
+      @if (selectedLoanDetails(); as detail) {
+        <div class="modal-grid">
+          <div class="modal-card">
+            <h4>Customer</h4>
+            <p><strong>ID:</strong> {{ detail.customer.id }}</p>
+            <p><strong>Name:</strong> {{ detail.customer.name }}</p>
+            <p><strong>Email:</strong> {{ detail.customer.email }}</p>
+            <p><strong>Phone:</strong> {{ detail.customer.phone }}</p>
+          </div>
+
+          <div class="modal-card">
+            <h4>Loan</h4>
+            <p><strong>Number:</strong> {{ detail.loan.loanNumber }}</p>
+            <p><strong>Status:</strong> {{ detail.loan.status }}</p>
+            <p><strong>Amount:</strong> {{ detail.loan.amount | number: '1.0-0' }}</p>
+            <p><strong>Remaining:</strong> {{ detail.loan.remainingAmount | number: '1.0-0' }}</p>
+            <p><strong>Created:</strong> {{ detail.loan.createdAt | date: 'medium' }}</p>
+          </div>
+        </div>
+
+        <div class="modal-card">
+          <h4>Repayments</h4>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>Mode</th>
+                  <th>Remarks</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (repayment of detail.repayments; track repayment.id) {
+                  <tr>
+                    <td>{{ repayment.paymentDate | date: 'mediumDate' }}</td>
+                    <td>{{ repayment.amount | number: '1.0-0' }}</td>
+                    <td>{{ repayment.paymentMode }}</td>
+                    <td>{{ repayment.remarks || '-' }}</td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="4" class="empty">No repayments found.</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      }
+    </section>
+  }
+</section>

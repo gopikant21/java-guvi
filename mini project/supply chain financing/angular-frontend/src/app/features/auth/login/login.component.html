@@ -1,0 +1,28 @@
+<section class="auth-wrap">
+  <div class="auth-card">
+    <h1>Welcome Back</h1>
+    <p class="hint">Sign in to continue to your financing portal.</p>
+
+    <form [formGroup]="form" (ngSubmit)="login()" class="grid">
+      <label>
+        Email
+        <input type="email" formControlName="email" placeholder="name@company.com" />
+      </label>
+
+      <label>
+        Password
+        <input type="password" formControlName="password" placeholder="Enter password" />
+      </label>
+
+      @if (errorMessage()) {
+        <p class="error">{{ errorMessage() }}</p>
+      }
+
+      <button class="btn primary" type="submit" [disabled]="isSubmitting()">
+        {{ isSubmitting() ? 'Signing in...' : 'Sign In' }}
+      </button>
+    </form>
+
+    <p class="alt">New customer? <a routerLink="/register">Create account</a></p>
+  </div>
+</section>

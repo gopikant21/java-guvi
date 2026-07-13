@@ -1,0 +1,124 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.shell {
+  min-height: 100vh;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9rem 1.2rem;
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(10px);
+  background: color-mix(in srgb, var(--surface) 85%, white 15%);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-weight: 700;
+  min-width: 0;
+}
+
+.mark {
+  display: inline-flex;
+  width: 2rem;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.6rem;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.82rem;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.menu a {
+  text-decoration: none;
+  color: var(--muted);
+  font-weight: 600;
+  padding: 0.45rem 0.7rem;
+  border-radius: 0.5rem;
+}
+
+.menu a.active,
+.menu a:hover {
+  color: var(--text);
+  background: var(--surface-2);
+}
+
+.content-area {
+  padding: 1.1rem;
+}
+
+.btn {
+  border: 1px solid transparent;
+  border-radius: 0.6rem;
+  padding: 0.55rem 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn.ghost {
+  border-color: var(--line);
+  background: transparent;
+  color: var(--text);
+}
+
+@media (max-width: 900px) {
+  .topbar {
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .brand {
+    width: 100%;
+  }
+
+  .menu {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .topbar {
+    padding: 0.65rem 0.8rem;
+  }
+
+  .brand {
+    font-size: 0.92rem;
+  }
+
+  .mark {
+    width: 1.8rem;
+    height: 1.8rem;
+    font-size: 0.75rem;
+  }
+
+  .menu a,
+  .btn.ghost {
+    padding: 0.42rem 0.62rem;
+    font-size: 0.9rem;
+  }
+
+  .content-area {
+    padding: 0.8rem;
+  }
+}

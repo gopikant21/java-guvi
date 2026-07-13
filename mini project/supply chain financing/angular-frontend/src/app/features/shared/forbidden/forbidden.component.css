@@ -1,0 +1,44 @@
+:host {
+  display: grid;
+  min-height: calc(100vh - 90px);
+  place-items: center;
+}
+
+.center-card {
+  width: min(460px, 100%);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+h1 {
+  margin: 0 0 0.6rem;
+}
+
+p {
+  color: var(--muted);
+  margin-bottom: 1.2rem;
+}
+
+.btn {
+  display: inline-block;
+  text-decoration: none;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 0.6rem;
+  padding: 0.55rem 0.95rem;
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  :host {
+    padding: 0.8rem;
+  }
+
+  .center-card {
+    padding: 1rem;
+    border-radius: 0.8rem;
+  }
+}

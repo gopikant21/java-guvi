@@ -1,0 +1,111 @@
+<section class="page-grid">
+  <div class="card">
+    <h2>My Profile</h2>
+    @if (profile(); as user) {
+      <div class="stack-sm">
+        <p><strong>Name:</strong> {{ user.name }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Phone:</strong> {{ user.phone }}</p>
+        <p><strong>Role:</strong> {{ user.role }}</p>
+      </div>
+    }
+  </div>
+
+  <div class="card">
+    <h2>Apply For Loan</h2>
+    <form [formGroup]="applyLoanForm" (ngSubmit)="applyLoan()" class="grid">
+      <label>
+        Amount
+        <input type="number" formControlName="amount" />
+      </label>
+
+      <label>
+        Interest Rate (%)
+        <input type="number" step="0.1" formControlName="interestRate" />
+      </label>
+
+      <label>
+        Tenure (Months)
+        <input type="number" formControlName="tenureMonths" />
+      </label>
+
+      <label>
+        Purpose
+        <input type="text" formControlName="purpose" />
+      </label>
+
+      <button class="btn primary" type="submit">Submit Application</button>
+    </form>
+  </div>
+
+  <div class="card wide">
+    <h2>Make Repayment</h2>
+    <form [formGroup]="repayLoanForm" (ngSubmit)="repayLoan()" class="grid grid-4">
+      <label>
+        Loan ID
+        <input type="number" formControlName="loanId" />
+      </label>
+
+      <label>
+        Amount
+        <input type="number" formControlName="amount" />
+      </label>
+
+      <label>
+        Payment Mode
+        <select formControlName="paymentMode">
+          @for (mode of paymentModes; track mode) {
+            <option [value]="mode">{{ mode }}</option>
+          }
+        </select>
+      </label>
+
+      <label>
+        Remarks
+        <input type="text" formControlName="remarks" />
+      </label>
+
+      <button class="btn primary" type="submit">Pay</button>
+    </form>
+  </div>
+
+  <div class="card wide">
+    <div class="row-between">
+      <h2>My Loans</h2>
+      <button class="btn ghost" type="button" (click)="refresh()" [disabled]="loading()">Refresh</button>
+    </div>
+
+    @if (errorMessage()) {
+      <p class="error">{{ errorMessage() }}</p>
+    }
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Loan Number</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Remaining</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (loan of loans(); track loan.id) {
+            <tr>
+              <td>{{ loan.id }}</td>
+              <td>{{ loan.loanNumber }}</td>
+              <td>{{ loan.amount | number: '1.0-0' }}</td>
+              <td><span class="pill">{{ loan.status }}</span></td>
+              <td>{{ loan.remainingAmount | number: '1.0-0' }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="empty">No loans found.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
