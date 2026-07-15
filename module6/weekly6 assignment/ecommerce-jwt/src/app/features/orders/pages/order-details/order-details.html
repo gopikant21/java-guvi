@@ -1,1 +1,48 @@
-<p>order-details works!</p>
+<h2>Order Details</h2>
+
+<p>
+	<button type="button" (click)="onBack()">Back to Orders</button>
+</p>
+
+@if (loading()) {
+	<p>Loading order details...</p>
+} @else if (errorMessage()) {
+	<p>{{ errorMessage() }}</p>
+} @else if (!order()) {
+	<p>Order not found.</p>
+} @else {
+	<app-order-summary [order]="order()" />
+
+	@if (successMessage()) {
+		<p>{{ successMessage() }}</p>
+	}
+
+	@if (canEdit()) {
+		<h3>Add Item</h3>
+		<form [formGroup]="addItemForm" (ngSubmit)="onAddItem()">
+			<label for="productId">Product ID:</label>
+			<input id="productId" type="number" min="1" formControlName="productId" />
+
+			<label for="quantity">Quantity:</label>
+			<input id="quantity" type="number" min="1" formControlName="quantity" />
+
+			<button type="submit" [disabled]="itemBusy()">Add Item</button>
+			<button type="button" (click)="onCancelOrder()" [disabled]="loading()">Cancel Order</button>
+		</form>
+	}
+
+	<h3>Items</h3>
+	@if ((order()?.items ?? []).length === 0) {
+		<p>No items in this order yet.</p>
+	} @else {
+		@for (item of order()?.items ?? []; track trackItem($index, item)) {
+			<app-order-item
+				[item]="item"
+				[canEdit]="canEdit()"
+				[busy]="itemBusy()"
+				(updateQuantity)="onUpdateItem($event)"
+				(remove)="onRemoveItem($event)"
+			/>
+		}
+	}
+}

@@ -1,0 +1,23 @@
+h2 {
+	margin-bottom: 0.5rem;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+th,
+td {
+	border: 1px solid #d1d5db;
+	padding: 0.5rem;
+	text-align: left;
+}
+
+th {
+	background: #f3f4f6;
+}
+
+button {
+	margin-right: 0.5rem;
+}

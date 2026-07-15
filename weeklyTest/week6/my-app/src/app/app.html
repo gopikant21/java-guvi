@@ -1,0 +1,195 @@
+<main class="page">
+  <section class="card header-card">
+    <h1>{{ title }}</h1>
+    <p class="subtitle">Simple UI for scan APIs running at {{ baseUrl }}</p>
+
+    <div class="health-actions">
+      <button type="button" (click)="checkHealth()">Check /health</button>
+      <span class="status-pill" [class.ok]="healthStatus() === 'ok'" [class.error]="healthStatus() === 'error'">
+        health: {{ healthStatus() }}
+      </span>
+
+      <button type="button" (click)="checkReady()">Check /ready</button>
+      <span class="status-pill" [class.ok]="readyStatus() === 'ok'" [class.error]="readyStatus() === 'error'">
+        ready: {{ readyStatus() }}
+      </span>
+    </div>
+
+    @if (successMessage()) {
+      <p class="message success">{{ successMessage() }}</p>
+    }
+
+    @if (errorMessage()) {
+      <p class="message error">{{ errorMessage() }}</p>
+    }
+  </section>
+
+  <section class="grid-two">
+    <article class="card">
+      <h2>Create Scan</h2>
+      <form class="form" (ngSubmit)="createScan()">
+        <label>
+          Domain Name
+          <input type="text" name="domainName" [(ngModel)]="createForm.domainName" placeholder="example.com" />
+        </label>
+
+        <label>
+          Number of Pages
+          <input type="number" name="numPages" [(ngModel)]="createForm.numPages" min="0" />
+        </label>
+
+        <label>
+          Number of Broken Links
+          <input
+            type="number"
+            name="numBrokenLinks"
+            [(ngModel)]="createForm.numBrokenLinks"
+            min="0"
+          />
+        </label>
+
+        <label>
+          Number of Missing Images
+          <input
+            type="number"
+            name="numMissingImages"
+            [(ngModel)]="createForm.numMissingImages"
+            min="0"
+          />
+        </label>
+
+        <label class="checkbox-row">
+          <input type="checkbox" name="deleted" [(ngModel)]="createForm.deleted" />
+          deleted
+        </label>
+
+        <button type="submit" [disabled]="isCreating()">{{ isCreating() ? 'Creating...' : 'Create Scan' }}</button>
+      </form>
+    </article>
+
+    <article class="card">
+      <h2>Find Scan by ID</h2>
+      <div class="inline-form">
+        <input type="number" [(ngModel)]="getByIdValue" name="getByIdValue" min="1" placeholder="Scan ID" />
+        <button type="button" (click)="getScanById()">Get</button>
+      </div>
+
+      @if (selectedScan(); as scan) {
+        <div class="scan-preview">
+          <h3>Selected Scan</h3>
+          <p><strong>ID:</strong> {{ scan.id }}</p>
+          <p><strong>Domain:</strong> {{ scan.domainName }}</p>
+          <p><strong>Pages:</strong> {{ scan.numPages }}</p>
+          <p><strong>Broken Links:</strong> {{ scan.numBrokenLinks }}</p>
+          <p><strong>Missing Images:</strong> {{ scan.numMissingImages }}</p>
+          <p><strong>Deleted:</strong> {{ scan.deleted }}</p>
+        </div>
+      }
+    </article>
+  </section>
+
+  <section class="card">
+    <h2>Search Scans</h2>
+    <div class="search-row">
+      <input
+        type="text"
+        [(ngModel)]="searchDomainName"
+        name="searchDomainName"
+        placeholder="Search by domain name"
+      />
+
+      <label>
+        Order By
+        <select [(ngModel)]="orderBy" name="orderBy">
+          @for (field of orderByOptions; track field) {
+            <option [value]="field">{{ field }}</option>
+          }
+        </select>
+      </label>
+
+      <button type="button" (click)="searchScans()" [disabled]="isSearching()">
+        {{ isSearching() ? 'Searching...' : 'Search' }}
+      </button>
+      <button type="button" class="muted" (click)="clearSearch()">Clear</button>
+    </div>
+
+    @if (searchedScans().length > 0) {
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Domain</th>
+              <th>Pages</th>
+              <th>Broken</th>
+              <th>Missing Images</th>
+              <th>Deleted</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (scan of searchedScans(); track scan.id) {
+              <tr>
+                <td>{{ scan.id }}</td>
+                <td>{{ scan.domainName }}</td>
+                <td>{{ scan.numPages }}</td>
+                <td>{{ scan.numBrokenLinks }}</td>
+                <td>{{ scan.numMissingImages }}</td>
+                <td>{{ scan.deleted }}</td>
+                <td>
+                  <button type="button" class="danger" (click)="deleteScan(scan.id)">Delete</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+
+  <section class="card">
+    <div class="section-title-row">
+      <h2>All Non-Deleted Scans</h2>
+      <button type="button" (click)="loadScans()" [disabled]="isLoading()">
+        {{ isLoading() ? 'Refreshing...' : 'Refresh' }}
+      </button>
+    </div>
+
+    @if (scans().length === 0 && !isLoading()) {
+      <p>No scans available.</p>
+    }
+
+    @if (scans().length > 0) {
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Domain</th>
+              <th>Pages</th>
+              <th>Broken</th>
+              <th>Missing Images</th>
+              <th>Deleted</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (scan of scans(); track scan.id) {
+              <tr>
+                <td>{{ scan.id }}</td>
+                <td>{{ scan.domainName }}</td>
+                <td>{{ scan.numPages }}</td>
+                <td>{{ scan.numBrokenLinks }}</td>
+                <td>{{ scan.numMissingImages }}</td>
+                <td>{{ scan.deleted }}</td>
+                <td>
+                  <button type="button" class="danger" (click)="deleteScan(scan.id)">Delete</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+</main>

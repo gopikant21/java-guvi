@@ -1,0 +1,14 @@
+.order-item {
+	border: 1px solid #d1d5db;
+	border-radius: 6px;
+	padding: 0.75rem;
+	margin-bottom: 0.75rem;
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	flex-wrap: wrap;
+}
+
+p {
+	margin: 0.2rem 0;
+}

@@ -1,1 +1,11 @@
-<p>order-summary works!</p>
+@if (order) {
+	<section class="summary">
+		<h3>Order Summary</h3>
+		<p><strong>Order ID:</strong> {{ order.orderId }}</p>
+		<p><strong>Customer ID:</strong> {{ order.customerId }}</p>
+		<p><strong>Status:</strong> {{ order.status }}</p>
+		<p><strong>Order Date:</strong> {{ order.orderDate | date:'medium' }}</p>
+		<p><strong>Items:</strong> {{ order.items.length }}</p>
+		<p><strong>Total:</strong> {{ order.total | currency }}</p>
+	</section>
+}

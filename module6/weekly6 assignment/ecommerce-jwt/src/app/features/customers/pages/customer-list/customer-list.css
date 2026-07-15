@@ -1,0 +1,16 @@
+.customer-list-page table {
+	width: 100%;
+	border-collapse: collapse;
+	border: 1px solid #d1d5db;
+}
+
+.customer-list-page th,
+.customer-list-page td {
+	border: 1px solid #d1d5db;
+	padding: 0.5rem;
+	text-align: left;
+}
+
+.customer-list-page th {
+	background-color: #f3f4f6;
+}

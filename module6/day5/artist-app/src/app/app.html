@@ -1,0 +1,66 @@
+<main class="container">
+  <h1>Artist App</h1>
+
+  <section class="panel">
+    <h2>Create artist</h2>
+    <div class="row">
+      <input
+        [(ngModel)]="firstName"
+        name="firstName"
+        type="text"
+        placeholder="First name"
+      />
+      <input
+        [(ngModel)]="lastName"
+        name="lastName"
+        type="text"
+        placeholder="Last name"
+      />
+      <button type="button" (click)="createArtist()">Create</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Get artist by id</h2>
+    <div class="row">
+      <input
+        [(ngModel)]="searchId"
+        name="searchId"
+        type="number"
+        min="1"
+        placeholder="Artist id"
+      />
+      <button type="button" (click)="findArtistById()">Find</button>
+    </div>
+
+    @if (selectedArtist) {
+      <p class="result">
+        Found: {{ selectedArtist.id }} - {{ selectedArtist.firstName }} {{ selectedArtist.lastName }}
+      </p>
+    }
+  </section>
+
+  <section class="panel">
+    <div class="row between">
+      <h2>All artists</h2>
+      <button type="button" (click)="loadArtists()">Refresh</button>
+    </div>
+
+    @if (artists.length === 0) {
+      <p>No artists found.</p>
+    } @else {
+      <ul>
+        @for (artist of artists; track artist.id) {
+          <li>
+            <span>{{ artist.id }} - {{ artist.firstName }} {{ artist.lastName }}</span>
+            <button type="button" (click)="deleteArtist(artist.id)">Delete</button>
+          </li>
+        }
+      </ul>
+    }
+  </section>
+
+  @if (statusMessage) {
+    <p class="status">{{ statusMessage }}</p>
+  }
+</main>

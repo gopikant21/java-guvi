@@ -150,6 +150,10 @@ export const routes: Routes = [
 				component: OrderList
 			},
 			{
+				path: 'admin/orders/create',
+				component: CreateOrder
+			},
+			{
 				path: 'admin/orders/details',
 				component: OrderDetails
 			},

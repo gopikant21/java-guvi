@@ -1,1 +1,55 @@
-<p>create-order works!</p>
+<h2>Create Order</h2>
+
+<p>
+	<button type="button" (click)="onBackToList()">Back to Orders</button>
+</p>
+
+<form [formGroup]="createForm" (ngSubmit)="onCreateOrder()">
+	<label for="customerId">Customer ID:</label>
+	<input id="customerId" type="number" min="1" formControlName="customerId" />
+	<button type="submit" [disabled]="loading()">Create Order</button>
+</form>
+
+@if (currentOrder()) {
+	<hr />
+	<h3>Order #{{ currentOrder()?.orderId }}</h3>
+	<p>Status: {{ currentOrder()?.status }}</p>
+	<p>Total: {{ currentOrder()?.total | currency }}</p>
+
+	<form [formGroup]="itemForm" (ngSubmit)="onAddItem()">
+		<label for="productId">Product ID:</label>
+		<input id="productId" type="number" min="1" formControlName="productId" />
+
+		<label for="quantity">Quantity:</label>
+		<input id="quantity" type="number" min="1" formControlName="quantity" />
+
+		<button type="submit" [disabled]="loading()">Add Item</button>
+	</form>
+
+	@if (currentOrder()?.items?.length) {
+		<h4>Items</h4>
+		<ul>
+			@for (item of currentOrder()?.items ?? []; track item.id) {
+				<li>
+					{{ item.productName }} (x{{ item.quantity }}) - {{ item.lineTotal | currency }}
+				</li>
+			}
+		</ul>
+	}
+
+	<p>
+		<button type="button" (click)="onViewDetails()">Open Full Details</button>
+	</p>
+}
+
+@if (loading()) {
+	<p>Processing...</p>
+}
+
+@if (message()) {
+	<p>{{ message() }}</p>
+}
+
+@if (errorMessage()) {
+	<p>{{ errorMessage() }}</p>
+}

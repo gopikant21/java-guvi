@@ -1,1 +1,64 @@
-<p>order-list works!</p>
+<h2>Orders</h2>
+
+<p>
+	<button type="button" (click)="onCreateOrder()">Create Order</button>
+</p>
+
+@if (isAdmin()) {
+	<p>
+		<label for="customerId">Filter by Customer ID:</label>
+		<input id="customerId" type="number" min="1" [(ngModel)]="customerIdInput" />
+		<button type="button" (click)="onApplyCustomerFilter()">Load Customer Orders</button>
+		<button type="button" (click)="fetchAllOrders()">Load All Orders</button>
+	</p>
+} @else {
+	<p>
+		<label for="customerId">Customer ID:</label>
+		<input id="customerId" type="number" min="1" [(ngModel)]="customerIdInput" />
+		<button type="button" (click)="onApplyCustomerFilter()">Load My Orders</button>
+	</p>
+}
+
+@if (loading()) {
+	<p>Loading orders...</p>
+} @else if (errorMessage()) {
+	<p>{{ errorMessage() }}</p>
+} @else {
+	@if (successMessage()) {
+		<p>{{ successMessage() }}</p>
+	}
+
+	@if (orders().length === 0) {
+		<p>No orders found.</p>
+	} @else {
+		<table>
+			<thead>
+				<tr>
+					<th>Order ID</th>
+					<th>Customer ID</th>
+					<th>Status</th>
+					<th>Date</th>
+					<th>Total</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				@for (order of orders(); track order.orderId) {
+					<tr>
+						<td>{{ order.orderId }}</td>
+						<td>{{ order.customerId }}</td>
+						<td>{{ order.status }}</td>
+						<td>{{ order.orderDate | date:'medium' }}</td>
+						<td>{{ order.total | currency }}</td>
+						<td>
+							<button type="button" (click)="onView(order.orderId)">View</button>
+							@if (order.status !== 'DELIVERED' && order.status !== 'CANCELLED') {
+								<button type="button" (click)="onCancel(order.orderId)">Cancel</button>
+							}
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
+}

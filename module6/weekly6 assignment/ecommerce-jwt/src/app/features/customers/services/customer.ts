@@ -11,4 +11,16 @@ export class Customer {
   getAllCustomers(): Observable<CustomerResponse[]> {
     return this.http.get<CustomerResponse[]>(`${this.baseUrl}/api/customers`);
   }
+
+  getCustomerById(id: number): Observable<CustomerResponse> {
+    return this.http.get<CustomerResponse>(`${this.baseUrl}/api/customers/${id}`);
+  }
+
+  getCustomerByEmail(email: string): Observable<CustomerResponse> {
+    return this.http.get<CustomerResponse>(`${this.baseUrl}/api/customers/email/${email}`);
+  }
+
+  updateCustomer(id: number, data: Partial<CustomerResponse>): Observable<CustomerResponse> {
+    return this.http.put<CustomerResponse>(`${this.baseUrl}/api/customers/${id}`, data);
+  }
 }

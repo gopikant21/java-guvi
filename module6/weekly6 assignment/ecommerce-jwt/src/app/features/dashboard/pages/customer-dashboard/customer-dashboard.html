@@ -1,1 +1,126 @@
-<p>customer-dashboard works!</p>
+<section class="dashboard-shell">
+	<header class="dashboard-header">
+		<div>
+			<h2>Customer Dashboard</h2>
+			<p>Welcome, {{ username() || 'Customer' }}.</p>
+		</div>
+
+		<div class="actions">
+			<button type="button" (click)="goToOrders()">My Orders</button>
+			<button type="button" (click)="goToCreateOrder()">Create Order</button>
+			<button type="button" (click)="goToProducts()">Browse Products</button>
+		</div>
+	</header>
+
+	<section class="resolver">
+		<label for="customerIdInput">Customer ID</label>
+		<input
+			id="customerIdInput"
+			type="number"
+			min="1"
+			[(ngModel)]="customerIdInput"
+			[readonly]="lockedCustomerId() !== null"
+		/>
+		<button type="button" (click)="onLoadDashboard()">Load</button>
+		@if (lockedCustomerId() !== null) {
+			<p class="hint">Customer ID is derived from your token and locked for RBAC safety.</p>
+		}
+	</section>
+
+	@if (loading()) {
+		<p class="info">Loading dashboard...</p>
+	} @else if (errorMessage()) {
+		<p class="error">{{ errorMessage() }}</p>
+	} @else if (overview(); as data) {
+		<section class="stats-grid">
+			<article>
+				<p class="label">Total Orders</p>
+				<p class="value">{{ data.totalOrders }}</p>
+			</article>
+			<article>
+				<p class="label">Active Orders</p>
+				<p class="value">{{ data.activeOrders }}</p>
+			</article>
+			<article>
+				<p class="label">Delivered</p>
+				<p class="value">{{ data.deliveredOrders }}</p>
+			</article>
+			<article>
+				<p class="label">Cancelled</p>
+				<p class="value">{{ data.cancelledOrders }}</p>
+			</article>
+			<article>
+				<p class="label">Total Spent</p>
+				<p class="value">{{ data.totalSpent | currency }}</p>
+			</article>
+			<article>
+				<p class="label">Available Products</p>
+				<p class="value">{{ data.availableProductCount }}</p>
+			</article>
+		</section>
+
+		<section class="panel-grid">
+			<article class="panel">
+				<div class="panel-head">
+					<h3>Recent Orders</h3>
+					<a (click)="goToOrders()">View All</a>
+				</div>
+				@if (data.recentOrders.length === 0) {
+					<p class="info">No orders yet.</p>
+				} @else {
+					<table>
+						<thead>
+							<tr>
+								<th>Order ID</th>
+								<th>Status</th>
+								<th>Date</th>
+								<th>Total</th>
+							</tr>
+						</thead>
+						<tbody>
+							@for (order of data.recentOrders; track order.orderId) {
+								<tr>
+									<td>{{ order.orderId }}</td>
+									<td>{{ order.status }}</td>
+									<td>{{ order.orderDate | date: 'mediumDate' }}</td>
+									<td>{{ order.total | currency }}</td>
+								</tr>
+							}
+						</tbody>
+					</table>
+				}
+			</article>
+
+			<article class="panel">
+				<div class="panel-head">
+					<h3>Featured Available Products</h3>
+					<a (click)="goToProducts()">Browse</a>
+				</div>
+				@if (data.featuredProducts.length === 0) {
+					<p class="info">No products available currently.</p>
+				} @else {
+					<table>
+						<thead>
+							<tr>
+								<th>Product</th>
+								<th>Category</th>
+								<th>Price</th>
+							</tr>
+						</thead>
+						<tbody>
+							@for (product of data.featuredProducts; track product.id) {
+								<tr>
+									<td>{{ product.name }}</td>
+									<td>{{ product.category }}</td>
+									<td>{{ product.price | currency }}</td>
+								</tr>
+							}
+						</tbody>
+					</table>
+				}
+			</article>
+		</section>
+	} @else {
+		<p class="info">Enter your customer ID and load dashboard data.</p>
+	}
+</section>

@@ -1,3 +1,163 @@
-<p>admin-dashboard works!</p>
+<section class="dashboard-shell">
+	<header class="dashboard-header">
+		<div>
+			<h2>Admin Dashboard</h2>
+			<p>Operational overview with live order and inventory signals.</p>
+		</div>
 
-<
+		<div class="actions">
+			<label>
+				Low stock threshold
+				<input type="number" min="1" [(ngModel)]="lowStockThreshold" />
+			</label>
+
+			<label>
+				High value threshold
+				<input type="number" min="1" [(ngModel)]="highValueThreshold" />
+			</label>
+
+			<button type="button" (click)="onRefresh()">Refresh</button>
+		</div>
+	</header>
+
+	@if (loading()) {
+		<p class="info">Loading dashboard...</p>
+	} @else if (errorMessage()) {
+		<p class="error">{{ errorMessage() }}</p>
+	} @else if (overview(); as data) {
+		<section class="stats-grid">
+			<article>
+				<p class="label">Products</p>
+				<p class="value">{{ data.totalProducts }}</p>
+			</article>
+			<article>
+				<p class="label">Customers</p>
+				<p class="value">{{ data.totalCustomers }}</p>
+			</article>
+			<article>
+				<p class="label">Orders</p>
+				<p class="value">{{ data.totalOrders }}</p>
+			</article>
+			<article>
+				<p class="label">Revenue</p>
+				<p class="value">{{ data.revenue | currency }}</p>
+			</article>
+		</section>
+
+		<section class="stats-grid status-grid">
+			<article>
+				<p class="label">Pending</p>
+				<p class="value">{{ data.pendingOrders }}</p>
+			</article>
+			<article>
+				<p class="label">Processing</p>
+				<p class="value">{{ data.processingOrders }}</p>
+			</article>
+			<article>
+				<p class="label">Shipped</p>
+				<p class="value">{{ data.shippedOrders }}</p>
+			</article>
+			<article>
+				<p class="label">Delivered</p>
+				<p class="value">{{ data.deliveredOrders }}</p>
+			</article>
+			<article>
+				<p class="label">Cancelled</p>
+				<p class="value">{{ data.cancelledOrders }}</p>
+			</article>
+		</section>
+
+		<section class="panel-grid">
+			<article class="panel">
+				<div class="panel-head">
+					<h3>Low Stock Products</h3>
+					<a routerLink="/admin/products/inventory">Open Inventory</a>
+				</div>
+				@if (data.lowStockProducts.length === 0) {
+					<p class="info">No products below threshold.</p>
+				} @else {
+					<table>
+						<thead>
+							<tr>
+								<th>Product</th>
+								<th>Category</th>
+								<th>Stock</th>
+							</tr>
+						</thead>
+						<tbody>
+							@for (product of data.lowStockProducts; track product.id) {
+								<tr>
+									<td>{{ product.name }}</td>
+									<td>{{ product.category }}</td>
+									<td>{{ product.stocks }}</td>
+								</tr>
+							}
+						</tbody>
+					</table>
+				}
+			</article>
+
+			<article class="panel">
+				<div class="panel-head">
+					<h3>Top 10 High Value Orders</h3>
+					<a routerLink="/admin/orders">View All Orders</a>
+				</div>
+				@if (data.highValueOrders.length === 0) {
+					<p class="info">No high value orders for current threshold.</p>
+				} @else {
+					<table>
+						<thead>
+							<tr>
+								<th>Order ID</th>
+								<th>Customer</th>
+								<th>Status</th>
+								<th>Total</th>
+							</tr>
+						</thead>
+						<tbody>
+							@for (order of data.highValueOrders; track order.orderId) {
+								<tr>
+									<td>{{ order.orderId }}</td>
+									<td>{{ order.customerId }}</td>
+									<td>{{ order.status }}</td>
+									<td>{{ order.total | currency }}</td>
+								</tr>
+							}
+						</tbody>
+					</table>
+				}
+			</article>
+		</section>
+
+		<section class="panel">
+			<div class="panel-head">
+				<h3>Empty Orders</h3>
+				<a routerLink="/admin/orders">Manage Orders</a>
+			</div>
+			@if (data.emptyOrders.length === 0) {
+				<p class="info">No empty orders.</p>
+			} @else {
+				<table>
+					<thead>
+						<tr>
+							<th>Order ID</th>
+							<th>Customer</th>
+							<th>Created</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+					<tbody>
+						@for (order of data.emptyOrders; track order.orderId) {
+							<tr>
+								<td>{{ order.orderId }}</td>
+								<td>{{ order.customerId }}</td>
+								<td>{{ order.orderDate | date: 'medium' }}</td>
+								<td>{{ order.status }}</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			}
+		</section>
+	}
+</section>

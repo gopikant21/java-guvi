@@ -1,1 +1,21 @@
-<p>order-item works!</p>
+<div class="order-item">
+	<div>
+		<strong>{{ item.productName }}</strong>
+		<p>Product ID: {{ item.productId }}</p>
+		<p>Unit Price: {{ item.productPrice | currency }}</p>
+		<p>Line Total: {{ item.lineTotal | currency }}</p>
+	</div>
+
+	<div>
+		<label for="quantity-{{ item.id }}">Qty:</label>
+		<input
+			id="quantity-{{ item.id }}"
+			type="number"
+			min="1"
+			[(ngModel)]="quantityDraft"
+			[disabled]="busy || !canEdit"
+		/>
+		<button type="button" (click)="onUpdate()" [disabled]="busy || !canEdit">Update</button>
+		<button type="button" (click)="onRemove()" [disabled]="busy || !canEdit">Remove</button>
+	</div>
+</div>
