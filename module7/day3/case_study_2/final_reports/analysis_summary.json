@@ -1,0 +1,89 @@
+{
+  "missing_values": {
+    "missing_before": {
+      "funds": {},
+      "investors": {},
+      "transactions": {},
+      "nav_history": {}
+    },
+    "missing_after": {
+      "funds": {},
+      "investors": {},
+      "transactions": {
+        "PurchaseDate": 1
+      },
+      "nav_history": {}
+    }
+  },
+  "numpy_nav_metrics": {
+    "AverageNAV": 29.792999999999996,
+    "MaximumNAV": 43.0,
+    "MinimumNAV": 18.35,
+    "VarianceNAV": 71.689101,
+    "StdDevNAV": 8.466941655639301,
+    "RollingAverageWindow5": [
+      28.77,
+      28.88,
+      28.99,
+      29.14,
+      29.23,
+      29.33,
+      27.2,
+      25.02,
+      22.84,
+      20.7,
+      18.49,
+      18.57,
+      18.69,
+      18.81,
+      18.89,
+      19.02,
+      22.28,
+      25.54,
+      28.75,
+      32.02,
+      35.3,
+      35.43,
+      35.51,
+      35.66,
+      35.8,
+      35.93,
+      33.33,
+      30.78,
+      28.17,
+      25.55,
+      22.94,
+      23.02,
+      23.11,
+      23.24,
+      23.33,
+      23.43,
+      27.16,
+      30.88,
+      34.6,
+      38.32,
+      42.04,
+      42.17,
+      42.3,
+      42.39,
+      42.54,
+      42.68
+    ]
+  },
+  "finance_metrics": {
+    "ROI%": -65.75813083011532,
+    "AbsoluteReturn": -413200.75,
+    "AnnualReturn%": -65.75813083011532,
+    "Volatility": 8.466941655639301,
+    "SharpeRatio": -8.475094520383486
+  },
+  "issue_counts": {
+    "duplicate_nav_records": 0,
+    "negative_nav": 0,
+    "future_dates": 0,
+    "missing_fund_ids": 0,
+    "missing_investor_ids": 0,
+    "invalid_purchase_nav": 0
+  },
+  "merged_required_preview_rows": 10
+}

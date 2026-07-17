@@ -1,0 +1,12 @@
+{
+  "record_count": 99,
+  "default_percent": 33.33333333333333,
+  "npa_percent": 33.33333333333333,
+  "average_emi": 12689.89898989899,
+  "expected_loss_total": 7647770.454545454,
+  "mean_loan_amount": 941212.1212121212,
+  "median_salary": 97000.0,
+  "percentile_interest_rate_90": 12.62,
+  "corr_salary_loan_amount": 0.20987720738214066,
+  "std_loan_amount": 588216.3979031587
+}
