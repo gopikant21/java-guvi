@@ -1,84 +1,19 @@
-2026-07-21 16:46:09,909 | INFO | Logger initialized.
-2026-07-21 16:46:09,909 | INFO | Assessment run started.
-2026-07-21 16:46:09,911 | INFO | Loaded investors.csv with 50 rows.
-2026-07-21 16:46:09,912 | INFO | Loaded funds.csv with 50 rows.
-2026-07-21 16:46:09,913 | INFO | Loaded transactions.csv with 50 rows.
-2026-07-21 16:46:09,914 | INFO | Loaded nav_history.csv with 50 rows.
-2026-07-21 16:46:09,914 | INFO | Starting data cleaning.
-2026-07-21 16:46:09,931 | INFO | Data cleaning complete.
-2026-07-21 16:46:09,931 | INFO | Merging datasets.
-2026-07-21 16:46:09,938 | INFO | Merged dataset exported.
-2026-07-21 16:46:09,945 | INFO | NumPy metrics calculated and exported.
-2026-07-21 16:46:09,954 | INFO | Holdings built and exported.
-2026-07-21 16:46:09,963 | INFO | Investor identification reports exported.
-2026-07-21 16:46:09,978 | INFO | Fund analysis completed.
-2026-07-21 16:46:09,993 | INFO | Finance metrics calculated and exported.
-2026-07-21 16:46:09,993 | INFO | Generating charts.
-2026-07-21 16:46:10,532 | INFO | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
-2026-07-21 16:46:10,532 | INFO | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
-2026-07-21 16:46:11,183 | INFO | All charts generated.
-2026-07-21 16:46:11,186 | INFO | Execution summary exported.
-2026-07-21 16:46:11,186 | INFO | Assessment run completed successfully.
-2026-07-21 16:48:14,874 | INFO | Logger initialized.
-2026-07-21 16:48:14,875 | INFO | Assessment run started.
-2026-07-21 16:48:14,877 | INFO | Loaded investors.csv with 50 rows.
-2026-07-21 16:48:14,878 | INFO | Loaded funds.csv with 50 rows.
-2026-07-21 16:48:14,880 | INFO | Loaded transactions.csv with 50 rows.
-2026-07-21 16:48:14,881 | INFO | Loaded nav_history.csv with 50 rows.
-2026-07-21 16:48:14,881 | INFO | Starting data cleaning.
-2026-07-21 16:48:14,900 | INFO | Data cleaning complete.
-2026-07-21 16:48:14,900 | INFO | Merging datasets.
-2026-07-21 16:48:14,909 | INFO | Merged dataset exported.
-2026-07-21 16:48:14,918 | INFO | NumPy metrics calculated and exported.
-2026-07-21 16:48:14,934 | INFO | Holdings built and exported.
-2026-07-21 16:48:14,945 | INFO | Investor identification reports exported.
-2026-07-21 16:48:14,962 | INFO | Fund analysis completed.
-2026-07-21 16:48:14,977 | INFO | Finance metrics calculated and exported.
-2026-07-21 16:48:14,977 | INFO | Generating charts.
-2026-07-21 16:48:15,652 | INFO | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
-2026-07-21 16:48:15,653 | INFO | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
-2026-07-21 16:48:16,328 | INFO | All charts generated.
-2026-07-21 16:48:16,329 | INFO | Execution summary exported.
-2026-07-21 16:48:16,329 | INFO | Assessment run completed successfully.
-2026-07-21 16:51:26,265 | INFO | Logger initialized.
-2026-07-21 16:51:26,265 | INFO | Assessment run started.
-2026-07-21 16:51:26,267 | INFO | Loaded investors.csv with 50 rows.
-2026-07-21 16:51:26,268 | INFO | Loaded funds.csv with 50 rows.
-2026-07-21 16:51:26,270 | INFO | Loaded transactions.csv with 50 rows.
-2026-07-21 16:51:26,271 | INFO | Loaded nav_history.csv with 50 rows.
-2026-07-21 16:51:26,271 | INFO | Starting data cleaning.
-2026-07-21 16:51:26,293 | INFO | Data cleaning complete.
-2026-07-21 16:51:26,293 | INFO | Merging datasets.
-2026-07-21 16:51:26,309 | INFO | Merged dataset exported.
-2026-07-21 16:51:26,318 | INFO | NumPy metrics calculated and exported.
-2026-07-21 16:51:26,330 | INFO | Holdings built and exported.
-2026-07-21 16:51:26,340 | INFO | Investor identification reports exported.
-2026-07-21 16:51:26,354 | INFO | Fund analysis completed.
-2026-07-21 16:51:26,366 | INFO | Finance metrics calculated and exported.
-2026-07-21 16:51:26,366 | INFO | Generating charts.
-2026-07-21 16:51:26,919 | INFO | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
-2026-07-21 16:51:26,919 | INFO | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
-2026-07-21 16:51:27,538 | INFO | All charts generated.
-2026-07-21 16:51:27,539 | INFO | Execution summary exported.
-2026-07-21 16:51:27,539 | INFO | Assessment run completed successfully.
-2026-07-21 16:57:48,370 | INFO | Logger initialized.
-2026-07-21 16:57:48,370 | INFO | Assessment run started.
-2026-07-21 16:57:48,372 | INFO | Loaded investors.csv with 50 rows.
-2026-07-21 16:57:48,373 | INFO | Loaded funds.csv with 50 rows.
-2026-07-21 16:57:48,374 | INFO | Loaded transactions.csv with 50 rows.
-2026-07-21 16:57:48,375 | INFO | Loaded nav_history.csv with 50 rows.
-2026-07-21 16:57:48,375 | INFO | Starting data cleaning.
-2026-07-21 16:57:48,393 | INFO | Data cleaning complete.
-2026-07-21 16:57:48,393 | INFO | Merging datasets.
-2026-07-21 16:57:48,403 | INFO | Merged dataset exported.
-2026-07-21 16:57:48,410 | INFO | NumPy metrics calculated and exported.
-2026-07-21 16:57:48,425 | INFO | Holdings built and exported.
-2026-07-21 16:57:48,433 | INFO | Investor identification reports exported.
-2026-07-21 16:57:48,451 | INFO | Fund analysis completed.
-2026-07-21 16:57:48,462 | INFO | Finance metrics calculated and exported.
-2026-07-21 16:57:48,462 | INFO | Generating charts.
-2026-07-21 16:57:51,023 | INFO | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
-2026-07-21 16:57:51,024 | INFO | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
-2026-07-21 16:57:51,579 | INFO | All charts generated.
-2026-07-21 16:57:51,580 | INFO | Execution summary exported.
-2026-07-21 16:57:51,580 | INFO | Assessment run completed successfully.
+2026-07-21 17:34:20,870 | INFO | Logger initialized.
+2026-07-21 17:34:20,871 | INFO | Assessment run started.
+2026-07-21 17:34:20,874 | INFO | Loaded investors.csv with 50 rows.
+2026-07-21 17:34:20,877 | INFO | Loaded funds.csv with 50 rows.
+2026-07-21 17:34:20,879 | INFO | Loaded transactions.csv with 50 rows.
+2026-07-21 17:34:20,882 | INFO | Loaded nav_history.csv with 50 rows.
+2026-07-21 17:34:20,882 | INFO | Starting data cleaning.
+2026-07-21 17:34:20,907 | INFO | Data cleaning complete.
+2026-07-21 17:34:20,907 | INFO | Merging datasets.
+2026-07-21 17:34:20,920 | INFO | Merged dataset exported.
+2026-07-21 17:34:20,928 | INFO | NumPy metrics calculated and exported.
+2026-07-21 17:34:20,941 | INFO | Holdings built and exported.
+2026-07-21 17:34:20,952 | INFO | Investor identification reports exported.
+2026-07-21 17:34:20,972 | INFO | Fund analysis completed.
+2026-07-21 17:34:20,989 | INFO | Finance metrics calculated and exported.
+2026-07-21 17:34:20,989 | INFO | Generating charts.
+2026-07-21 17:34:22,069 | INFO | All charts generated.
+2026-07-21 17:34:22,071 | INFO | Execution summary exported.
+2026-07-21 17:34:22,071 | INFO | Assessment run completed successfully.

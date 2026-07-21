@@ -1,50 +1,50 @@
 InvestorID,FundID,NetUnits,NetInvested,LatestNAV,FundName,Category,ExpenseRatio,InvestorName,AnnualIncome,RiskProfile,CurrentValue
-I101,F101,150,3825.0,29.6,Blue Chip Growth,Equity,1.2,Arun Kumar,900000.0,Moderate,4440.0
-I102,F102,200,6550.0,19.2,Corporate Bond,Debt,0.7,Priya Sharma,900000.0,Moderate,3840.0
-I103,F103,120,4944.0,36.25,Balanced Advantage,Hybrid,1.0,Infosys Ltd,3500000.0,High,4350.0
-I104,F104,300,8580.0,23.7,Large Cap Opportunities,Equity,1.2,Rahul Verma,900000.0,Moderate,7110.0
-I105,F105,250,8950.0,43.0,Mid Cap Growth,Equity,1.2,Sneha Reddy,900000.0,Moderate,10750.0
-I106,F106,500,11200.0,25.3,Small Cap Discovery,Equity,1.2,TCS Ltd,3500000.0,High,12650.0
-I107,F107,175,8557.5,52.1,Flexi Cap Wealth,Equity,1.2,Manoj Singh,900000.0,Moderate,9117.5
-I108,F108,400,12100.0,34.4,Value Discovery,Equity,1.2,Anjali Nair,900000.0,Moderate,13760.0
-I109,F109,275,15290.0,59.2,Focused Equity,Equity,1.2,Wipro Ltd,3500000.0,High,16280.0
-I110,F110,150,9120.0,64.0,Dividend Yield,Equity,1.2,Karthik Raj,900000.0,Moderate,9600.0
-I111,F101,325,8498.75,29.6,Blue Chip Growth,Equity,1.2,Meena Iyer,900000.0,Moderate,9620.0
-I112,F102,180,6012.0,19.2,Corporate Bond,Debt,0.7,HCL Technologies,3500000.0,High,3456.0
-I113,F103,220,9262.0,36.25,Balanced Advantage,Hybrid,1.0,Ajay Patel,900000.0,Moderate,7975.0
-I114,F104,275,8181.25,23.7,Large Cap Opportunities,Equity,1.2,Nisha Gupta,900000.0,Moderate,6517.5
-I115,F105,350,12915.0,43.0,Mid Cap Growth,Equity,1.2,Reliance Industries,3500000.0,High,15050.0
-I116,F106,450,10710.0,25.3,Small Cap Discovery,Equity,1.2,Vikram Joshi,900000.0,Moderate,11385.0
-I117,F107,125,6162.5,52.1,Flexi Cap Wealth,Equity,1.2,Deepa Menon,900000.0,Moderate,6512.5
-I118,F108,600,18900.0,34.4,Value Discovery,Equity,1.2,Larsen & Toubro,3500000.0,High,20640.0
-I119,F109,240,13488.0,59.2,Focused Equity,Equity,1.2,Rohit Yadav,900000.0,Moderate,14208.0
-I120,F110,310,19034.0,64.0,Dividend Yield,Equity,1.2,Pooja Singh,900000.0,Moderate,19840.0
-I121,F101,200,5420.0,29.6,Blue Chip Growth,Equity,1.2,Tech Mahindra,3500000.0,High,5920.0
-I122,F102,450,15412.5,19.2,Corporate Bond,Debt,0.7,Amit Shah,900000.0,Moderate,8640.0
-I123,F103,375,16312.5,36.25,Balanced Advantage,Hybrid,1.0,Divya Krishnan,900000.0,Moderate,13593.75
-I124,F104,150,4515.0,23.7,Large Cap Opportunities,Equity,1.2,Bajaj Finance,3500000.0,High,3555.0
-I125,F105,525,19661.25,43.0,Mid Cap Growth,Equity,1.2,Suresh Babu,900000.0,Moderate,22575.0
-I126,F106,100,2420.0,25.3,Small Cap Discovery,Equity,1.2,Kavitha Devi,900000.0,Moderate,2530.0
-I127,F107,260,13039.0,52.1,Flexi Cap Wealth,Equity,1.2,ICICI Bank,3500000.0,High,13546.0
-I128,F108,700,22820.0,34.4,Value Discovery,Equity,1.2,Naveen Kumar,900000.0,Moderate,24080.0
-I129,F109,185,10545.0,59.2,Focused Equity,Equity,1.2,Swetha Rao,900000.0,Moderate,10952.0
-I130,F110,330,20625.0,64.0,Dividend Yield,Equity,1.2,HDFC Bank,3500000.0,High,21120.0
-I131,F101,275,7658.75,29.6,Blue Chip Growth,Equity,1.2,Arvind Mishra,900000.0,Moderate,8140.0
-I132,F102,390,13689.0,19.2,Corporate Bond,Debt,0.7,Ritu Kapoor,900000.0,Moderate,7488.0
-I133,F103,500,22100.0,36.25,Balanced Advantage,Hybrid,1.0,Axis Bank,3500000.0,High,18125.0
-I134,F104,225,6930.0,23.7,Large Cap Opportunities,Equity,1.2,Sanjay Das,900000.0,Moderate,5332.5
-I135,F105,180,6858.0,43.0,Mid Cap Growth,Equity,1.2,Neha Jain,900000.0,Moderate,7740.0
-I136,F106,650,16184.999999999998,25.3,Small Cap Discovery,Equity,1.2,Adani Enterprises,3500000.0,High,16445.0
-I137,F107,410,20910.0,52.1,Flexi Cap Wealth,Equity,1.2,Mohan Reddy,900000.0,Moderate,21361.0
-I138,F108,300,9975.0,34.4,Value Discovery,Equity,1.2,Lakshmi Priya,900000.0,Moderate,10320.0
-I140,F110,275,17352.5,64.0,Dividend Yield,Equity,1.2,Ganesh Kumar,900000.0,Moderate,17600.0
-I141,F101,125,3550.0,29.6,Blue Chip Growth,Equity,1.2,Harini S,900000.0,Moderate,3700.0
-I142,F102,480,17160.0,19.2,Corporate Bond,Debt,0.7,Sun Pharma,3500000.0,High,9216.0
-I143,F103,260,11700.0,36.25,Balanced Advantage,Hybrid,1.0,Ramesh Patel,900000.0,Moderate,9425.0
-I144,F104,150,4680.0,23.7,Large Cap Opportunities,Equity,1.2,Priyanka Sinha,900000.0,Moderate,3555.0
-I145,F105,350,13579.999999999998,43.0,Mid Cap Growth,Equity,1.2,Asian Paints,3500000.0,High,15050.0
-I146,F106,720,18216.0,25.3,Small Cap Discovery,Equity,1.2,Sachin Kulkarni,900000.0,Moderate,18216.0
-I147,F107,180,9378.0,52.1,Flexi Cap Wealth,Equity,1.2,Aishwarya Nair,900000.0,Moderate,9378.0
-I148,F108,410,14104.0,34.4,Value Discovery,Equity,1.2,NTPC Ltd,3500000.0,High,14104.0
-I149,F109,290,17168.0,59.2,Focused Equity,Equity,1.2,Vivek Agarwal,900000.0,Moderate,17168.0
-I150,F110,500,32000.0,64.0,Dividend Yield,Equity,1.2,Cipla Ltd,900000.0,Moderate,32000.0
+INV001,F101,100,2450.0,25.22,Alpha Growth Fund,Equity,1.2,Aarav Sharma,850000,Moderate,2522.0
+INV001,F102,150,2835.0,19.4,Bluechip Equity Fund,Equity,1.1,Aarav Sharma,850000,Moderate,2910.0
+INV001,F103,60,2547.0,43.05,Balanced Advantage Fund,Hybrid,0.95,Aarav Sharma,850000,Moderate,2583.0
+INV001,F104,85,2760.8,32.88,Corporate Bond Fund,Debt,0.65,Aarav Sharma,850000,Moderate,2794.8
+INV001,F105,80,4584.0,57.48,Small Cap Opportunities,Equity,1.45,Aarav Sharma,850000,Moderate,4598.4
+INV002,F101,-65,-1634.75,25.22,Alpha Growth Fund,Equity,1.2,Priya Nair,1200000,Low,-1639.3
+INV002,F102,200,3750.0,19.4,Bluechip Equity Fund,Equity,1.1,Priya Nair,1200000,Low,3879.9999999999995
+INV002,F103,80,3384.0,43.05,Balanced Advantage Fund,Hybrid,0.95,Priya Nair,1200000,Low,3444.0
+INV002,F104,-30,-966.0,32.88,Corporate Bond Fund,Debt,0.65,Priya Nair,1200000,Low,-986.4000000000001
+INV002,F105,70,3998.4,57.48,Small Cap Opportunities,Equity,1.45,Priya Nair,1200000,Low,4023.6
+INV003,F101,-100,-2502.0,25.22,Alpha Growth Fund,Equity,1.2,Rahul Verma,1500000,High,-2522.0
+INV003,F102,120,2317.2,19.4,Bluechip Equity Fund,Equity,1.1,Rahul Verma,1500000,High,2328.0
+INV003,F103,50,2105.0,43.05,Balanced Advantage Fund,Hybrid,0.95,Rahul Verma,1500000,High,2152.5
+INV003,F104,-40,-1282.0,32.88,Corporate Bond Fund,Debt,0.65,Rahul Verma,1500000,High,-1315.2
+INV003,F105,90,5103.0,57.48,Small Cap Opportunities,Equity,1.45,Rahul Verma,1500000,High,5173.2
+INV004,F101,130,3224.0,25.22,Alpha Growth Fund,Equity,1.2,Neha Gupta,650000,Moderate,3278.6
+INV004,F102,200,3836.0,19.4,Bluechip Equity Fund,Equity,1.1,Neha Gupta,650000,Moderate,3879.9999999999995
+INV004,F103,75,3221.25,43.05,Balanced Advantage Fund,Hybrid,0.95,Neha Gupta,650000,Moderate,3228.75
+INV004,F104,80,2544.0,32.88,Corporate Bond Fund,Debt,0.65,Neha Gupta,650000,Moderate,2630.4
+INV004,F105,70,3958.5,57.48,Small Cap Opportunities,Equity,1.45,Neha Gupta,650000,Moderate,4023.6
+INV005,F101,-60,-1482.6,25.22,Alpha Growth Fund,Equity,1.2,Karthik Raj,980000,Low,-1513.1999999999998
+INV005,F102,-80,-1520.8,19.4,Bluechip Equity Fund,Equity,1.1,Karthik Raj,980000,Low,-1552.0
+INV005,F103,60,2566.8,43.05,Balanced Advantage Fund,Hybrid,0.95,Karthik Raj,980000,Low,2583.0
+INV005,F104,-55,-1799.6,32.88,Corporate Bond Fund,Debt,0.65,Karthik Raj,980000,Low,-1808.4
+INV005,F105,60,3375.0,57.48,Small Cap Opportunities,Equity,1.45,Karthik Raj,980000,Low,3448.7999999999997
+INV006,F101,120,2954.4,25.22,Alpha Growth Fund,Equity,1.2,Ananya Iyer,720000,Moderate,3026.3999999999996
+INV006,F102,110,2074.6,19.4,Bluechip Equity Fund,Equity,1.1,Ananya Iyer,720000,Moderate,2134.0
+INV006,F103,120,5112.0,43.05,Balanced Advantage Fund,Hybrid,0.95,Ananya Iyer,720000,Moderate,5166.0
+INV006,F104,-40,-1304.0,32.88,Corporate Bond Fund,Debt,0.65,Ananya Iyer,720000,Moderate,-1315.2
+INV006,F105,100,5748.0,57.48,Small Cap Opportunities,Equity,1.45,Ananya Iyer,720000,Moderate,5748.0
+INV007,F101,90,2269.8,25.22,Alpha Growth Fund,Equity,1.2,Vikram Singh,2100000,High,2269.7999999999997
+INV007,F102,-100,-1882.0,19.4,Bluechip Equity Fund,Equity,1.1,Vikram Singh,2100000,High,-1939.9999999999998
+INV007,F103,90,3796.2,43.05,Balanced Advantage Fund,Hybrid,0.95,Vikram Singh,2100000,High,3874.4999999999995
+INV007,F104,55,1779.25,32.88,Corporate Bond Fund,Debt,0.65,Vikram Singh,2100000,High,1808.4
+INV007,F105,90,5134.5,57.48,Small Cap Opportunities,Equity,1.45,Vikram Singh,2100000,High,5173.2
+INV008,F101,110,2747.8,25.22,Alpha Growth Fund,Equity,1.2,Meera Krishnan,1450000,Moderate,2774.2
+INV008,F102,-60,-1164.0,19.4,Bluechip Equity Fund,Equity,1.1,Meera Krishnan,1450000,Moderate,-1164.0
+INV008,F103,75,3168.75,43.05,Balanced Advantage Fund,Hybrid,0.95,Meera Krishnan,1450000,Moderate,3228.75
+INV008,F104,-50,-1599.0,32.88,Corporate Bond Fund,Debt,0.65,Meera Krishnan,1450000,Moderate,-1644.0000000000002
+INV008,F105,-45,-2562.75,57.48,Small Cap Opportunities,Equity,1.45,Meera Krishnan,1450000,Moderate,-2586.6
+INV009,F101,95,2370.25,25.22,Alpha Growth Fund,Equity,1.2,Arjun Reddy,550000,High,2395.9
+INV009,F102,-70,-1346.8,19.4,Bluechip Equity Fund,Equity,1.1,Arjun Reddy,550000,High,-1358.0
+INV009,F104,90,2875.5,32.88,Corporate Bond Fund,Debt,0.65,Arjun Reddy,550000,High,2959.2000000000003
+INV009,F105,100,5648.0,57.48,Small Cap Opportunities,Equity,1.45,Arjun Reddy,550000,High,5748.0
+INV010,F101,75,1851.0,25.22,Alpha Growth Fund,Equity,1.2,Sneha Kapoor,1300000,Low,1891.5
+INV010,F102,150,2865.0,19.4,Bluechip Equity Fund,Equity,1.1,Sneha Kapoor,1300000,Low,2910.0
+INV010,F103,100,4285.0,43.05,Balanced Advantage Fund,Hybrid,0.95,Sneha Kapoor,1300000,Low,4305.0
+INV010,F104,85,2794.8,32.88,Corporate Bond Fund,Debt,0.65,Sneha Kapoor,1300000,Low,2794.8
+INV010,F105,-40,-2256.0,57.48,Small Cap Opportunities,Equity,1.45,Sneha Kapoor,1300000,Low,-2299.2

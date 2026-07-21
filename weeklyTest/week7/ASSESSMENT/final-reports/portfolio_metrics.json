@@ -1,11 +1,11 @@
 {
-  "TotalPortfolioValue": 577976.75,
-  "PortfolioReturnPct": -3.0638018463901973,
-  "CAGR": -6.5792940702015805,
-  "AbsoluteReturn": -18267.75,
-  "AnnualizedReturn": -6.5792940702015805,
-  "PortfolioDiversificationScore": 2.0,
-  "AverageHoldingPeriodDays": 287.0833333333333,
-  "ExpenseRatioImpact": 6665.583500000001,
-  "SharpeRatioSimplified": 31.324476874355586
+  "TotalPortfolioValue": 94046.8,
+  "PortfolioReturnPct": 1.4173024559890037,
+  "CAGR": 77.03028044485755,
+  "AbsoluteReturn": 1314.300000000003,
+  "AnnualizedReturn": 77.03028044485755,
+  "PortfolioDiversificationScore": 7.000000000000001,
+  "AverageHoldingPeriodDays": 4.591836734693878,
+  "ExpenseRatioImpact": 1090.1961499999998,
+  "SharpeRatioSimplified": 21.27268215226071
 }

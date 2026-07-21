@@ -1,50 +1,50 @@
-TransactionID,InvestorID,FundID,Units,NAV,TransactionDate,TransactionType,Amount,FundName,Category,AMC,ExpenseRatio,LatestNAV,InvestorName,Age,State,InvestorType,AnnualIncome,RiskProfile
-T101,I101,F101,150,25.5,2024-01-10,Purchase,3825.0,Blue Chip Growth,Equity,HDFC,1.2,29.6,Arun Kumar,35,Tamil Nadu,Retail,900000.0,Moderate
-T102,I102,F102,200,32.75,2024-01-12,Purchase,6550.0,Corporate Bond,Debt,ICICI,0.7,19.2,Priya Sharma,42,Karnataka,Retail,900000.0,Moderate
-T103,I103,F103,120,41.2,2024-01-15,Purchase,4944.0,Balanced Advantage,Hybrid,SBI,1.0,36.25,Infosys Ltd,45,Karnataka,Corporate,3500000.0,High
-T104,I104,F104,300,28.6,2024-01-18,Purchase,8580.0,Large Cap Opportunities,Equity,Kotak,1.2,23.7,Rahul Verma,29,Maharashtra,Retail,900000.0,Moderate
-T105,I105,F105,250,35.8,2024-01-20,Purchase,8950.0,Mid Cap Growth,Equity,Axis,1.2,43.0,Sneha Reddy,31,Telangana,Retail,900000.0,Moderate
-T106,I106,F106,500,22.4,2024-01-22,Purchase,11200.0,Small Cap Discovery,Equity,Nippon India,1.2,25.3,TCS Ltd,50,Maharashtra,Corporate,3500000.0,High
-T107,I107,F107,175,48.9,2024-01-25,Purchase,8557.5,Flexi Cap Wealth,Equity,Mirae Asset,1.2,52.1,Manoj Singh,38,Uttar Pradesh,Retail,900000.0,Moderate
-T108,I108,F108,400,30.25,2024-01-28,Purchase,12100.0,Value Discovery,Equity,Aditya Birla Sun Life,1.2,34.4,Anjali Nair,27,Kerala,Retail,900000.0,Moderate
-T109,I109,F109,275,55.6,2024-02-01,Purchase,15290.0,Focused Equity,Equity,UTI,1.2,59.2,Wipro Ltd,48,Karnataka,Corporate,3500000.0,High
-T110,I110,F110,150,60.8,2024-02-05,Purchase,9120.0,Dividend Yield,Equity,Tata,1.2,64.0,Karthik Raj,33,Tamil Nadu,Retail,900000.0,Moderate
-T111,I111,F101,325,26.15,2024-02-08,Purchase,8498.75,Blue Chip Growth,Equity,HDFC,1.2,29.6,Meena Iyer,40,Tamil Nadu,Retail,900000.0,Moderate
-T112,I112,F102,180,33.4,2024-02-12,Purchase,6012.0,Corporate Bond,Debt,ICICI,0.7,19.2,HCL Technologies,46,Uttar Pradesh,Corporate,3500000.0,High
-T113,I113,F103,220,42.1,2024-02-15,Purchase,9262.0,Balanced Advantage,Hybrid,SBI,1.0,36.25,Ajay Patel,36,Gujarat,Retail,900000.0,Moderate
-T114,I114,F104,275,29.75,2024-02-18,Purchase,8181.25,Large Cap Opportunities,Equity,Kotak,1.2,23.7,Nisha Gupta,30,Delhi,Retail,900000.0,Moderate
-T115,I115,F105,350,36.9,2024-02-22,Purchase,12915.0,Mid Cap Growth,Equity,Axis,1.2,43.0,Reliance Industries,52,Maharashtra,Corporate,3500000.0,High
-T116,I116,F106,450,23.8,2024-02-25,Purchase,10710.0,Small Cap Discovery,Equity,Nippon India,1.2,25.3,Vikram Joshi,41,Rajasthan,Retail,900000.0,Moderate
-T117,I117,F107,125,49.3,2024-03-01,Purchase,6162.5,Flexi Cap Wealth,Equity,Mirae Asset,1.2,52.1,Deepa Menon,34,Kerala,Retail,900000.0,Moderate
-T118,I118,F108,600,31.5,2024-03-05,Purchase,18900.0,Value Discovery,Equity,Aditya Birla Sun Life,1.2,34.4,Larsen & Toubro,49,Maharashtra,Corporate,3500000.0,High
-T119,I119,F109,240,56.2,2024-03-08,Purchase,13488.0,Focused Equity,Equity,UTI,1.2,59.2,Rohit Yadav,28,Uttar Pradesh,Retail,900000.0,Moderate
-T120,I120,F110,310,61.4,2024-03-12,Purchase,19034.0,Dividend Yield,Equity,Tata,1.2,64.0,Pooja Singh,39,Haryana,Retail,900000.0,Moderate
-T121,I121,F101,200,27.1,2024-03-15,Purchase,5420.0,Blue Chip Growth,Equity,HDFC,1.2,29.6,Tech Mahindra,47,Maharashtra,Corporate,3500000.0,High
-T122,I122,F102,450,34.25,2024-03-18,Purchase,15412.5,Corporate Bond,Debt,ICICI,0.7,19.2,Amit Shah,37,Gujarat,Retail,900000.0,Moderate
-T123,I123,F103,375,43.5,2024-03-22,Purchase,16312.5,Balanced Advantage,Hybrid,SBI,1.0,36.25,Divya Krishnan,32,Tamil Nadu,Retail,900000.0,Moderate
-T124,I124,F104,150,30.1,2024-03-25,Purchase,4515.0,Large Cap Opportunities,Equity,Kotak,1.2,23.7,Bajaj Finance,51,Maharashtra,Corporate,3500000.0,High
-T125,I125,F105,525,37.45,2024-03-28,Purchase,19661.25,Mid Cap Growth,Equity,Axis,1.2,43.0,Suresh Babu,44,Andhra Pradesh,Retail,900000.0,Moderate
-T126,I126,F106,100,24.2,2024-04-01,Purchase,2420.0,Small Cap Discovery,Equity,Nippon India,1.2,25.3,Kavitha Devi,29,Telangana,Retail,900000.0,Moderate
-T127,I127,F107,260,50.15,2024-04-05,Purchase,13039.0,Flexi Cap Wealth,Equity,Mirae Asset,1.2,52.1,ICICI Bank,53,Maharashtra,Corporate,3500000.0,High
-T128,I128,F108,700,32.6,2024-04-08,Purchase,22820.0,Value Discovery,Equity,Aditya Birla Sun Life,1.2,34.4,Naveen Kumar,35,Karnataka,Retail,900000.0,Moderate
-T129,I129,F109,185,57.0,2024-04-12,Purchase,10545.0,Focused Equity,Equity,UTI,1.2,59.2,Swetha Rao,31,Telangana,Retail,900000.0,Moderate
-T130,I130,F110,330,62.5,2024-04-15,Purchase,20625.0,Dividend Yield,Equity,Tata,1.2,64.0,HDFC Bank,50,Maharashtra,Corporate,3500000.0,High
-T131,I131,F101,275,27.85,2024-04-18,Purchase,7658.75,Blue Chip Growth,Equity,HDFC,1.2,29.6,Arvind Mishra,42,Uttar Pradesh,Retail,900000.0,Moderate
-T132,I132,F102,390,35.1,2024-04-22,Purchase,13689.0,Corporate Bond,Debt,ICICI,0.7,19.2,Ritu Kapoor,34,Punjab,Retail,900000.0,Moderate
-T133,I133,F103,500,44.2,2024-04-25,Purchase,22100.0,Balanced Advantage,Hybrid,SBI,1.0,36.25,Axis Bank,48,Maharashtra,Corporate,3500000.0,High
-T134,I134,F104,225,30.8,2024-05-01,Purchase,6930.0,Large Cap Opportunities,Equity,Kotak,1.2,23.7,Sanjay Das,39,West Bengal,Retail,900000.0,Moderate
-T135,I135,F105,180,38.1,2024-05-04,Purchase,6858.0,Mid Cap Growth,Equity,Axis,1.2,43.0,Neha Jain,28,Delhi,Retail,900000.0,Moderate
-T136,I136,F106,650,24.9,2024-05-08,Purchase,16184.999999999998,Small Cap Discovery,Equity,Nippon India,1.2,25.3,Adani Enterprises,54,Gujarat,Corporate,3500000.0,High
-T137,I137,F107,410,51.0,2024-05-12,Purchase,20910.0,Flexi Cap Wealth,Equity,Mirae Asset,1.2,52.1,Mohan Reddy,45,Andhra Pradesh,Retail,900000.0,Moderate
-T138,I138,F108,300,33.25,2024-05-15,Purchase,9975.0,Value Discovery,Equity,Aditya Birla Sun Life,1.2,34.4,Lakshmi Priya,30,Tamil Nadu,Retail,900000.0,Moderate
-T140,I140,F110,275,63.1,2024-05-22,Purchase,17352.5,Dividend Yield,Equity,Tata,1.2,64.0,Ganesh Kumar,33,Karnataka,Retail,900000.0,Moderate
-T141,I141,F101,125,28.4,2024-05-25,Purchase,3550.0,Blue Chip Growth,Equity,HDFC,1.2,29.6,Harini S,26,Tamil Nadu,Retail,900000.0,Moderate
-T142,I142,F102,480,35.75,2024-06-01,Purchase,17160.0,Corporate Bond,Debt,ICICI,0.7,19.2,Sun Pharma,49,Gujarat,Corporate,3500000.0,High
-T143,I143,F103,260,45.0,2024-06-05,Purchase,11700.0,Balanced Advantage,Hybrid,SBI,1.0,36.25,Ramesh Patel,43,Gujarat,Retail,900000.0,Moderate
-T144,I144,F104,150,31.2,2024-06-08,Purchase,4680.0,Large Cap Opportunities,Equity,Kotak,1.2,23.7,Priyanka Sinha,36,Bihar,Retail,900000.0,Moderate
-T145,I145,F105,350,38.8,2024-06-12,Purchase,13579.999999999998,Mid Cap Growth,Equity,Axis,1.2,43.0,Asian Paints,52,Maharashtra,Corporate,3500000.0,High
-T146,I146,F106,720,25.3,2024-06-15,Purchase,18216.0,Small Cap Discovery,Equity,Nippon India,1.2,25.3,Sachin Kulkarni,38,Maharashtra,Retail,900000.0,Moderate
-T147,I147,F107,180,52.1,2024-06-18,Purchase,9378.0,Flexi Cap Wealth,Equity,Mirae Asset,1.2,52.1,Aishwarya Nair,29,Kerala,Retail,900000.0,Moderate
-T148,I148,F108,410,34.4,2024-06-22,Purchase,14104.0,Value Discovery,Equity,Aditya Birla Sun Life,1.2,34.4,NTPC Ltd,56,Delhi,Corporate,3500000.0,High
-T149,I149,F109,290,59.2,2024-06-25,Purchase,17168.0,Focused Equity,Equity,UTI,1.2,59.2,Vivek Agarwal,41,Rajasthan,Retail,900000.0,Moderate
-T150,I150,F110,500,64.0,,Purchase,32000.0,Dividend Yield,Equity,Tata,1.2,64.0,Cipla Ltd,50,Maharashtra,Corporate				,900000.0,Moderate
+TransactionID,InvestorID,FundID,TransactionDate,TransactionType,Units,NAV,Amount,FundName,Category,FundManager,ExpenseRatio,Benchmark,LatestNAV,InvestorName,Age,City,AnnualIncome,RiskProfile
+TXN001,INV001,F101,2026-01-01,Buy,100,24.5,2450.0,Alpha Growth Fund,Equity,Rajesh Kumar,1.2,Nifty 50,25.22,Aarav Sharma,29,Chennai,850000,Moderate
+TXN002,INV002,F102,2026-01-01,Buy,200,18.75,3750.0,Bluechip Equity Fund,Equity,Priya Sharma,1.1,Sensex,19.4,Priya Nair,35,Bangalore,1200000,Low
+TXN003,INV003,F103,2026-01-01,Buy,50,42.1,2105.0,Balanced Advantage Fund,Hybrid,Amit Verma,0.95,Nifty 50 Hybrid,43.05,Rahul Verma,41,Hyderabad,1500000,High
+TXN004,INV004,F104,2026-01-01,Buy,80,31.8,2544.0,Corporate Bond Fund,Debt,Neha Gupta,0.65,CRISIL Bond Index,32.88,Neha Gupta,27,Pune,650000,Moderate
+TXN005,INV005,F105,2026-01-01,Buy,60,56.25,3375.0,Small Cap Opportunities,Equity,Rohit Menon,1.45,Nifty Smallcap 250,57.48,Karthik Raj,33,Chennai,980000,Low
+TXN006,INV006,F101,2026-01-02,Buy,120,24.62,2954.4,Alpha Growth Fund,Equity,Rajesh Kumar,1.2,Nifty 50,25.22,Ananya Iyer,30,Coimbatore,720000,Moderate
+TXN007,INV007,F102,2026-01-02,Sell,100,18.82,1882.0,Bluechip Equity Fund,Equity,Priya Sharma,1.1,Sensex,19.4,Vikram Singh,45,Delhi,2100000,High
+TXN008,INV008,F103,2026-01-02,Buy,75,42.25,3168.75,Balanced Advantage Fund,Hybrid,Amit Verma,0.95,Nifty 50 Hybrid,43.05,Meera Krishnan,38,Kochi,1450000,Moderate
+TXN009,INV009,F104,2026-01-02,Buy,90,31.95,2875.5,Corporate Bond Fund,Debt,Neha Gupta,0.65,CRISIL Bond Index,32.88,Arjun Reddy,26,Hyderabad,550000,High
+TXN010,INV010,F105,2026-01-02,Sell,40,56.4,2256.0,Small Cap Opportunities,Equity,Rohit Menon,1.45,Nifty Smallcap 250,57.48,Sneha Kapoor,32,Mumbai,1300000,Low
+TXN011,INV001,F102,2026-01-03,Buy,150,18.9,2835.0,Bluechip Equity Fund,Equity,Priya Sharma,1.1,Sensex,19.4,Aarav Sharma,29,Chennai,850000,Moderate
+TXN012,INV002,F103,2026-01-03,Buy,80,42.3,3384.0,Balanced Advantage Fund,Hybrid,Amit Verma,0.95,Nifty 50 Hybrid,43.05,Priya Nair,35,Bangalore,1200000,Low
+TXN013,INV003,F104,2026-01-03,Sell,40,32.05,1282.0,Corporate Bond Fund,Debt,Neha Gupta,0.65,CRISIL Bond Index,32.88,Rahul Verma,41,Hyderabad,1500000,High
+TXN014,INV004,F105,2026-01-03,Buy,70,56.55,3958.5,Small Cap Opportunities,Equity,Rohit Menon,1.45,Nifty Smallcap 250,57.48,Neha Gupta,27,Pune,650000,Moderate
+TXN015,INV005,F101,2026-01-03,Sell,60,24.71,1482.6,Alpha Growth Fund,Equity,Rajesh Kumar,1.2,Nifty 50,25.22,Karthik Raj,33,Chennai,980000,Low
+TXN016,INV006,F102,2026-01-04,Buy,110,18.86,2074.6,Bluechip Equity Fund,Equity,Priya Sharma,1.1,Sensex,19.4,Ananya Iyer,30,Coimbatore,720000,Moderate
+TXN017,INV007,F103,2026-01-04,Buy,90,42.18,3796.2,Balanced Advantage Fund,Hybrid,Amit Verma,0.95,Nifty 50 Hybrid,43.05,Vikram Singh,45,Delhi,2100000,High
+TXN018,INV008,F104,2026-01-04,Sell,50,31.98,1599.0,Corporate Bond Fund,Debt,Neha Gupta,0.65,CRISIL Bond Index,32.88,Meera Krishnan,38,Kochi,1450000,Moderate
+TXN019,INV009,F105,2026-01-04,Buy,100,56.48,5648.0,Small Cap Opportunities,Equity,Rohit Menon,1.45,Nifty Smallcap 250,57.48,Arjun Reddy,26,Hyderabad,550000,High
+TXN020,INV010,F101,2026-01-04,Buy,75,24.68,1851.0,Alpha Growth Fund,Equity,Rajesh Kumar,1.2,Nifty 50,25.22,Sneha Kapoor,32,Mumbai,1300000,Low
+TXN021,INV001,F103,2026-01-05,Buy,60,42.45,2547.0,Balanced Advantage Fund,Hybrid,Amit Verma,0.95,Nifty 50 Hybrid,43.05,Aarav Sharma,29,Chennai,850000,Moderate
+TXN022,INV002,F104,2026-01-05,Sell,30,32.2,966.0,Corporate Bond Fund,Debt,Neha Gupta,0.65,CRISIL Bond Index,32.88,Priya Nair,35,Bangalore,1200000,Low
+TXN023,INV003,F105,2026-01-05,Buy,90,56.7,5103.0,Small Cap Opportunities,Equity,Rohit Menon,1.45,Nifty Smallcap 250,57.48,Rahul Verma,41,Hyderabad,1500000,High
+TXN024,INV004,F101,2026-01-05,Buy,130,24.8,3224.0,Alpha Growth Fund,Equity,Rajesh Kumar,1.2,Nifty 50,25.22,Neha Gupta,27,Pune,650000,Moderate
+TXN025,INV005,F102,2026-01-05,Sell,80,19.01,1520.8,Bluechip Equity Fund,Equity,Priya Sharma,1.1,Sensex,19.4,Karthik Raj,33,Chennai,980000,Low
+TXN026,INV006,F103,2026-01-06,Buy,120,42.6,5112.0,Balanced Advantage Fund,Hybrid,Amit Verma,0.95,Nifty 50 Hybrid,43.05,Ananya Iyer,30,Coimbatore,720000,Moderate
+TXN027,INV007,F104,2026-01-06,Buy,55,32.35,1779.25,Corporate Bond Fund,Debt,Neha Gupta,0.65,CRISIL Bond Index,32.88,Vikram Singh,45,Delhi,2100000,High
+TXN028,INV008,F105,2026-01-06,Sell,45,56.95,2562.75,Small Cap Opportunities,Equity,Rohit Menon,1.45,Nifty Smallcap 250,57.48,Meera Krishnan,38,Kochi,1450000,Moderate
+TXN029,INV009,F101,2026-01-06,Buy,95,24.95,2370.25,Alpha Growth Fund,Equity,Rajesh Kumar,1.2,Nifty 50,25.22,Arjun Reddy,26,Hyderabad,550000,High
+TXN030,INV010,F102,2026-01-06,Buy,150,19.1,2865.0,Bluechip Equity Fund,Equity,Priya Sharma,1.1,Sensex,19.4,Sneha Kapoor,32,Mumbai,1300000,Low
+TXN031,INV001,F104,2026-01-07,Buy,85,32.48,2760.8,Corporate Bond Fund,Debt,Neha Gupta,0.65,CRISIL Bond Index,32.88,Aarav Sharma,29,Chennai,850000,Moderate
+TXN032,INV002,F105,2026-01-07,Buy,70,57.12,3998.4,Small Cap Opportunities,Equity,Rohit Menon,1.45,Nifty Smallcap 250,57.48,Priya Nair,35,Bangalore,1200000,Low
+TXN033,INV003,F101,2026-01-07,Sell,100,25.02,2502.0,Alpha Growth Fund,Equity,Rajesh Kumar,1.2,Nifty 50,25.22,Rahul Verma,41,Hyderabad,1500000,High
+TXN034,INV004,F102,2026-01-07,Buy,200,19.18,3836.0,Bluechip Equity Fund,Equity,Priya Sharma,1.1,Sensex,19.4,Neha Gupta,27,Pune,650000,Moderate
+TXN035,INV005,F103,2026-01-07,Buy,60,42.78,2566.8,Balanced Advantage Fund,Hybrid,Amit Verma,0.95,Nifty 50 Hybrid,43.05,Karthik Raj,33,Chennai,980000,Low
+TXN036,INV006,F104,2026-01-08,Sell,40,32.6,1304.0,Corporate Bond Fund,Debt,Neha Gupta,0.65,CRISIL Bond Index,32.88,Ananya Iyer,30,Coimbatore,720000,Moderate
+TXN037,INV007,F105,2026-01-08,Buy,90,57.05,5134.5,Small Cap Opportunities,Equity,Rohit Menon,1.45,Nifty Smallcap 250,57.48,Vikram Singh,45,Delhi,2100000,High
+TXN038,INV008,F101,2026-01-08,Buy,110,24.98,2747.8,Alpha Growth Fund,Equity,Rajesh Kumar,1.2,Nifty 50,25.22,Meera Krishnan,38,Kochi,1450000,Moderate
+TXN039,INV009,F102,2026-01-08,Sell,70,19.24,1346.8,Bluechip Equity Fund,Equity,Priya Sharma,1.1,Sensex,19.4,Arjun Reddy,26,Hyderabad,550000,High
+TXN040,INV010,F103,2026-01-08,Buy,100,42.85,4285.0,Balanced Advantage Fund,Hybrid,Amit Verma,0.95,Nifty 50 Hybrid,43.05,Sneha Kapoor,32,Mumbai,1300000,Low
+TXN041,INV001,F105,2026-01-09,Buy,80,57.3,4584.0,Small Cap Opportunities,Equity,Rohit Menon,1.45,Nifty Smallcap 250,57.48,Aarav Sharma,29,Chennai,850000,Moderate
+TXN042,INV002,F101,2026-01-09,Sell,65,25.15,1634.75,Alpha Growth Fund,Equity,Rajesh Kumar,1.2,Nifty 50,25.22,Priya Nair,35,Bangalore,1200000,Low
+TXN043,INV003,F102,2026-01-09,Buy,120,19.31,2317.2,Bluechip Equity Fund,Equity,Priya Sharma,1.1,Sensex,19.4,Rahul Verma,41,Hyderabad,1500000,High
+TXN044,INV004,F103,2026-01-09,Buy,75,42.95,3221.25,Balanced Advantage Fund,Hybrid,Amit Verma,0.95,Nifty 50 Hybrid,43.05,Neha Gupta,27,Pune,650000,Moderate
+TXN045,INV005,F104,2026-01-09,Sell,55,32.72,1799.6,Corporate Bond Fund,Debt,Neha Gupta,0.65,CRISIL Bond Index,32.88,Karthik Raj,33,Chennai,980000,Low
+TXN046,INV006,F105,2026-01-10,Buy,100,57.48,5748.0,Small Cap Opportunities,Equity,Rohit Menon,1.45,Nifty Smallcap 250,57.48,Ananya Iyer,30,Coimbatore,720000,Moderate
+TXN047,INV007,F101,2026-01-10,Buy,90,25.22,2269.8,Alpha Growth Fund,Equity,Rajesh Kumar,1.2,Nifty 50,25.22,Vikram Singh,45,Delhi,2100000,High
+TXN048,INV008,F102,2026-01-10,Sell,60,19.4,1164.0,Bluechip Equity Fund,Equity,Priya Sharma,1.1,Sensex,19.4,Meera Krishnan,38,Kochi,1450000,Moderate
+TXN050,INV010,F104,2026-01-10,Buy,85,32.88,2794.8,Corporate Bond Fund,Debt,Neha Gupta,0.65,CRISIL Bond Index,32.88,Sneha Kapoor,32,Mumbai,1300000,Low
