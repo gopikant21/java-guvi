@@ -1,0 +1,6 @@
+FundID,NAVFirst,NAVLast,FundReturnPct,FundName,Category,ExpenseRatio,AUM,UniqueInvestors
+F102,18.4,19.2,4.347826086956526,Corporate Bond,Debt,0.7,32640.0,5
+F104,22.75,23.7,4.1758241758241725,Large Cap Opportunities,Equity,1.2,26070.0,5
+F101,28.5,29.6,3.8596491228070224,Blue Chip Growth,Equity,1.2,31820.0,5
+F103,35.1,36.25,3.276353276353272,Balanced Advantage,Hybrid,1.0,53468.75,5
+F105,41.8,43.0,2.8708133971291936,Mid Cap Growth,Equity,1.2,71165.0,5

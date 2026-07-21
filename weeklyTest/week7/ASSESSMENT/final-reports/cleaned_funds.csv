@@ -1,0 +1,51 @@
+FundID,FundName,Category,AMC,ExpenseRatio
+F101,Blue Chip Growth,Equity,HDFC,1.2
+F102,Corporate Bond,Debt,ICICI,0.7
+F103,Balanced Advantage,Hybrid,SBI,1.0
+F104,Large Cap Opportunities,Equity,Kotak,1.2
+F105,Mid Cap Growth,Equity,Axis,1.2
+F106,Small Cap Discovery,Equity,Nippon India,1.2
+F107,Flexi Cap Wealth,Equity,Mirae Asset,1.2
+F108,Value Discovery,Equity,Aditya Birla Sun Life,1.2
+F109,Focused Equity,Equity,UTI,1.2
+F110,Dividend Yield,Equity,Tata,1.2
+F111,Dynamic Bond,Debt,HDFC,0.7
+F112,Short Duration Bond,Debt,ICICI,0.7
+F113,Liquid Fund,Debt,SBI,0.7
+F114,Ultra Short Term,Debt,Kotak,0.7
+F115,Gilt Fund,Debt,Axis,0.7
+F116,Credit Risk Fund,Debt,Nippon India,0.7
+F117,Banking & PSU Debt,Debt,Franklin Templeton,0.7
+F118,Corporate Income Fund,Debt,DSP,0.7
+F119,Money Market Fund,Debt,Edelweiss,0.7
+F120,Floating Rate Fund,Debt,Motilal Oswal,0.7
+F121,Aggressive Hybrid,Hybrid,HDFC,1.0
+F122,Conservative Hybrid,Hybrid,ICICI,1.0
+F123,Equity Savings,Hybrid,SBI,1.0
+F124,Multi Asset Allocation,Hybrid,Kotak,1.0
+F125,Balanced Hybrid,Hybrid,Axis,1.0
+F126,Dynamic Asset Allocation,Hybrid,Nippon India,1.0
+F127,Arbitrage Fund,Hybrid,DSP,1.0
+F128,Children's Gift Fund,Hybrid,UTI,1.0
+F129,Retirement Savings,Hybrid,Tata,1.0
+F130,Monthly Income Plan,Hybrid,Aditya Birla Sun Life,1.0
+F131,Technology Fund,Sectoral,Mirae Asset,1.35
+F132,Banking Fund,Sectoral,HDFC,1.35
+F133,Pharma Fund,Sectoral,ICICI,1.35
+F134,Healthcare Fund,Sectoral,SBI,1.35
+F135,Infrastructure Fund,Sectoral,Kotak,1.35
+F136,Consumption Fund,Sectoral,Axis,1.35
+F137,Energy Fund,Sectoral,Nippon India,1.35
+F138,PSU Fund,Sectoral,DSP,1.35
+F139,Manufacturing Fund,Sectoral,Franklin Templeton,1.35
+F140,Real Estate Fund,Sectoral,Edelweiss,1.35
+F141,Gold ETF,ETF,Motilal Oswal,0.25
+F142,Nifty 50 ETF,ETF,HDFC,0.25
+F143,Sensex ETF,ETF,ICICI,0.25
+F144,Bank ETF,ETF,SBI,0.25
+F145,Next 50 ETF,ETF,Kotak,0.25
+F146,International Equity,International,Axis,1.45
+F147,US Bluechip Fund,International,Mirae Asset,1.45
+F148,Global Opportunities,International,Franklin Templeton,1.45
+F149,Emerging Markets,International,Edelweiss,1.45
+F150,World Index Fund,International,Motilal Oswal			,1.45

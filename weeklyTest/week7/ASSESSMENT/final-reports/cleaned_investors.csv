@@ -1,0 +1,51 @@
+InvestorID,InvestorName,Age,State,InvestorType,AnnualIncome,RiskProfile
+I101,Arun Kumar,35,Tamil Nadu,Retail,900000.0,Moderate
+I102,Priya Sharma,42,Karnataka,Retail,900000.0,Moderate
+I103,Infosys Ltd,45,Karnataka,Corporate,3500000.0,High
+I104,Rahul Verma,29,Maharashtra,Retail,900000.0,Moderate
+I105,Sneha Reddy,31,Telangana,Retail,900000.0,Moderate
+I106,TCS Ltd,50,Maharashtra,Corporate,3500000.0,High
+I107,Manoj Singh,38,Uttar Pradesh,Retail,900000.0,Moderate
+I108,Anjali Nair,27,Kerala,Retail,900000.0,Moderate
+I109,Wipro Ltd,48,Karnataka,Corporate,3500000.0,High
+I110,Karthik Raj,33,Tamil Nadu,Retail,900000.0,Moderate
+I111,Meena Iyer,40,Tamil Nadu,Retail,900000.0,Moderate
+I112,HCL Technologies,46,Uttar Pradesh,Corporate,3500000.0,High
+I113,Ajay Patel,36,Gujarat,Retail,900000.0,Moderate
+I114,Nisha Gupta,30,Delhi,Retail,900000.0,Moderate
+I115,Reliance Industries,52,Maharashtra,Corporate,3500000.0,High
+I116,Vikram Joshi,41,Rajasthan,Retail,900000.0,Moderate
+I117,Deepa Menon,34,Kerala,Retail,900000.0,Moderate
+I118,Larsen & Toubro,49,Maharashtra,Corporate,3500000.0,High
+I119,Rohit Yadav,28,Uttar Pradesh,Retail,900000.0,Moderate
+I120,Pooja Singh,39,Haryana,Retail,900000.0,Moderate
+I121,Tech Mahindra,47,Maharashtra,Corporate,3500000.0,High
+I122,Amit Shah,37,Gujarat,Retail,900000.0,Moderate
+I123,Divya Krishnan,32,Tamil Nadu,Retail,900000.0,Moderate
+I124,Bajaj Finance,51,Maharashtra,Corporate,3500000.0,High
+I125,Suresh Babu,44,Andhra Pradesh,Retail,900000.0,Moderate
+I126,Kavitha Devi,29,Telangana,Retail,900000.0,Moderate
+I127,ICICI Bank,53,Maharashtra,Corporate,3500000.0,High
+I128,Naveen Kumar,35,Karnataka,Retail,900000.0,Moderate
+I129,Swetha Rao,31,Telangana,Retail,900000.0,Moderate
+I130,HDFC Bank,50,Maharashtra,Corporate,3500000.0,High
+I131,Arvind Mishra,42,Uttar Pradesh,Retail,900000.0,Moderate
+I132,Ritu Kapoor,34,Punjab,Retail,900000.0,Moderate
+I133,Axis Bank,48,Maharashtra,Corporate,3500000.0,High
+I134,Sanjay Das,39,West Bengal,Retail,900000.0,Moderate
+I135,Neha Jain,28,Delhi,Retail,900000.0,Moderate
+I136,Adani Enterprises,54,Gujarat,Corporate,3500000.0,High
+I137,Mohan Reddy,45,Andhra Pradesh,Retail,900000.0,Moderate
+I138,Lakshmi Priya,30,Tamil Nadu,Retail,900000.0,Moderate
+I139,State Bank of India,55,Maharashtra,Corporate,3500000.0,High
+I140,Ganesh Kumar,33,Karnataka,Retail,900000.0,Moderate
+I141,Harini S,26,Tamil Nadu,Retail,900000.0,Moderate
+I142,Sun Pharma,49,Gujarat,Corporate,3500000.0,High
+I143,Ramesh Patel,43,Gujarat,Retail,900000.0,Moderate
+I144,Priyanka Sinha,36,Bihar,Retail,900000.0,Moderate
+I145,Asian Paints,52,Maharashtra,Corporate,3500000.0,High
+I146,Sachin Kulkarni,38,Maharashtra,Retail,900000.0,Moderate
+I147,Aishwarya Nair,29,Kerala,Retail,900000.0,Moderate
+I148,NTPC Ltd,56,Delhi,Corporate,3500000.0,High
+I149,Vivek Agarwal,41,Rajasthan,Retail,900000.0,Moderate
+I150,Cipla Ltd,50,Maharashtra,Corporate				,900000.0,Moderate

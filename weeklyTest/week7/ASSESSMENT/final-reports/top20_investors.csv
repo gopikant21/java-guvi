@@ -1,0 +1,21 @@
+InvestorID,PortfolioValue,NetInvested,InvestorName,AnnualIncome,RiskProfile,TransactionCount
+I150,32000.0,32000.0,Cipla Ltd,900000.0,Moderate,1
+I128,24080.0,22820.0,Naveen Kumar,900000.0,Moderate,1
+I125,22575.0,19661.25,Suresh Babu,900000.0,Moderate,1
+I137,21361.0,20910.0,Mohan Reddy,900000.0,Moderate,1
+I130,21120.0,20625.0,HDFC Bank,3500000.0,High,1
+I118,20640.0,18900.0,Larsen & Toubro,3500000.0,High,1
+I120,19840.0,19034.0,Pooja Singh,900000.0,Moderate,1
+I146,18216.0,18216.0,Sachin Kulkarni,900000.0,Moderate,1
+I133,18125.0,22100.0,Axis Bank,3500000.0,High,1
+I140,17600.0,17352.5,Ganesh Kumar,900000.0,Moderate,1
+I149,17168.0,17168.0,Vivek Agarwal,900000.0,Moderate,1
+I136,16445.0,16184.999999999998,Adani Enterprises,3500000.0,High,1
+I109,16280.0,15290.0,Wipro Ltd,3500000.0,High,1
+I115,15050.0,12915.0,Reliance Industries,3500000.0,High,1
+I145,15050.0,13579.999999999998,Asian Paints,3500000.0,High,1
+I119,14208.0,13488.0,Rohit Yadav,900000.0,Moderate,1
+I148,14104.0,14104.0,NTPC Ltd,3500000.0,High,1
+I108,13760.0,12100.0,Anjali Nair,900000.0,Moderate,1
+I123,13593.75,16312.5,Divya Krishnan,900000.0,Moderate,1
+I127,13546.0,13039.0,ICICI Bank,3500000.0,High,1

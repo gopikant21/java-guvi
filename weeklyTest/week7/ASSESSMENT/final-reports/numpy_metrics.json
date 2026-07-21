@@ -1,0 +1,9 @@
+{
+  "MeanInvestmentAmount": 12168.255102040815,
+  "MedianInvestorIncome": 900000.0,
+  "StdDevNAV": 8.552902658019148,
+  "Percentile90FundReturns": 4.279025322503585,
+  "Percentile95FundReturns": 4.313425704730055,
+  "IncomeInvestmentCorrelation": 0.09797738867430719,
+  "AverageDailyNAV": 29.793
+}
